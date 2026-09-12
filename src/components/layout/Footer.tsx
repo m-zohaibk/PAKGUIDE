@@ -8,9 +8,9 @@ export const Footer: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-slate-900 text-white border-t border-slate-800 pt-10 pb-8 mt-16">
+    <footer className="bg-slate-900 text-white border-t border-slate-800 pt-8 sm:pt-10 pb-6 sm:pb-8 mt-10 sm:mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Col 1 */}
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-pakgold-400 font-bold text-lg">

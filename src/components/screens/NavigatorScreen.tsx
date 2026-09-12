@@ -260,9 +260,9 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-12 animate-fadeIn">
+    <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6 pb-8 sm:pb-12 animate-fadeIn">
       {/* Header Bar */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-xl sm:text-2xl font-black text-slate-900">{t('chatTitle')}</h2>
@@ -276,7 +276,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
         </div>
 
         {/* Quick Service Preset Chips */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        <div className="w-full sm:w-auto flex flex-nowrap sm:flex-wrap items-center gap-2 text-xs overflow-x-auto no-scrollbar pb-1">
           {OFFICIAL_SERVICES.map((srv) => (
             <button
               key={srv.id}
@@ -284,7 +284,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
                 setActiveRoadmap(srv);
                 executeSearchQuery(`Tell me app download links, instructions and form submission for ${srv.title}`);
               }}
-              className={`px-3 py-1.5 rounded-xl font-semibold border transition-all ${
+              className={`px-3 py-1.5 rounded-xl font-semibold border transition-all shrink-0 ${
                 activeRoadmap.id === srv.id
                   ? 'bg-pakgreen-800 text-white border-pakgreen-900 shadow-sm'
                   : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -297,9 +297,9 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
       </div>
 
       {/* MAIN CHATBOX CONTAINER */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-xl flex flex-col min-h-[680px] overflow-hidden">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xl flex flex-col min-h-[calc(100svh-250px)] sm:min-h-[680px] overflow-hidden">
         {/* Messages List Area */}
-        <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-6 bg-slate-50/60">
+        <div className="flex-1 p-3 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6 bg-slate-50/60">
           {messages.map((msg) => (
             <div
               key={msg.id}
@@ -308,7 +308,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
               }`}
             >
               <div
-                className={`max-w-[95%] sm:max-w-[88%] rounded-3xl p-5 shadow-md relative space-y-4 ${
+                  className={`max-w-[98%] sm:max-w-[88%] rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-md relative space-y-4 ${
                   msg.sender === 'user'
                     ? 'bg-pakgreen-800 text-white rounded-br-none'
                     : 'bg-white text-slate-800 border border-slate-200 rounded-bl-none'
@@ -483,7 +483,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center text-xs">
                           <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                             <p className="text-[10px] font-bold text-slate-500 uppercase">{t('feeNormal')}</p>
                             <p className="font-extrabold text-sm text-slate-900 mt-1 font-mono">
@@ -599,7 +599,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder={t('chatPlaceholder')}
-              className="w-full py-3 px-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-pakgreen-600 focus:bg-white transition-all"
+              className="flex-1 min-w-0 w-full py-3 px-3 sm:px-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-pakgreen-600 focus:bg-white transition-all"
             />
 
             {/* Mic Toggle Button */}

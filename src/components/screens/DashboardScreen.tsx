@@ -56,9 +56,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
   };
 
   return (
-    <div className="space-y-12 pb-8 animate-fadeIn">
+    <div className="space-y-8 sm:space-y-12 pb-6 sm:pb-8 animate-fadeIn">
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pakgreen-900 via-pakgreen-800 to-pakgreen-950 text-white p-6 sm:p-10 lg:p-12 shadow-2xl border border-pakgreen-700/80">
+      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-pakgreen-900 via-pakgreen-800 to-pakgreen-950 text-white p-4 sm:p-10 lg:p-12 shadow-2xl border border-pakgreen-700/80">
         {/* Background Decorative Shield Pattern */}
         <div className="absolute -right-10 -bottom-10 opacity-10 text-pakgold-400 pointer-events-none">
           <ShieldCheck className="w-96 h-96" />
@@ -72,7 +72,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           </div>
 
           {/* Hero Title */}
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
+          <h1 className="text-[1.7rem] sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
             {lang === 'ur'
               ? 'پاکستان کی تمام حکومتی خدمات حاصل کریں 100% آن لائن گھر بیٹھے!'
               : lang === 'ro'
@@ -130,9 +130,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
               <button
                 type="submit"
-                className="shrink-0 px-5 py-3.5 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-bold rounded-xl text-sm transition-all hidden sm:flex items-center gap-1.5 shadow"
+                className="shrink-0 px-3 sm:px-5 py-3.5 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow"
               >
-                <span>Search</span>
+                <span className="hidden sm:inline">Search</span>
                 <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
               </button>
             </div>

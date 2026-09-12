@@ -5,6 +5,12 @@
 @tailwind utilities;
 
 @layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -12,6 +18,21 @@
     background-color: #F8FAFC;
     color: #0F172A;
     font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  a {
+    touch-action: manipulation;
   }
 }
 
@@ -43,4 +64,10 @@
 
 .animate-fadeIn {
   animation: fadeIn 0.35s ease-out forwards;
+}
+
+@media (max-width: 640px) {
+  .font-urdu {
+    line-height: 1.7;
+  }
 }

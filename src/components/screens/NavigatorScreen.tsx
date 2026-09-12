@@ -44,6 +44,11 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
   const [copiedPackage, setCopiedPackage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
+  const messagesRef = useRef<ChatMessage[]>([]);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   useEffect(() => {
     fetchServicesFromFirestore().then((srvs) => {
@@ -89,12 +94,13 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
   };
 
   const executeSearchQuery = async (queryText: string) => {
-    if (!queryText.trim() && !selectedImageBase64) return;
+    const trimmedQuery = queryText.trim();
+    if ((!trimmedQuery && !selectedImageBase64) || loading) return;
 
     const userMsg: ChatMessage = {
       id: `user-${Date.now()}`,
       sender: 'user',
-      text: queryText || 'Audit attached document photograph',
+      text: trimmedQuery || 'Audit attached document photograph',
       attachedImage: selectedImageBase64 || undefined,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
@@ -127,7 +133,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
         };
         setMessages((prev) => [...prev, aiMsg]);
       } else {
-        const historyPayload = messages.map((m) => ({
+        const historyPayload = messagesRef.current.map((m) => ({
           role: m.sender === 'user' ? ('user' as const) : ('model' as const),
           parts: [{ text: m.text }]
         }));
@@ -137,7 +143,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
           const apiResponse = await fetch('/api/gemini/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: queryText, history: historyPayload, apiKey, lang })
+            body: JSON.stringify({ query: trimmedQuery, history: historyPayload, apiKey, lang })
           });
           if (apiResponse.ok) {
             res = await apiResponse.json();
@@ -182,6 +188,18 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
       }
     } catch (err) {
       console.error('Chat send error:', err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `error-${Date.now()}`,
+          sender: 'assistant',
+          text:
+            lang === 'ur'
+              ? 'معذرت، جواب حاصل نہیں ہو سکا۔ براہ کرم دوبارہ کوشش کریں۔'
+              : 'Sorry, I could not prepare a response right now. Please try again.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
+      ]);
     } finally {
       setLoading(false);
     }

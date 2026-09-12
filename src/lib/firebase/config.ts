@@ -13,10 +13,17 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || ""
 };
 
-// Initialize Firebase
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+const hasFirebaseConfig = Object.values(firebaseConfig).every(
+  (value) => value && !value.startsWith('YOUR_') && !value.startsWith('your-')
+);
+
+// Firebase is optional for the local/offline app. Do not initialize it during
+// builds when only the placeholder values from .env.example are available.
+const app = hasFirebaseConfig
+  ? (getApps().length > 0 ? getApp() : initializeApp(firebaseConfig))
+  : null;
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
 export const googleProvider = new GoogleAuthProvider();
 
 export default app;

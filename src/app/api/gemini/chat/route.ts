@@ -6,11 +6,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { query, history = [], apiKey, lang = 'en' } = body;
 
-    if (!query) {
+    if (typeof query !== 'string' || !query.trim()) {
       return NextResponse.json({ error: 'Query is required' }, { status: 400 });
     }
 
-    const result = await generateChatResponse(query, history, apiKey, lang);
+    const result = await generateChatResponse(query.trim(), history, apiKey, lang);
     return NextResponse.json(result);
   } catch (error: any) {
     console.error('Chat API Error:', error);

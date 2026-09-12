@@ -29,6 +29,9 @@ import { VERIFIED_APPS } from '@/data/pakistanGovData';
 import { VerifiedApp } from '@/types';
 import { fetchAppsFromFirestore } from '@/lib/firebase/firestoreService';
 
+const isAppleStoreUrl = (url?: string) => Boolean(url?.includes('apps.apple.com'));
+const isGooglePlayUrl = (url?: string) => Boolean(url?.includes('play.google.com'));
+
 export const VerifiedAppsScreen: React.FC = () => {
   const { t, lang, isRtl } = useLanguage();
   const [selectedJurisdiction, setSelectedJurisdiction] = useState<string>('All');
@@ -292,7 +295,7 @@ export const VerifiedAppsScreen: React.FC = () => {
                   className="py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-sm"
                 >
                   <Download className="w-3.5 h-3.5 text-pakgold-400" />
-                  <span>Google Play</span>
+                  <span>{isGooglePlayUrl(app.playStoreUrl) ? 'Google Play' : 'Official Website'}</span>
                 </a>
 
                 <a
@@ -301,7 +304,7 @@ export const VerifiedAppsScreen: React.FC = () => {
                   rel="noreferrer"
                   className="py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all border border-slate-200"
                 >
-                  <span>Apple Store</span>
+                  <span>{isAppleStoreUrl(app.appStoreUrl) ? 'Apple Store' : 'Official Website'}</span>
                   <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </div>

@@ -26,6 +26,8 @@ import { GovService, ChatMessage, DocumentAuditResult } from '@/types';
 import { OFFICIAL_SERVICES } from '@/data/pakistanGovData';
 import { fetchServicesFromFirestore } from '@/lib/firebase/firestoreService';
 
+const isAppleStoreUrl = (url?: string) => Boolean(url?.includes('apps.apple.com'));
+
 interface NavigatorScreenProps {
   initialQuery?: string;
   apiKey: string;
@@ -418,7 +420,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
                             rel="noreferrer"
                             className="py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-800"
                           >
-                            <span>Apple Store</span>
+                            <span>{isAppleStoreUrl(msg.roadmapData.appStoreUrl) ? 'Apple Store' : 'Official Website'}</span>
                             <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
                           </a>
                         </div>

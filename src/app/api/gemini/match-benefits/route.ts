@@ -11,6 +11,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Profile data is required' }, { status: 400 });
     }
 
+    const numericFields = [profile.age, profile.monthlyIncome, profile.landOwnershipAcres, profile.householdMembers];
+    if (
+      numericFields.some((value) => typeof value !== 'number' || !Number.isFinite(value) || value < 0) ||
+      profile.age < 1 || profile.age > 120 ||
+      profile.householdMembers < 1 ||
+      typeof profile.district !== 'string' || !profile.district.trim()
+    ) {
+      return NextResponse.json({ error: 'Please provide valid age, income, land, household, and district values.' }, { status: 400 });
+    }
+
     const schemes = await calculateDemographicEligibility(profile, apiKey);
     return NextResponse.json({ schemes });
   } catch (error: any) {

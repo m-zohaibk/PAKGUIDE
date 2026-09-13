@@ -7,6 +7,7 @@ import { DashboardScreen } from '@/components/screens/DashboardScreen';
 import { NavigatorScreen } from '@/components/screens/NavigatorScreen';
 import { PhishingRadarScreen } from '@/components/screens/PhishingRadarScreen';
 import { BenefitMatcherScreen } from '@/components/screens/BenefitMatcherScreen';
+import { ModuleErrorBoundary } from '@/components/common/ModuleErrorBoundary';
 import { VerifiedAppsScreen } from '@/components/screens/VerifiedAppsScreen';
 import { ApiKeyModal } from '@/components/common/ApiKeyModal';
 import { AuthModal } from '@/components/auth/AuthModal';
@@ -125,11 +126,13 @@ export const AppShell: React.FC<AppShellProps> = ({ initialScreen = 'dashboard' 
         )}
 
         {activeScreen === 'matcher' && (
-          <BenefitMatcherScreen
-            apiKey={apiKey}
-            user={user}
-            onUpdateUser={handleUpdateUser}
-          />
+          <ModuleErrorBoundary title="Subsidy Matcher">
+            <BenefitMatcherScreen
+              apiKey={apiKey}
+              user={user}
+              onUpdateUser={handleUpdateUser}
+            />
+          </ModuleErrorBoundary>
         )}
 
         {activeScreen === 'apps' && (

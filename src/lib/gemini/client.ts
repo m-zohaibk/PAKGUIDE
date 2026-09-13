@@ -338,29 +338,33 @@ export async function calculateDemographicEligibility(
   profile: DemographicProfile,
   customApiKey?: string
 ): Promise<SubsidyScheme[]> {
+  const deterministicMatches = OFFICIAL_SUBSIDIES.map((scheme) => {
+    let score = 45;
+    const reasons: string[] = [];
+    if (profile.monthlyIncome <= 32000 && scheme.id === 'bisp-kafaalat') { score += 45; reasons.push('Income is within the BISP-focused low-income profile.'); }
+    if (profile.province === 'Punjab' && profile.landOwnershipAcres > 0 && scheme.id === 'punjab-kisan-card') { score += 45; reasons.push('Punjab residence and agricultural land match the Kisan Card profile.'); }
+    if (profile.age >= 21 && profile.age <= 45 && ['pm-youth-business-loan', 'pm-youth-e-bike-scheme'].includes(scheme.id)) { score += 40; reasons.push('Age is within the youth opportunity range.'); }
+    if (profile.employmentType === 'Student' && ['peef-scholarships', 'navttc-skill-training', 'pm-youth-laptop-scheme'].includes(scheme.id)) { score += 45; reasons.push('Student profile matches this education or skills opportunity.'); }
+    if (['Unemployed', 'Daily Wager'].includes(profile.employmentType) && scheme.id === 'navttc-skill-training') { score += 40; reasons.push('Skills training is relevant for unemployed and daily-wage profiles.'); }
+    if (profile.monthlyIncome <= 60000 && scheme.id === 'peef-scholarships') { score += 25; reasons.push('Income is within the published PEEF consideration range.'); }
+    score = Math.min(98, score);
+    return {
+      ...scheme,
+      matchPercentage: score,
+      eligibilityStatus: score >= 85 ? 'Eligible' : score >= 65 ? 'Highly Likely' : score >= 45 ? 'Partial Fit' : 'Not Eligible',
+      whyMatched: reasons.length ? reasons : scheme.whyMatched
+    } as SubsidyScheme;
+  });
   const ai = getGeminiClient(customApiKey);
-
   if (!ai) {
-    // Filter local verified subsidies based on income & acres
-    return OFFICIAL_SUBSIDIES.map(scheme => {
-      let score = 90;
-      if (scheme.id === 'bisp-kafaalat' && profile.monthlyIncome > 40000) score = 35;
-      if (scheme.id === 'punjab-kisan-card' && (profile.landOwnershipAcres === 0 || profile.province !== 'Punjab')) score = 20;
-      if (scheme.id === 'peef-scholarships' && profile.monthlyIncome > 75000) score = 40;
-
-      return {
-        ...scheme,
-        matchPercentage: score,
-        eligibilityStatus: score >= 85 ? 'Eligible' : score >= 60 ? 'Highly Likely' : score >= 40 ? 'Partial Fit' : 'Not Eligible'
-      };
-    });
+    return deterministicMatches;
   }
 
   try {
     const prompt = `Act as an official financial aid advisor for Pakistan. Given this citizen demographic profile:
 ${JSON.stringify(profile, null, 2)}
 
-Calculate eligibility match percentage (0 to 100%) and return structured recommendations for schemes (BISP Kafaalat, CM Punjab Kisan Card, PM Youth Loans, PEEF Scholarships, Roshan Digital Account, Benazir Taleemi Wazaif).
+Calculate eligibility match percentage (0 to 100%) and return structured recommendations for every relevant verified local record, including BISP, Kisan Card, PM Youth Loans, PEEF, NAVTTC trainings, PM Youth Laptop, and PM Youth e-bike opportunities. Do not mark a benefit eligible unless the profile criteria support it. Preserve all verified official URLs and explain uncertainty for phase-based programs.
 
 Return STRICT JSON inside \`\`\`json ... \`\`\` array matching SubsidyScheme schema.`;
 
@@ -372,11 +376,26 @@ Return STRICT JSON inside \`\`\`json ... \`\`\` array matching SubsidyScheme sch
     const text = response.text || '';
     const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/);
     if (jsonMatch && jsonMatch[1]) {
-      return JSON.parse(jsonMatch[1]) as SubsidyScheme[];
+      const parsed = JSON.parse(jsonMatch[1]);
+      if (Array.isArray(parsed)) {
+        const aiById = new Map(parsed.filter((item) => item && typeof item.id === 'string').map((item) => [item.id, item]));
+        return deterministicMatches.map((verified) => {
+          const suggestion = aiById.get(verified.id) as Partial<SubsidyScheme> | undefined;
+          if (!suggestion) return verified;
+          return {
+            ...verified,
+            ...suggestion,
+            officialApplyUrl: verified.officialApplyUrl,
+            matchPercentage: Math.max(0, Math.min(100, Number(suggestion.matchPercentage) || verified.matchPercentage)),
+            whyMatched: Array.isArray(suggestion.whyMatched) ? suggestion.whyMatched : verified.whyMatched,
+            whyMatchedUrdu: Array.isArray(suggestion.whyMatchedUrdu) ? suggestion.whyMatchedUrdu : verified.whyMatchedUrdu
+          } as SubsidyScheme;
+        });
+      }
     }
   } catch (err) {
     console.error('Benefit matcher AI error:', err);
   }
 
-  return OFFICIAL_SUBSIDIES;
+  return deterministicMatches;
 }

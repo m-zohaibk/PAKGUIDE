@@ -37,6 +37,7 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
   const [cloudSubsidies, setCloudSubsidies] = useState<SubsidyScheme[]>(OFFICIAL_SUBSIDIES);
   const [calculating, setCalculating] = useState(false);
   const [savedIds, setSavedIds] = useState<string[]>(user.savedApplications || []);
+  const [matcherError, setMatcherError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSubsidiesFromFirestore().then((subs) => {
@@ -65,19 +66,30 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
   };
 
   const handleCalculate = async () => {
+    setMatcherError(null);
+    const numericProfile = [profile.age, profile.monthlyIncome, profile.landOwnershipAcres, profile.householdMembers];
+    if (numericProfile.some((value) => !Number.isFinite(value) || value < 0) || profile.age < 1 || profile.age > 120 || profile.householdMembers < 1) {
+      setMatcherError('Please enter valid age, income, land, and household values before matching.');
+      return;
+    }
+
     setCalculating(true);
     try {
-      const res = await fetch('/api/gemini/match-benefits', {
+      const response = await fetch('/api/gemini/match-benefits', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile, apiKey })
-      }).then(r => r.json());
+      });
+      const res = await response.json().catch(() => ({}));
 
-      if (res.schemes) {
-        setMatchedSchemes(res.schemes);
-      } else {
-        setMatchedSchemes(cloudSubsidies);
+      if (!response.ok) {
+        throw new Error(res.error || 'The eligibility service could not process this profile.');
       }
+
+      const schemes = Array.isArray(res.schemes)
+        ? res.schemes.filter((scheme: SubsidyScheme) => scheme && typeof scheme.id === 'string')
+        : cloudSubsidies;
+      setMatchedSchemes(schemes.length > 0 ? schemes : cloudSubsidies);
 
       // Fire celebratory confetti!
       confetti({
@@ -86,7 +98,8 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
         origin: { y: 0.6 }
       });
     } catch (err) {
-      setMatchedSchemes(OFFICIAL_SUBSIDIES);
+      setMatchedSchemes(null);
+      setMatcherError(err instanceof Error ? err.message : 'Unable to calculate eligibility. Please try again.');
     } finally {
       setCalculating(false);
     }
@@ -128,6 +141,12 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
 
       {/* 3-STEP DEMOGRAPHIC QUESTIONNAIRE FORM */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-8">
+        {matcherError && (
+          <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-semibold leading-relaxed text-red-800">
+            <p className="font-extrabold">Eligibility check needs attention</p>
+            <p className="mt-1">{matcherError}</p>
+          </div>
+        )}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <h3 className="font-extrabold text-lg text-slate-900 flex items-center gap-2">
             <Sliders className="w-5 h-5 text-pakgreen-800" />
@@ -345,7 +364,7 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
                     <div className="space-y-1.5 text-xs text-slate-700">
                       <p className="font-bold text-slate-900 text-[11px]">Why You Qualify:</p>
                       <ul className="space-y-1 pl-4 list-disc text-[11px] text-slate-600">
-                        {scheme.whyMatched.map((reason, idx) => (
+                        {(Array.isArray(scheme.whyMatched) ? scheme.whyMatched : []).map((reason, idx) => (
                           <li key={idx}>{reason}</li>
                         ))}
                       </ul>

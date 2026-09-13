@@ -339,22 +339,55 @@ export async function calculateDemographicEligibility(
   customApiKey?: string
 ): Promise<SubsidyScheme[]> {
   const deterministicMatches = OFFICIAL_SUBSIDIES.map((scheme) => {
-    let score = 45;
+    let score = 0;
     const reasons: string[] = [];
-    if (profile.monthlyIncome <= 32000 && scheme.id === 'bisp-kafaalat') { score += 45; reasons.push('Income is within the BISP-focused low-income profile.'); }
-    if (profile.province === 'Punjab' && profile.landOwnershipAcres > 0 && scheme.id === 'punjab-kisan-card') { score += 45; reasons.push('Punjab residence and agricultural land match the Kisan Card profile.'); }
-    if (profile.age >= 21 && profile.age <= 45 && ['pm-youth-business-loan', 'pm-youth-e-bike-scheme'].includes(scheme.id)) { score += 40; reasons.push('Age is within the youth opportunity range.'); }
-    if (profile.employmentType === 'Student' && ['peef-scholarships', 'navttc-skill-training', 'pm-youth-laptop-scheme'].includes(scheme.id)) { score += 45; reasons.push('Student profile matches this education or skills opportunity.'); }
-    if (['Unemployed', 'Daily Wager'].includes(profile.employmentType) && scheme.id === 'navttc-skill-training') { score += 40; reasons.push('Skills training is relevant for unemployed and daily-wage profiles.'); }
-    if (profile.monthlyIncome <= 60000 && scheme.id === 'peef-scholarships') { score += 25; reasons.push('Income is within the published PEEF consideration range.'); }
-    score = Math.min(98, score);
+    let primaryAligned = false;
+
+    if (scheme.id === 'bisp-kafaalat' && profile.gender === 'female' && ['Housewife', 'Unemployed', 'Daily Wager'].includes(profile.employmentType)) {
+      primaryAligned = true;
+      if (profile.monthlyIncome <= 32000) { score += 55; reasons.push('Female household profile and low income align with the BISP focus.'); }
+    }
+    if (scheme.id === 'punjab-kisan-card' && profile.employmentType === 'Farmer' && profile.province === 'Punjab' && profile.landOwnershipAcres > 0) {
+      primaryAligned = true;
+      score += 65;
+      reasons.push('Farmer profile, Punjab residence, and land ownership align with the Kisan Card focus.');
+    }
+    if (scheme.id === 'pm-youth-business-loan' && profile.age >= 21 && profile.age <= 45 && ['Small Business Owner', 'Farmer', 'Unemployed'].includes(profile.employmentType)) {
+      primaryAligned = true;
+      score += 65;
+      reasons.push('Age and work profile align with the youth business/agriculture loan focus.');
+    }
+    if (scheme.id === 'peef-scholarships' && profile.employmentType === 'Student') {
+      primaryAligned = true;
+      score += 65;
+      reasons.push('Student profile aligns with the scholarship focus.');
+      if (profile.monthlyIncome <= 60000) { score += 25; reasons.push('Income is within the published PEEF consideration range.'); }
+    }
+    if (scheme.id === 'navttc-skill-training' && ['Student', 'Unemployed', 'Daily Wager'].includes(profile.employmentType)) {
+      primaryAligned = true;
+      score += 70;
+      reasons.push('Student or employment profile aligns with skills training.');
+    }
+    if (scheme.id === 'pm-youth-laptop-scheme' && profile.employmentType === 'Student') {
+      primaryAligned = true;
+      score += 75;
+      reasons.push('Student profile is the primary laptop-scheme criterion.');
+    }
+    if (scheme.id === 'pm-youth-e-bike-scheme' && profile.age >= 18 && profile.age <= 45 && ['Student', 'Small Business Owner', 'Private Employee', 'Daily Wager'].includes(profile.employmentType)) {
+      primaryAligned = true;
+      score += 65;
+      reasons.push('Age and active study/work profile align with the transport opportunity.');
+    }
+
+    if (!primaryAligned) return null;
+    score = Math.min(98, score + (profile.monthlyIncome <= 60000 ? 10 : 0));
     return {
       ...scheme,
       matchPercentage: score,
       eligibilityStatus: score >= 85 ? 'Eligible' : score >= 65 ? 'Highly Likely' : score >= 45 ? 'Partial Fit' : 'Not Eligible',
       whyMatched: reasons.length ? reasons : scheme.whyMatched
     } as SubsidyScheme;
-  });
+  }).filter((scheme): scheme is SubsidyScheme => Boolean(scheme && scheme.matchPercentage >= 60));
   const ai = getGeminiClient(customApiKey);
   if (!ai) {
     return deterministicMatches;

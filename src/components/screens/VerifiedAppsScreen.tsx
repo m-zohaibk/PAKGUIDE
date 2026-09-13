@@ -103,10 +103,10 @@ export const VerifiedAppsScreen: React.FC = () => {
 
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
             {lang === 'ur'
-              ? 'پاکستان کے آفیشل باضابطہ حکومتی موبائل ایپس ڈائریکٹری'
+              ? 'پاکستان کی سرکاری ایپس'
               : lang === 'ro'
               ? 'Pakistan Ke Official Certified Government Mobile Apps Directory'
-              : 'Pakistan Official Certified Government Apps Directory'}
+              : 'Official Government Apps'}
           </h2>
 
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -114,7 +114,7 @@ export const VerifiedAppsScreen: React.FC = () => {
               ? 'جعلی ایپس اور فیک لنکس سے بچیں۔ نادرا پاک آئی ڈی، مریم نواز دستک، پاسپورٹ فیس آسان، اور ای پے پنجاب کی آفیشل پلے اسٹور لنکس اور 100% طریقہ کار حاصل کریں۔'
               : lang === 'ro'
               ? 'Fake apps se bachein! Pak Identity, Dastak by CM Maryam Nawaz, Passport Fee Asan, aur e-Pay Punjab ke verified Play Store links aur complete guides paayein.'
-              : 'Avoid scam apps and fake phishing APK downloads. Discover official Google Play & App Store links, authentic package names, and complete operating guides for Pak-Identity, Dastak, Passport Fee Asan, e-Pay Punjab, and PCP.'}
+              : 'Find trusted government apps, simple instructions, and direct download links in one place.'}
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -137,8 +137,8 @@ export const VerifiedAppsScreen: React.FC = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={
               lang === 'ur'
-                ? 'ایپ کا نام، نادرا، پاسپورٹ، دستک یا پیکیج آئی ڈی تلاش کریں...'
-                : 'Search app name, NADRA, Dastak, e-Pay, or package id (e.g. pk.gov.nadra)...'
+                ? 'ایپ، نادرا، پاسپورٹ یا دستک تلاش کریں...'
+                : 'Search by app name or service...'
             }
             className="w-full pl-12 pr-10 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs sm:text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-pakgreen-800 focus:bg-white transition-all"
           />
@@ -251,26 +251,6 @@ export const VerifiedAppsScreen: React.FC = () => {
                 <span className="truncate">{app.verificationBadge}</span>
               </div>
 
-              {/* Copyable Android Package Name Hash Box */}
-              <div
-                onClick={(e) => handleCopyPackage(app.packageName, e)}
-                title="Click to copy official Play Store package name"
-                className="p-2.5 bg-slate-950 text-slate-200 rounded-xl flex items-center justify-between text-[11px] font-mono border border-slate-800 cursor-pointer hover:border-pakgold-500/60 transition-colors"
-              >
-                <div className="flex items-center gap-2 truncate">
-                  <span className="text-slate-500 text-[10px]">ID:</span>
-                  <span className="text-pakgold-300 font-bold truncate">{app.packageName}</span>
-                </div>
-                {copiedPackageId === app.packageName ? (
-                  <span className="text-emerald-400 text-[10px] font-bold flex items-center gap-1 shrink-0">
-                    <Check className="w-3.5 h-3.5" /> Copied
-                  </span>
-                ) : (
-                  <span className="text-slate-400 hover:text-white flex items-center gap-1 text-[10px] shrink-0">
-                    <Copy className="w-3 h-3" /> Copy
-                  </span>
-                )}
-              </div>
             </div>
 
             {/* ACTION BUTTON ROW */}
@@ -284,7 +264,7 @@ export const VerifiedAppsScreen: React.FC = () => {
                 className="w-full py-3 bg-pakgreen-800 hover:bg-pakgreen-900 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-pakgreen-900/20 transition-all"
               >
                 <BookOpen className="w-4 h-4 text-pakgold-400" />
-                <span>Open Step-by-Step Operating Guide</span>
+                <span>View Instructions</span>
                 <ChevronRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
               </button>
 
@@ -351,8 +331,9 @@ export const VerifiedAppsScreen: React.FC = () => {
 
       {/* DETAILED APP OPERATING GUIDE MODAL DRAWER */}
       {selectedAppForGuide && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/70 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-3xl max-h-[92vh] bg-white rounded-3xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
+        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-slate-950/70 p-2 backdrop-blur-md animate-fadeIn sm:p-6">
+          <div className="relative mx-auto my-0 flex min-h-[calc(100dvh-1rem)] w-full max-w-3xl items-center justify-center sm:min-h-[calc(100dvh-3rem)]">
+          <div className="relative my-auto flex max-h-[calc(100dvh-1rem)] w-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl sm:max-h-[92vh]">
             {/* Modal Header */}
             <div className="bg-gradient-to-r from-pakgreen-900 via-pakgreen-800 to-pakgreen-950 text-white p-5 sm:p-6 flex items-center justify-between shrink-0 border-b border-pakgreen-700">
               <div className="flex items-center gap-3">
@@ -566,17 +547,17 @@ export const VerifiedAppsScreen: React.FC = () => {
                 </div>
               )}
 
-              {/* TAB 4: ANTI-PHISHING & SAFETY TIPS */}
+              {/* TAB 4: SAFETY TIPS */}
               {guideTab === 'pitfalls' && (
                 <div className="space-y-5">
                   <div className="p-5 bg-red-50 border border-red-200 rounded-2xl text-red-950 space-y-3 shadow-inner">
                     <h4 className="font-extrabold text-sm text-red-900 flex items-center gap-2">
                       <AlertTriangle className="w-5 h-5 text-red-600" />
-                      <span>Anti-Malware & Security Assurance:</span>
+                      <span>Safety check</span>
                     </h4>
 
                     <p className="text-xs text-red-800 leading-relaxed">
-                      Scammers create fake clones of government apps on unofficial websites and WhatsApp groups to steal bank account details and CNIC pictures. Always verify the Play Store Package Name before installing!
+                      Use only the official store or website buttons below. Never share your CNIC or payment details with an unofficial agent.
                     </p>
 
                     <div className="space-y-2 pt-2">
@@ -595,24 +576,13 @@ export const VerifiedAppsScreen: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-slate-950 text-slate-200 rounded-2xl space-y-2 text-xs border border-slate-800">
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-400 font-semibold">Official Play Store Package ID:</span>
-                      <span className="font-mono text-pakgold-300 font-bold">{selectedAppForGuide.packageName}</span>
-                    </div>
-                    <p className="text-[11px] text-slate-400">
-                      When downloading from Google Play Store, match the URL details ID parameter with the string above.
-                    </p>
-                  </div>
                 </div>
               )}
             </div>
 
             {/* Modal Footer with Direct Download CTAs */}
             <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-              <div className="text-xs font-mono text-slate-500 truncate max-w-xs">
-                Package: <span className="text-pakgreen-800 font-bold">{selectedAppForGuide.packageName}</span>
-              </div>
+              <div className="text-xs font-semibold text-slate-500">Use the official download button</div>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <button
@@ -633,6 +603,7 @@ export const VerifiedAppsScreen: React.FC = () => {
                 </a>
               </div>
             </div>
+          </div>
           </div>
         </div>
       )}

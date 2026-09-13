@@ -89,7 +89,10 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
       const schemes = Array.isArray(res.schemes)
         ? res.schemes.filter((scheme: SubsidyScheme) => scheme && typeof scheme.id === 'string')
         : cloudSubsidies;
-      setMatchedSchemes(schemes.length > 0 ? schemes : cloudSubsidies);
+      setMatchedSchemes(schemes);
+      if (schemes.length === 0) {
+        setMatcherError('No opportunity matched your main profile criteria. Try updating your occupation, age, province, or student/farmer status.');
+      }
 
       // Fire celebratory confetti!
       confetti({
@@ -125,7 +128,7 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
       <div className="bg-gradient-to-br from-pakgold-600 via-amber-600 to-pakgold-700 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border border-amber-500/50 space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-800/60 border border-amber-400/50 text-amber-100 text-xs font-bold">
           <Gift className="w-4 h-4 text-amber-200" />
-          <span>Government Financial Aid Engine</span>
+          <span>Find help you may qualify for</span>
         </div>
 
         <h2 className="text-2xl sm:text-4xl font-extrabold">{t('matcherTitle')}</h2>
@@ -153,7 +156,7 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
             <span>Citizen Profile Questionnaire</span>
           </h3>
           <span className="text-xs font-bold text-pakgold-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-            3 Quick Steps
+            3 simple steps
           </span>
         </div>
 
@@ -318,7 +321,7 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
           <div className="flex items-center justify-between">
             <h3 className="font-extrabold text-xl text-slate-900 flex items-center gap-2">
               <Gift className="w-6 h-6 text-pakgold-600" />
-              <span>{t('matchedResultsTitle')}</span>
+              <span>Possible matches for you</span>
             </h3>
             <span className="text-xs font-extrabold px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full">
               {matchedSchemes.length} Matched Schemes
@@ -326,6 +329,11 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {matchedSchemes.length === 0 && (
+              <div className="md:col-span-2 rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-600">
+                No close matches yet. Secondary income details cannot replace the main occupation or program requirement.
+              </div>
+            )}
             {matchedSchemes.map((scheme) => {
               const isSaved = savedIds.includes(scheme.id);
               return (

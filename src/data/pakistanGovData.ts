@@ -673,15 +673,15 @@ export const OFFICIAL_SUBSIDIES: SubsidyScheme[] = [
     whyMatched: ['Student profile matches the primary audience for the laptop scheme', 'Final eligibility depends on institution, academic record, and latest phase rules'],
     whyMatchedUrdu: ['طلبہ کا پروفائل لیپ ٹاپ اسکیم کے بنیادی امیدواروں سے مطابقت رکھتا ہے', 'حتمی اہلیت ادارے، تعلیمی ریکارڈ اور تازہ مرحلے کی شرائط پر منحصر ہے'],
     requiredDocs: ['CNIC/B-Form', 'University enrollment record', 'Student registration details'],
-    officialApplyUrl: 'https://laptop.pmyp.gov.pk',
+    officialApplyUrl: 'https://pmybals.pmyp.gov.pk/Laptop/Register',
     deadlineText: 'Phase-based — check the latest HEC/PMYP announcement'
   },
   {
     id: 'pm-youth-e-bike-scheme',
-    name: 'Prime Minister Youth Electric Bike Opportunity',
-    nameUrdu: 'وزیر اعظم یوتھ الیکٹرک بائیک موقع',
-    nameRoman: 'PM Youth E-Bike Opportunity',
-    organization: 'Prime Minister Youth Programme / Participating Banks',
+    name: 'CM Punjab E-Bike Scheme',
+    nameUrdu: 'وزیر اعلیٰ پنجاب ای بائیک اسکیم',
+    nameRoman: 'CM Punjab E-Bike Scheme',
+    organization: 'Government of Punjab',
     category: 'Loan / Capital',
     stipendOrBenefitText: 'Selected youth may access subsidized or financed electric bikes under the active phase terms',
     matchPercentage: 78,
@@ -689,7 +689,7 @@ export const OFFICIAL_SUBSIDIES: SubsidyScheme[] = [
     whyMatched: ['Youth, student, and working profiles may match transport opportunity criteria', 'Final terms depend on active phase, age, city, bank, and repayment rules'],
     whyMatchedUrdu: ['نوجوان، طلبہ اور ملازمت پیشہ افراد موجودہ شرائط کے تحت اہل ہو سکتے ہیں', 'حتمی شرائط مرحلے، عمر، شہر، بینک اور ادائیگی کے اصولوں پر منحصر ہیں'],
     requiredDocs: ['CNIC', 'Proof of student/employment status', 'Bank or financing documents if required'],
-    officialApplyUrl: 'https://pmyp.gov.pk',
+    officialApplyUrl: 'https://bikes.punjab.gov.pk/',
     deadlineText: 'Phase-based — verify current availability and terms before applying'
   }
 ];

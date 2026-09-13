@@ -44,6 +44,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
   const [selectedImageBase64, setSelectedImageBase64] = useState<string | null>(null);
   const [auditResult, setAuditResult] = useState<DocumentAuditResult | null>(null);
   const [copiedPackage, setCopiedPackage] = useState<string | null>(null);
+  const [latestResponseId, setLatestResponseId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<ChatMessage[]>([]);
@@ -86,8 +87,12 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
   }, [initialQuery, lang]);
 
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    if (!latestResponseId) return;
+    document.getElementById(`message-${latestResponseId}`)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }, [latestResponseId]);
 
   const handleCopyPackage = (pkgName: string) => {
     navigator.clipboard.writeText(pkgName);
@@ -132,7 +137,8 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
               ? `میں نے آپ کے بھیجے گئے **${auditRes.docName}** کا ان-میموری معائنہ مکمل کر لیا ہے۔ مکمل اسکور: ${auditRes.completenessScore}%\n\n${auditRes.recommendations.join('\n')}`
               : `I have audited your **${auditRes.docName}** in-memory. Completeness score: ${auditRes.completenessScore}%.\n\nKey Recommendations:\n• ${auditRes.recommendations.join('\n• ')}`,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
+          };
+        setLatestResponseId(aiMsg.id);
         setMessages((prev) => [...prev, aiMsg]);
       } else {
         const historyPayload = messagesRef.current.map((m) => ({
@@ -186,6 +192,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
           setActiveRoadmap(targetRoadmap);
         }
 
+        setLatestResponseId(aiMsg.id);
         setMessages((prev) => [...prev, aiMsg]);
       }
     } catch (err) {
@@ -302,6 +309,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
         <div className="flex-1 p-3 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6 bg-slate-50/60">
           {messages.map((msg) => (
             <div
+              id={`message-${msg.id}`}
               key={msg.id}
               className={`flex flex-col ${
                 msg.sender === 'user' ? 'items-end' : 'items-start'

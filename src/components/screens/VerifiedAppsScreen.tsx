@@ -29,6 +29,8 @@ import { AppIcon } from '@/components/common/AppIcon';
 import { VERIFIED_APPS } from '@/data/pakistanGovData';
 import { VerifiedApp } from '@/types';
 import { fetchAppsFromFirestore } from '@/lib/firebase/firestoreService';
+import { AppStepGuideModal } from '@/components/guide/AppStepGuideModal';
+import { AppStepGuideInline } from '@/components/guide/AppStepGuideInline';
 
 const isAppleStoreUrl = (url?: string) => Boolean(url?.includes('apps.apple.com'));
 const isGooglePlayUrl = (url?: string) => Boolean(url?.includes('play.google.com'));
@@ -215,398 +217,146 @@ export const VerifiedAppsScreen: React.FC = () => {
       {/* APPS GRID LAYOUT - MOBILE FIRST RESPONSIVE */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredApps.map((app) => (
-          <div
-            key={app.id}
-            className="group bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-5 relative overflow-hidden"
-          >
-            {/* Top Security Stripe */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pakgreen-700 via-pakgold-500 to-pakgreen-900"></div>
+          <React.Fragment key={app.id}>
+            <div
+              className={`group bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-5 relative overflow-hidden ${
+                selectedAppForGuide?.id === app.id ? 'ring-2 ring-pakgreen-700 shadow-2xl' : ''
+              }`}
+            >
+              {/* Top Security Stripe */}
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pakgreen-700 via-pakgold-500 to-pakgreen-900"></div>
 
-            <div className="space-y-4 pt-1">
-              {/* App Icon & Provider Info Header */}
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <AppIcon appId={app.id} iconBg={app.iconBg} />
-                  <div>
-                    <h3 className="font-extrabold text-base text-slate-900 group-hover:text-pakgreen-800 transition-colors leading-snug">
-                      {lang === 'ur' ? app.nameUrdu : app.name}
-                    </h3>
-                    <p className="text-xs text-slate-500 font-medium">{app.provider}</p>
-                  </div>
-                </div>
-
-                <span className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-lg uppercase tracking-wider shrink-0">
-                  {app.jurisdiction}
-                </span>
-              </div>
-
-              {/* Description */}
-              <p className="text-xs text-slate-600 leading-relaxed min-h-[36px]">
-                {lang === 'ur' ? app.descriptionUrdu : app.description}
-              </p>
-
-              {/* Verified Badge */}
-              <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-xl text-[11px] font-bold text-emerald-800">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span className="truncate">{app.verificationBadge}</span>
-              </div>
-
-            </div>
-
-            {/* ACTION BUTTON ROW */}
-            <div className="space-y-2.5 pt-3 border-t border-slate-100">
-              {/* Detailed Operating Guide Button */}
-              <button
-                onClick={() => {
-                  setSelectedAppForGuide(app);
-                  setGuideTab('steps');
-                }}
-                className="w-full py-3 bg-pakgreen-800 hover:bg-pakgreen-900 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-pakgreen-900/20 transition-all"
-              >
-                <BookOpen className="w-4 h-4 text-pakgold-400" />
-                <span>View Instructions</span>
-                <ChevronRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setExpandedAppId(expandedAppId === app.id ? null : app.id)}
-                className="w-full flex items-center justify-between rounded-xl border border-emerald-100 bg-emerald-50/70 px-3 py-2.5 text-left text-xs font-extrabold text-pakgreen-900 transition-colors hover:bg-emerald-100"
-                aria-expanded={expandedAppId === app.id}
-              >
-                <span>{expandedAppId === app.id ? 'Hide App Features' : 'View App Features'}</span>
-                <ChevronDown className={`h-4 w-4 transition-transform ${expandedAppId === app.id ? 'rotate-180' : ''}`} />
-              </button>
-
-              {expandedAppId === app.id && (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 space-y-3 animate-fadeIn">
-                  <div>
-                    <p className="mb-2 text-[10px] font-extrabold uppercase tracking-wider text-pakgreen-800">Key Features</p>
-                    <ul className="space-y-1.5">
-                      {(lang === 'ur' ? app.detailedGuide.keyFeaturesUrdu : app.detailedGuide.keyFeatures).map((feature, index) => (
-                        <li key={`${app.id}-feature-${index}`} className="flex items-start gap-2 text-[11px] leading-relaxed text-slate-700">
-                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 pt-1">
-                    <a href={app.playStoreUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-2 py-2 text-[10px] font-bold text-white hover:bg-slate-800">
-                      <Download className="h-3.5 w-3.5 text-pakgold-400" /> Android / Official
-                    </a>
-                    <a href={app.appStoreUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2 py-2 text-[10px] font-bold text-slate-800 hover:bg-slate-100">
-                      <ExternalLink className="h-3.5 w-3.5" /> iOS / Website
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              {/* Dual Store Links */}
-              <div className="grid grid-cols-2 gap-2">
-                <a
-                  href={app.playStoreUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-sm"
-                >
-                  <Download className="w-3.5 h-3.5 text-pakgold-400" />
-                  <span>{isGooglePlayUrl(app.playStoreUrl) ? 'Google Play' : 'Official Website'}</span>
-                </a>
-
-                <a
-                  href={app.appStoreUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all border border-slate-200"
-                >
-                  <span>{isAppleStoreUrl(app.appStoreUrl) ? 'Apple Store' : 'Official Website'}</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500" />
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* DETAILED APP OPERATING GUIDE MODAL DRAWER */}
-      {selectedAppForGuide && (
-        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-slate-950/70 p-2 backdrop-blur-md animate-fadeIn sm:p-6">
-          <div className="relative mx-auto my-0 flex min-h-[calc(100dvh-1rem)] w-full max-w-3xl items-center justify-center sm:min-h-[calc(100dvh-3rem)]">
-          <div className="relative my-auto flex max-h-[calc(100dvh-1rem)] w-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl sm:max-h-[92vh]">
-            {/* Modal Header */}
-            <div className="bg-gradient-to-r from-pakgreen-900 via-pakgreen-800 to-pakgreen-950 text-white p-5 sm:p-6 flex items-center justify-between shrink-0 border-b border-pakgreen-700">
-              <div className="flex items-center gap-3">
-                <AppIcon appId={selectedAppForGuide.id} iconBg={selectedAppForGuide.iconBg} size="md" />
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-extrabold text-lg sm:text-xl leading-tight">
-                      {lang === 'ur' ? selectedAppForGuide.nameUrdu : selectedAppForGuide.name}
-                    </h3>
-                    <span className="text-[10px] font-bold px-2.5 py-0.5 bg-pakgold-500 text-slate-950 rounded-full">
-                      {selectedAppForGuide.verificationBadge}
-                    </span>
-                  </div>
-                  <p className="text-xs text-pakgreen-200 mt-0.5">
-                    Official Step-by-Step Operating Manual & Security Standard
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setSelectedAppForGuide(null)}
-                className="p-2 rounded-xl hover:bg-pakgreen-700 text-pakgreen-200 hover:text-white transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Modal Navigation Tabs - Touch Responsive Horizontal Scroll */}
-            <div className="bg-slate-100 border-b border-slate-200 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto text-xs font-bold no-scrollbar">
-              <button
-                onClick={() => setGuideTab('steps')}
-                className={`px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                  guideTab === 'steps'
-                    ? 'bg-pakgreen-800 text-white shadow-sm font-bold'
-                    : 'text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                <BookOpen className="w-3.5 h-3.5 text-pakgold-400" />
-                <span>1. Step-by-Step Method</span>
-              </button>
-
-              <button
-                onClick={() => setGuideTab('overview')}
-                className={`px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                  guideTab === 'overview'
-                    ? 'bg-pakgreen-800 text-white shadow-sm font-bold'
-                    : 'text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                <Info className="w-3.5 h-3.5 text-blue-400" />
-                <span>2. Features & Overview</span>
-              </button>
-
-              <button
-                onClick={() => setGuideTab('prereqs')}
-                className={`px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                  guideTab === 'prereqs'
-                    ? 'bg-pakgreen-800 text-white shadow-sm font-bold'
-                    : 'text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                <CheckSquare className="w-3.5 h-3.5 text-emerald-400" />
-                <span>3. Prerequisites & Helpline</span>
-              </button>
-
-              <button
-                onClick={() => setGuideTab('pitfalls')}
-                className={`px-4 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                  guideTab === 'pitfalls'
-                    ? 'bg-scamred-600 text-white shadow-sm font-bold'
-                    : 'text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                <ShieldAlert className="w-3.5 h-3.5 text-red-300" />
-                <span>4. Anti-Phishing & Safety</span>
-              </button>
-            </div>
-
-            {/* Modal Content Body */}
-            <div className="p-5 sm:p-6 overflow-y-auto space-y-6 text-sm text-slate-700 flex-1">
-              {/* TAB 1: STEP BY STEP OPERATING METHOD */}
-              {guideTab === 'steps' && (
-                <div className="space-y-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-100">
+              <div className="space-y-4 pt-1">
+                {/* App Icon & Provider Info Header */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <AppIcon appId={app.id} iconBg={app.iconBg} />
                     <div>
-                      <h4 className="font-extrabold text-base text-slate-900 flex items-center gap-2">
-                        <BookOpen className="w-5 h-5 text-pakgreen-800" />
-                        <span>Official Operating Instructions</span>
-                      </h4>
-                      <p className="text-xs text-slate-500">
-                        Follow these exact steps inside the app to complete your service
-                      </p>
+                      <h3 className="font-extrabold text-base text-slate-900 group-hover:text-pakgreen-800 transition-colors leading-snug">
+                        {lang === 'ur' ? app.nameUrdu : app.name}
+                      </h3>
+                      <p className="text-xs text-slate-500 font-medium">{app.provider}</p>
                     </div>
-
-                    <SuniyeButton
-                      textToSpeak={selectedAppForGuide.detailedGuide.stepByStepInstructions
-                        .map((s) => `Step ${s.stepNumber}: ${s.title}. ${s.description}`)
-                        .join('. ')}
-                      variant="pill"
-                    />
                   </div>
 
-                  <div className="space-y-4">
-                    {selectedAppForGuide.detailedGuide.stepByStepInstructions.map((step) => (
-                      <div
-                        key={step.stepNumber}
-                        className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 relative hover:border-pakgreen-600 transition-colors shadow-sm"
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="w-7 h-7 rounded-xl bg-pakgreen-800 text-pakgold-400 font-extrabold text-xs flex items-center justify-center shrink-0 shadow">
-                            {step.stepNumber}
-                          </span>
-                          <h5 className="font-bold text-slate-900 text-sm sm:text-base">
-                            {lang === 'ur' ? step.titleUrdu : step.title}
-                          </h5>
-                        </div>
-
-                        <p className="text-xs sm:text-sm text-slate-700 leading-relaxed pl-10">
-                          {lang === 'ur' ? step.descriptionUrdu : step.description}
-                        </p>
-
-                        {step.proTip && (
-                          <div className="ml-10 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-950 text-xs flex items-start gap-2 font-medium shadow-inner">
-                            <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                            <span>
-                              <strong className="text-amber-900 font-bold">Pro Tip:</strong> {step.proTip}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                  <span className="text-[10px] font-bold px-2.5 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-lg uppercase tracking-wider shrink-0">
+                    {app.jurisdiction}
+                  </span>
                 </div>
-              )}
 
-              {/* TAB 2: OVERVIEW & KEY FEATURES */}
-              {guideTab === 'overview' && (
-                <div className="space-y-6">
-                  <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-950 space-y-2">
-                    <h4 className="font-extrabold text-sm text-emerald-900 flex items-center gap-2">
-                      <Info className="w-4 h-4 text-emerald-700" />
-                      <span>Official App Overview</span>
-                    </h4>
-                    <p className="text-xs sm:text-sm leading-relaxed text-emerald-900">
-                      {lang === 'ur'
-                        ? selectedAppForGuide.detailedGuide.overviewUrdu
-                        : selectedAppForGuide.detailedGuide.overview}
-                    </p>
-                  </div>
+                {/* Description */}
+                <p className="text-xs text-slate-600 leading-relaxed min-h-[36px]">
+                  {lang === 'ur' ? app.descriptionUrdu : app.description}
+                </p>
 
-                  <div className="space-y-3">
-                    <h4 className="font-bold text-slate-900 text-sm">Key Features & Capabilities:</h4>
-                    <div className="grid grid-cols-1 gap-2.5">
-                      {(lang === 'ur'
-                        ? selectedAppForGuide.detailedGuide.keyFeaturesUrdu
-                        : selectedAppForGuide.detailedGuide.keyFeatures
-                      ).map((feat, idx) => (
-                        <div key={idx} className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 flex items-start gap-3">
-                          <CheckSquare className="w-4 h-4 text-pakgreen-800 shrink-0 mt-0.5" />
-                          <span className="leading-relaxed">{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Video Tutorial Card */}
-                  <div className="p-5 bg-slate-900 text-white rounded-2xl space-y-2 border border-slate-800 shadow-lg">
-                    <div className="flex items-center gap-2 text-pakgold-400 font-bold text-xs uppercase tracking-wider">
-                      <Video className="w-4 h-4 text-pakgold-400" />
-                      <span>YouTube Demonstration Summary</span>
-                    </div>
-                    <h5 className="font-bold text-sm text-white">
-                      {selectedAppForGuide.detailedGuide.videoGuideTitle}
-                    </h5>
-                    <p className="text-xs text-slate-300 leading-relaxed">
-                      {selectedAppForGuide.detailedGuide.videoGuideSummary}
-                    </p>
-                  </div>
+                {/* Verified Badge */}
+                <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-xl text-[11px] font-bold text-emerald-800">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span className="truncate">{app.verificationBadge}</span>
                 </div>
-              )}
+              </div>
 
-              {/* TAB 3: PREREQUISITES & HELPLINES */}
-              {guideTab === 'prereqs' && (
-                <div className="space-y-5">
-                  <h4 className="font-extrabold text-base text-slate-900">
-                    Required Hardware & Papers Before Opening App:
-                  </h4>
+              {/* ACTION BUTTON ROW */}
+              <div className="space-y-2.5 pt-3 border-t border-slate-100">
+                {/* Detailed Operating Guide Button */}
+                <button
+                  onClick={() => {
+                    setSelectedAppForGuide(selectedAppForGuide?.id === app.id ? null : app);
+                  }}
+                  className={`w-full py-3 font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-md ${
+                    selectedAppForGuide?.id === app.id
+                      ? 'bg-slate-900 text-pakgold-400 hover:bg-slate-800'
+                      : 'bg-pakgreen-800 hover:bg-pakgreen-900 text-white shadow-pakgreen-900/20'
+                  }`}
+                >
+                  <BookOpen className="w-4 h-4 text-pakgold-400" />
+                  <span>
+                    {selectedAppForGuide?.id === app.id
+                      ? lang === 'ur'
+                        ? 'گائیڈ بند کریں'
+                        : 'Hide Instructions'
+                      : lang === 'ur'
+                      ? 'طریقہ کار دیکھیں'
+                      : 'View Instructions'}
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${
+                      selectedAppForGuide?.id === app.id ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {(lang === 'ur'
-                      ? selectedAppForGuide.detailedGuide.prerequisitesUrdu
-                      : selectedAppForGuide.detailedGuide.prerequisites
-                    ).map((req, idx) => (
-                      <div key={idx} className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                        <span>{req}</span>
-                      </div>
-                    ))}
-                  </div>
+                <button
+                  type="button"
+                  onClick={() => setExpandedAppId(expandedAppId === app.id ? null : app.id)}
+                  className="w-full flex items-center justify-between rounded-xl border border-emerald-100 bg-emerald-50/70 px-3 py-2.5 text-left text-xs font-extrabold text-pakgreen-900 transition-colors hover:bg-emerald-100"
+                  aria-expanded={expandedAppId === app.id}
+                >
+                  <span>{expandedAppId === app.id ? 'Hide App Features' : 'View App Features'}</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${expandedAppId === app.id ? 'rotate-180' : ''}`} />
+                </button>
 
-                  <div className="p-4 bg-pakgreen-50 border border-pakgreen-200 rounded-2xl text-xs text-pakgreen-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                {expandedAppId === app.id && (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 space-y-3 animate-fadeIn">
                     <div>
-                      <span className="font-bold text-slate-900">Official Government Support Helpline:</span>
-                      <p className="text-slate-600 text-[11px]">Toll-free direct call for app issues</p>
-                    </div>
-                    <span className="font-bold font-mono text-pakgreen-900 text-sm flex items-center gap-2 px-3 py-1.5 bg-white border border-pakgreen-300 rounded-xl shadow-sm">
-                      <PhoneCall className="w-4 h-4 text-pakgreen-800" />
-                      <span>{selectedAppForGuide.detailedGuide.officialHelpline}</span>
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 4: SAFETY TIPS */}
-              {guideTab === 'pitfalls' && (
-                <div className="space-y-5">
-                  <div className="p-5 bg-red-50 border border-red-200 rounded-2xl text-red-950 space-y-3 shadow-inner">
-                    <h4 className="font-extrabold text-sm text-red-900 flex items-center gap-2">
-                      <AlertTriangle className="w-5 h-5 text-red-600" />
-                      <span>Safety check</span>
-                    </h4>
-
-                    <p className="text-xs text-red-800 leading-relaxed">
-                      Use only the official store or website buttons below. Never share your CNIC or payment details with an unofficial agent.
-                    </p>
-
-                    <div className="space-y-2 pt-2">
-                      <h5 className="font-bold text-xs text-red-950">Safety Guidelines & Pitfalls to Avoid:</h5>
-                      <ul className="space-y-2 text-xs">
-                        {(lang === 'ur'
-                          ? selectedAppForGuide.detailedGuide.commonMistakesToAvoidUrdu
-                          : selectedAppForGuide.detailedGuide.commonMistakesToAvoid
-                        ).map((tip, idx) => (
-                          <li key={idx} className="flex items-start gap-2 font-medium text-red-900">
-                            <span className="text-red-600 font-bold">•</span>
-                            <span className="leading-relaxed">{tip}</span>
+                      <p className="mb-2 text-[10px] font-extrabold uppercase tracking-wider text-pakgreen-800">Key Features</p>
+                      <ul className="space-y-1.5">
+                        {(lang === 'ur' ? app.detailedGuide.keyFeaturesUrdu : app.detailedGuide.keyFeatures).map((feature, index) => (
+                          <li key={`${app.id}-feature-${index}`} className="flex items-start gap-2 text-[11px] leading-relaxed text-slate-700">
+                            <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                            <span>{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
+                    <div className="grid grid-cols-2 gap-2 pt-1">
+                      <a href={app.playStoreUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-2 py-2 text-[10px] font-bold text-white hover:bg-slate-800">
+                        <Download className="h-3.5 w-3.5 text-pakgold-400" /> Android / Official
+                      </a>
+                      <a href={app.appStoreUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2 py-2 text-[10px] font-bold text-slate-800 hover:bg-slate-100">
+                        <ExternalLink className="h-3.5 w-3.5" /> iOS / Website
+                      </a>
+                    </div>
                   </div>
+                )}
 
+                {/* Dual Store Links */}
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href={app.playStoreUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                  >
+                    <Download className="w-3.5 h-3.5 text-pakgold-400" />
+                    <span>{isGooglePlayUrl(app.playStoreUrl) ? 'Google Play' : 'Official Website'}</span>
+                  </a>
+
+                  <a
+                    href={app.appStoreUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all border border-slate-200"
+                  >
+                    <span>{isAppleStoreUrl(app.appStoreUrl) ? 'Apple Store' : 'Official Website'}</span>
+                    <ExternalLink className="w-3 h-3 text-slate-500" />
+                  </a>
                 </div>
-              )}
-            </div>
-
-            {/* Modal Footer with Direct Download CTAs */}
-            <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-              <div className="text-xs font-semibold text-slate-500">Use the official download button</div>
-
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <button
-                  onClick={() => setSelectedAppForGuide(null)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-200 rounded-xl transition-colors shrink-0"
-                >
-                  Close Guide
-                </button>
-
-                <a
-                  href={selectedAppForGuide.playStoreUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex-1 sm:flex-initial px-5 py-2.5 bg-pakgreen-800 hover:bg-pakgreen-900 text-white font-bold rounded-xl text-xs shadow-md flex items-center justify-center gap-2 transition-all"
-                >
-                  <Download className="w-4 h-4 text-pakgold-400" />
-                  <span>Download on Google Play</span>
-                </a>
               </div>
             </div>
-          </div>
-          </div>
-        </div>
-      )}
+
+            {/* Inline Expandable Operating Guide Panel */}
+            {selectedAppForGuide?.id === app.id && (
+              <div className="col-span-1 md:col-span-2 lg:col-span-3">
+                <AppStepGuideInline
+                  app={app}
+                  onClose={() => setSelectedAppForGuide(null)}
+                />
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 };

@@ -17,6 +17,7 @@ import {
   Video,
   Sparkles,
   ChevronRight,
+  ChevronDown,
   Search,
   Copy,
   Check,
@@ -39,6 +40,7 @@ export const VerifiedAppsScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [copiedPackageId, setCopiedPackageId] = useState<string | null>(null);
   const [selectedAppForGuide, setSelectedAppForGuide] = useState<VerifiedApp | null>(null);
+  const [expandedAppId, setExpandedAppId] = useState<string | null>(null);
   const [guideTab, setGuideTab] = useState<'steps' | 'overview' | 'prereqs' | 'pitfalls'>('steps');
   const [cloudApps, setCloudApps] = useState<VerifiedApp[]>(VERIFIED_APPS);
 
@@ -285,6 +287,40 @@ export const VerifiedAppsScreen: React.FC = () => {
                 <span>Open Step-by-Step Operating Guide</span>
                 <ChevronRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
               </button>
+
+              <button
+                type="button"
+                onClick={() => setExpandedAppId(expandedAppId === app.id ? null : app.id)}
+                className="w-full flex items-center justify-between rounded-xl border border-emerald-100 bg-emerald-50/70 px-3 py-2.5 text-left text-xs font-extrabold text-pakgreen-900 transition-colors hover:bg-emerald-100"
+                aria-expanded={expandedAppId === app.id}
+              >
+                <span>{expandedAppId === app.id ? 'Hide App Features' : 'View App Features'}</span>
+                <ChevronDown className={`h-4 w-4 transition-transform ${expandedAppId === app.id ? 'rotate-180' : ''}`} />
+              </button>
+
+              {expandedAppId === app.id && (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 space-y-3 animate-fadeIn">
+                  <div>
+                    <p className="mb-2 text-[10px] font-extrabold uppercase tracking-wider text-pakgreen-800">Key Features</p>
+                    <ul className="space-y-1.5">
+                      {(lang === 'ur' ? app.detailedGuide.keyFeaturesUrdu : app.detailedGuide.keyFeatures).map((feature, index) => (
+                        <li key={`${app.id}-feature-${index}`} className="flex items-start gap-2 text-[11px] leading-relaxed text-slate-700">
+                          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <a href={app.playStoreUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-2 py-2 text-[10px] font-bold text-white hover:bg-slate-800">
+                      <Download className="h-3.5 w-3.5 text-pakgold-400" /> Android / Official
+                    </a>
+                    <a href={app.appStoreUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2 py-2 text-[10px] font-bold text-slate-800 hover:bg-slate-100">
+                      <ExternalLink className="h-3.5 w-3.5" /> iOS / Website
+                    </a>
+                  </div>
+                </div>
+              )}
 
               {/* Dual Store Links */}
               <div className="grid grid-cols-2 gap-2">

@@ -29,8 +29,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           onClick={() => onNavigate('dashboard')}
           className="flex items-center gap-3 cursor-pointer group select-none shrink-0"
         >
-          <div className="w-10 h-10 sm:w-11 sm:h-11 bg-pakgreen-700 group-hover:bg-pakgreen-600 rounded-2xl flex items-center justify-center text-pakgold-400 border border-pakgreen-600 shadow-inner transition-all duration-300">
-            <Shield className="w-6 h-6 sm:w-7 sm:h-7 animate-shield-glow" />
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl overflow-hidden border border-pakgold-400/80 shadow-md transition-transform duration-300 group-hover:scale-105 bg-pakgreen-900 shrink-0">
+            <img src="/webapplogo.png" alt="PakGuide AI Official Logo" className="w-full h-full object-cover" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">

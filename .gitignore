@@ -54,3 +54,9 @@ Thumbs.db
 .cache/
 *.tmp
 *.temp
+
+# Presentations & generated scratch binaries
+*.pptx
+*.ppt
+/scratch/
+

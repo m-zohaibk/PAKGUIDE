@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, Mic, MicOff, ShieldCheck, FileCheck, Gift, Smartphone, ArrowRight, ShieldAlert, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Search, Mic, MicOff, ShieldCheck, FileCheck, Gift, Smartphone, ArrowRight, ShieldAlert, Sparkles, CheckCircle2, BookOpen, MessageSquare, Camera } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { SuniyeButton } from '@/components/common/SuniyeButton';
 import { createSpeechRecognizer } from '@/lib/audio/speech';
@@ -341,6 +341,91 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 Browse Directory <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
               </span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4-STEP APP USAGE TUTORIAL SECTION */}
+      <section className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="p-2 bg-pakgreen-50 text-pakgreen-800 rounded-xl">
+                <BookOpen className="w-5 h-5" />
+              </span>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+                {lang === 'ur'
+                  ? 'پاک گائیڈ ایپ کیسے استعمال کریں؟'
+                  : lang === 'ro'
+                  ? 'PakGuide App Kaise Use Karein?'
+                  : 'How to Use PakGuide AI App'}
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              4 simple steps to get CNIC/Passport guides, audit documents, scan scam links, and download official apps.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          {/* Step 1 */}
+          <div
+            onClick={() => onNavigate('navigator')}
+            className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 hover:bg-emerald-100/80 cursor-pointer transition-all space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="w-7 h-7 bg-pakgreen-800 text-white rounded-xl font-black text-xs flex items-center justify-center">1</span>
+              <MessageSquare className="w-5 h-5 text-pakgreen-800 group-hover:scale-110 transition-transform" />
+            </div>
+            <h4 className="font-extrabold text-sm text-slate-900">1. Ask AI Navigator</h4>
+            <p className="text-slate-600 text-[11px] leading-relaxed">
+              Type or speak your CNIC, Passport, or Domicile question in Urdu or English to get step-by-step guides & PKR fee schedules.
+            </p>
+          </div>
+
+          {/* Step 2 */}
+          <div
+            onClick={() => onNavigate('navigator')}
+            className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200/80 hover:bg-blue-100/80 cursor-pointer transition-all space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="w-7 h-7 bg-blue-600 text-white rounded-xl font-black text-xs flex items-center justify-center">2</span>
+              <Camera className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" />
+            </div>
+            <h4 className="font-extrabold text-sm text-slate-900">2. Inspect Document Photo</h4>
+            <p className="text-slate-600 text-[11px] leading-relaxed">
+              Upload a photo of your CNIC or B-Form to audit stamps, expiry dates, and completeness in-memory before submitting.
+            </p>
+          </div>
+
+          {/* Step 3 */}
+          <div
+            onClick={() => onNavigate('phishing')}
+            className="p-4 rounded-2xl bg-red-50/70 border border-red-200/80 hover:bg-red-100/80 cursor-pointer transition-all space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="w-7 h-7 bg-scamred-600 text-white rounded-xl font-black text-xs flex items-center justify-center">3</span>
+              <ShieldAlert className="w-5 h-5 text-scamred-600 group-hover:scale-110 transition-transform" />
+            </div>
+            <h4 className="font-extrabold text-sm text-slate-900">3. Scan Scam Links</h4>
+            <p className="text-slate-600 text-[11px] leading-relaxed">
+              Paste suspicious SMS or WhatsApp links to verify domain legitimacy with combined Priority 1 regex + AI security heuristics.
+            </p>
+          </div>
+
+          {/* Step 4 */}
+          <div
+            onClick={() => onNavigate('apps')}
+            className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 hover:bg-amber-100/80 cursor-pointer transition-all space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="w-7 h-7 bg-pakgold-500 text-slate-950 rounded-xl font-black text-xs flex items-center justify-center">4</span>
+              <Smartphone className="w-5 h-5 text-pakgold-600 group-hover:scale-110 transition-transform" />
+            </div>
+            <h4 className="font-extrabold text-sm text-slate-900">4. Download Official Apps</h4>
+            <p className="text-slate-600 text-[11px] leading-relaxed">
+              Get genuine Google Play links for Pak Identity, Dastak 1202, and e-Pay Punjab without downloading dangerous fake APKs.
+            </p>
           </div>
         </div>
       </section>

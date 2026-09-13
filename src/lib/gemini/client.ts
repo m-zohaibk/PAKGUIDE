@@ -297,9 +297,9 @@ export async function analyzePhishingUrlWithAI(
 Default Stage 1 Regex Scan Result: isGovDomainRegexMatch=${defaultResult.technicalChecks.isGovDomainRegexMatch}, isTyposquattingDetected=${defaultResult.technicalChecks.isTyposquattingDetected}, TLD=${defaultResult.cleanDomain}.
 Return STRICT JSON inside \`\`\`json ... \`\`\` matching this schema:
 {
-  "reasonAI": "Detailed AI security findings for this domain",
-  "reasonUrduAI": "اے آئی سیکیورٹی کی رپورٹ",
-  "reasonRomanAI": "AI security report in Roman Urdu",
+  "reasonAI": "Clean 2-3 sentence AI security finding without raw markdown hashes (###) or code blocks",
+  "reasonUrduAI": "اردو میں سیکیورٹی رپورٹ (بغیر مارک ڈاؤن علامات)",
+  "reasonRomanAI": "Roman Urdu security report without raw markdown symbols",
   "impersonatedEntity": "Entity Name or None",
   "aiThreatLevel": "safe" | "low" | "medium" | "high" | "critical",
   "aiScore": 95

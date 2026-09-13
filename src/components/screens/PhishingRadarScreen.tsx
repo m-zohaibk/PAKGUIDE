@@ -11,6 +11,153 @@ interface PhishingRadarScreenProps {
   apiKey: string;
 }
 
+function renderCleanMarkdownInline(text: string, isSafe: boolean): React.ReactNode[] {
+  if (!text) return [];
+
+  // Strip leading headers e.g. ### or ##
+  const clean = text.replace(/^#{1,6}\s*/, '').trim();
+  const pattern = /(\*\*(.*?)\*\*|__(.*?)__|`(.*?)`)/g;
+  const nodes: React.ReactNode[] = [];
+  let lastIdx = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(clean)) !== null) {
+    if (match.index > lastIdx) {
+      nodes.push(clean.slice(lastIdx, match.index));
+    }
+    const key = `inline-${match.index}`;
+    if (match[2] !== undefined || match[3] !== undefined) {
+      const content = match[2] ?? match[3];
+      const isKeyLabel = content.trim().endsWith(':');
+      nodes.push(
+        <strong
+          key={key}
+          className={
+            isKeyLabel
+              ? `font-black text-[11px] uppercase tracking-wider px-2 py-0.5 rounded border mr-1 inline-block ${
+                  isSafe
+                    ? 'bg-emerald-900/90 text-emerald-200 border-emerald-700/80'
+                    : 'bg-red-950/90 text-red-200 border-red-800/80'
+                }`
+              : `font-bold ${isSafe ? 'text-emerald-200 bg-emerald-950/60' : 'text-pakgold-300 bg-black/40'} px-1.5 py-0.5 rounded border border-white/10 mx-0.5`
+          }
+        >
+          {content}
+        </strong>
+      );
+    } else if (match[4] !== undefined) {
+      nodes.push(
+        <code key={key} className="font-mono text-xs text-pakgold-400 bg-slate-900 px-1.5 py-0.5 rounded font-semibold border border-slate-700">
+          {match[4]}
+        </code>
+      );
+    }
+    lastIdx = match.index + match[0].length;
+  }
+
+  if (lastIdx < clean.length) {
+    nodes.push(clean.slice(lastIdx));
+  }
+
+  return nodes;
+}
+
+function renderCleanContentBlock(rawText: string, isSafe: boolean): React.ReactNode {
+  if (!rawText) return null;
+
+  const lines = rawText
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  return (
+    <div className="space-y-2.5">
+      {lines.map((line, idx) => {
+        const isHeader = line.startsWith('#') || (/^(\*\*)?[A-Z][A-Za-z0-9\s]{2,30}:(\*\*)?$/.test(line) && !line.startsWith('-') && !line.startsWith('*'));
+        const isListItem = /^[-\*•\d+\.]\s+/.test(line);
+        const cleanedLine = line.replace(/^[-\*•\d+\.]\s+/, '').replace(/^#{1,6}\s*/, '');
+
+        if (isHeader) {
+          return (
+            <div key={idx} className="pt-2 pb-1 border-b border-white/10 flex items-center gap-2">
+              <span className={`w-2 h-2 rounded-full ${isSafe ? 'bg-emerald-400' : 'bg-red-400'}`} />
+              <h4 className="font-extrabold text-xs sm:text-sm text-pakgold-300 uppercase tracking-wide">
+                {renderCleanMarkdownInline(cleanedLine, isSafe)}
+              </h4>
+            </div>
+          );
+        }
+
+        if (isListItem) {
+          return (
+            <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm leading-relaxed pl-1">
+              <span className={`text-xs font-bold shrink-0 mt-0.5 ${isSafe ? 'text-emerald-400' : 'text-red-400'}`}>
+                {isSafe ? '✓' : '⚠'}
+              </span>
+              <div className="flex-1 text-slate-100">
+                {renderCleanMarkdownInline(cleanedLine, isSafe)}
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <p key={idx} className="text-xs sm:text-sm leading-relaxed text-slate-100">
+            {renderCleanMarkdownInline(cleanedLine, isSafe)}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+const PhishingResponseFormatter: React.FC<{ text: string; isSafe: boolean }> = ({ text, isSafe }) => {
+  if (!text) return null;
+
+  const aiMarkerRegex = /(?:🤖\s*\*\*(?:Stage 2 AI Analysis:|اے آئی رپورٹ:|AI Report:)\*\*|🤖\s*(?:Stage 2 AI Analysis:|اے آئی رپورٹ:|AI Report:))/i;
+  const match = text.match(aiMarkerRegex);
+
+  let stage1Text = text;
+  let stage2Text = '';
+
+  if (match && match.index !== undefined) {
+    stage1Text = text.slice(0, match.index).trim();
+    stage2Text = text.slice(match.index + match[0].length).trim();
+  }
+
+  return (
+    <div className="space-y-4 w-full text-slate-100">
+      {/* Priority 1 Card */}
+      <div className={`p-4 sm:p-5 rounded-2xl border ${isSafe ? 'bg-emerald-950/80 border-emerald-700/80' : 'bg-red-950/80 border-red-800/80'} shadow-md space-y-3`}>
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+          <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider ${isSafe ? 'bg-emerald-800 text-emerald-200' : 'bg-red-900 text-red-200'}`}>
+            Priority 1: Whitelist & Regex Security Check
+          </span>
+          <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded ${isSafe ? 'bg-emerald-900/90 text-emerald-300' : 'bg-red-900/90 text-red-300'}`}>
+            {isSafe ? 'VERIFIED OFFICIAL DOMAIN' : 'UNAUTHORIZED / SUSPICIOUS'}
+          </span>
+        </div>
+        {renderCleanContentBlock(stage1Text, isSafe)}
+      </div>
+
+      {/* Priority 2 AI Card */}
+      {stage2Text && (
+        <div className={`p-4 sm:p-5 rounded-2xl border ${isSafe ? 'bg-emerald-900/40 border-emerald-700/60' : 'bg-slate-900/90 border-slate-800'} shadow-md space-y-3`}>
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+            <span className="text-[10px] font-black px-3 py-1 bg-pakgold-500 text-slate-950 rounded-full uppercase tracking-wider">
+              Priority 2: AI Security Heuristic Analysis
+            </span>
+            <span className="text-[10px] font-mono text-pakgold-300 font-bold">
+              AI Security Intelligence Engine
+            </span>
+          </div>
+          {renderCleanContentBlock(stage2Text, isSafe)}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const PhishingRadarScreen: React.FC<PhishingRadarScreenProps> = ({ apiKey }) => {
   const { t, lang, isRtl } = useLanguage();
   const [urlInput, setUrlInput] = useState('');
@@ -186,10 +333,16 @@ export const PhishingRadarScreen: React.FC<PhishingRadarScreenProps> = ({ apiKey
                 />
               </div>
 
-              <div className="space-y-3 text-xs sm:text-sm text-emerald-100">
-                <p><strong>Clean Domain:</strong> <span className="font-mono text-emerald-300 font-bold">{scanResult.cleanDomain}</span></p>
-                <p><strong>Reason:</strong> {scanResult.reason}</p>
-                <p><strong>Hosting Infrastructure:</strong> {scanResult.verifiedHostingDetails}</p>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono bg-emerald-950/80 p-3.5 rounded-2xl border border-emerald-800">
+                  <p><strong>Clean Domain:</strong> <span className="text-emerald-300 font-bold">{scanResult.cleanDomain}</span></p>
+                  <p><strong>Hosting Infrastructure:</strong> <span className="text-emerald-300 font-bold">{scanResult.verifiedHostingDetails}</span></p>
+                </div>
+
+                <PhishingResponseFormatter
+                  text={lang === 'ur' ? scanResult.reasonUrdu : lang === 'ro' ? scanResult.reasonRoman : scanResult.reason}
+                  isSafe={true}
+                />
               </div>
 
               {scanResult.officialUrl && (
@@ -208,7 +361,7 @@ export const PhishingRadarScreen: React.FC<PhishingRadarScreenProps> = ({ apiKey
             </div>
           ) : (
             /* THREAT DETECTED FLAGGED BANNER */
-            <div className="bg-red-950 text-white rounded-3xl p-6 sm:p-8 border-4 border-red-600 shadow-2xl space-y-6 animate-pulse">
+            <div className="bg-red-950 text-white rounded-3xl p-6 sm:p-8 border-4 border-red-600 shadow-2xl space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-red-900 pb-6">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-red-900 rounded-2xl text-red-400 shrink-0">
@@ -230,18 +383,21 @@ export const PhishingRadarScreen: React.FC<PhishingRadarScreenProps> = ({ apiKey
                 />
               </div>
 
-              <div className="bg-red-900/60 p-4 rounded-xl border border-red-800 space-y-2 text-xs sm:text-sm text-red-100">
+              <div className="space-y-4">
                 {scanResult.impersonatedEntity && (
-                  <p className="text-red-300 font-bold text-sm">
-                    {t('impersonatingNotice')} <span className="underline">{scanResult.impersonatedEntity}</span>
-                  </p>
+                  <div className="p-3.5 bg-red-900/80 rounded-2xl border border-red-700 text-red-200 text-xs sm:text-sm font-bold flex items-center gap-2">
+                    <AlertOctagon className="w-4 h-4 text-red-400 shrink-0" />
+                    <span>{t('impersonatingNotice')} <span className="underline text-white font-extrabold">{scanResult.impersonatedEntity}</span></span>
+                  </div>
                 )}
-                <p className="leading-relaxed">
-                  <strong>Explanation:</strong> {lang === 'ur' ? scanResult.reasonUrdu : scanResult.reason}
-                </p>
+
+                <PhishingResponseFormatter
+                  text={lang === 'ur' ? scanResult.reasonUrdu : lang === 'ro' ? scanResult.reasonRoman : scanResult.reason}
+                  isSafe={false}
+                />
               </div>
 
-              {/* ACTION BUTTONS */}
+              {/* ACTION BUTTON RENDER */}
               <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
                 <button
                   onClick={() => setShowFiaModal(true)}

@@ -150,6 +150,7 @@ export const AppShell: React.FC<AppShellProps> = ({ initialScreen = 'dashboard' 
       <CitizenGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
+        onNavigate={handleNavigate}
       />
     </div>
   );

@@ -154,7 +154,7 @@ const AppDownloadBadge: React.FC<{ app: MatchedAppInfo }> = ({ app }) => {
           </div>
         </div>
 
-        {app.packageName && app.packageName !== 'Official Government App' && (
+        {app.packageName && app.packageName !== 'Official Government App' && app.packageName !== 'Official Application Portal' && (
           <button
             onClick={handleCopyPackage}
             className="text-[10px] font-mono text-slate-300 bg-blue-900/90 px-2 py-1 rounded-lg border border-blue-700 flex items-center gap-1 hover:text-white transition-colors"
@@ -173,27 +173,41 @@ const AppDownloadBadge: React.FC<{ app: MatchedAppInfo }> = ({ app }) => {
       </div>
 
       {/* Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-        <a
-          href={app.playStoreUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="py-2.5 px-3 bg-pakgold-500 hover:bg-pakgold-400 text-slate-950 font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow"
-        >
-          <Download className="w-4 h-4 text-slate-950" />
-          <span>{isPlayUrl ? 'Google Play (Android)' : 'Android Download'}</span>
-        </a>
+      {app.playStoreUrl && app.playStoreUrl === app.appStoreUrl ? (
+        <div className="pt-1">
+          <a
+            href={app.playStoreUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="w-full py-3 px-4 bg-gradient-to-r from-emerald-500 via-emerald-600 to-pakgreen-700 hover:from-emerald-400 hover:to-pakgreen-600 text-white font-extrabold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-emerald-500/20 border border-emerald-400/40"
+          >
+            <ExternalLink className="w-4 h-4 text-white" />
+            <span>Apply Online via Official Portal ({app.playStoreUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')})</span>
+          </a>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <a
+            href={app.playStoreUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="py-2.5 px-3 bg-pakgold-500 hover:bg-pakgold-400 text-slate-950 font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow"
+          >
+            <Download className="w-4 h-4 text-slate-950" />
+            <span>{isPlayUrl ? 'Google Play (Android)' : 'Android Download'}</span>
+          </a>
 
-        <a
-          href={app.appStoreUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all border border-slate-700"
-        >
-          <ExternalLink className="w-3.5 h-3.5 text-slate-300" />
-          <span>{isAppleUrl ? 'App Store (iOS)' : 'Official Website / iOS'}</span>
-        </a>
-      </div>
+          <a
+            href={app.appStoreUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all border border-slate-700"
+          >
+            <ExternalLink className="w-3.5 h-3.5 text-slate-300" />
+            <span>{isAppleUrl ? 'App Store (iOS)' : 'Official Website / iOS'}</span>
+          </a>
+        </div>
+      )}
     </div>
   );
 };

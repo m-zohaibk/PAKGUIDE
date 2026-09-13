@@ -59,12 +59,43 @@ export async function generateChatResponse(
     return false;
   });
 
+  const matchedLocalSubsidy = OFFICIAL_SUBSIDIES.find(sub => {
+    const id = sub.id.toLowerCase();
+    const name = sub.name.toLowerCase();
+    const nameUrdu = sub.nameUrdu;
+    const nameRoman = sub.nameRoman.toLowerCase();
+
+    if (queryLower.includes('ebike') || queryLower.includes('e-bike') || queryLower.includes('electric bike') || queryLower.includes('punjab bike') || queryLower.includes('بائیک') || queryLower.includes('مریم نواز بائیک')) {
+      return id === 'pm-youth-e-bike-scheme';
+    }
+    if (queryLower.includes('kisan card') || queryLower.includes('کسان کارڈ') || queryLower.includes('kisan loan')) {
+      return id === 'punjab-kisan-card';
+    }
+    if (queryLower.includes('bisp') || queryLower.includes('kafaalat') || queryLower.includes('8171') || queryLower.includes('بی آئی ایس پی')) {
+      return id === 'bisp-kafaalat';
+    }
+    if (queryLower.includes('youth loan') || queryLower.includes('business loan') || queryLower.includes('یوتھ لون') || queryLower.includes('قرضہ')) {
+      return id === 'pm-youth-business-loan';
+    }
+    if (queryLower.includes('laptop') || queryLower.includes('لیپ ٹاپ')) {
+      return id === 'pm-youth-laptop-scheme';
+    }
+    if (queryLower.includes('peef') || queryLower.includes('پی ای ای ایف')) {
+      return id === 'peef-scholarships';
+    }
+    if (queryLower.includes('navttc') || queryLower.includes('نیوٹیک')) {
+      return id === 'navttc-skill-training';
+    }
+
+    return name.includes(queryLower) || id.includes(queryLower) || nameUrdu.includes(queryLower) || nameRoman.includes(queryLower);
+  });
+
   const selectedService = matchedLocalService;
 
   const ai = getGeminiClient(customApiKey);
 
   if (!ai) {
-    if (!selectedService) {
+    if (!selectedService && !matchedLocalSubsidy) {
       const replyText = lang === 'ur'
         ? 'اس سوال کا درست جواب دینے کے لیے اے آئی کنکشن درکار ہے۔ براہ کرم اپنا اے آئی API key محفوظ کریں یا دوبارہ کوشش کریں۔'
         : lang === 'ro'
@@ -73,12 +104,22 @@ export async function generateChatResponse(
       return { replyText };
     }
 
+    if (!selectedService && matchedLocalSubsidy) {
+      const replyText = lang === 'ur'
+        ? `میں نے حکومتِ پاکستان اور متعلقہ محکمے کے آفیشل پورٹل سے **${matchedLocalSubsidy.nameUrdu}** کی تمام ہدایات اور آن لائن اپلائی کا لنک تیار کر دیا ہے۔\n\n🔗 **آفیشل آن لائن اپلائی پورٹل:** [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n🏢 **ادارہ:** ${matchedLocalSubsidy.organization}\n💰 **مراعات:** ${matchedLocalSubsidy.stipendOrBenefitText}\n\n📋 **ضروری کاغذات:**\n${matchedLocalSubsidy.requiredDocs.map(d => `- ${d}`).join('\n')}\n\n**آن لائن اپلائی کرنے کے قدم:**\n1. آفیشل ویب پورٹل [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl}) کھولیں۔\n2. اپنا شناختی کارڈ نمبر اور فعال موبائل نمبر درج کر کے اکاؤنٹ رجسٹر کریں۔\n3. آن لائن فارم پر کریں اور ضروری دستاویزات اپ لوڈ کریں۔\n4. درخواست جمع کروائیں اور تصدیق کا انتظار کریں۔`
+        : lang === 'ro'
+        ? `Maine official record se **${matchedLocalSubsidy.nameRoman}** ki tamam hidayat aur online apply link tayar kar diya hai.\n\n🔗 **Official Apply Portal:** [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n🏢 **Organization:** ${matchedLocalSubsidy.organization}\n💰 **Benefit:** ${matchedLocalSubsidy.stipendOrBenefitText}\n\n📋 **Required Documents:**\n${matchedLocalSubsidy.requiredDocs.map(d => `- ${d}`).join('\n')}\n\n**Apply Karne Ka Tareeqah:**\n1. Official portal visit karein: [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n2. CNIC aur Mobile Number se account register karein.\n3. Details fill karke documents upload karein.\n4. Application online submit karein.`
+        : `I have prepared the official guide and online application portal link for **${matchedLocalSubsidy.name}**!\n\n🔗 **Official Application Portal:** [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n🏢 **Organization:** ${matchedLocalSubsidy.organization}\n💰 **Benefit / Relief:** ${matchedLocalSubsidy.stipendOrBenefitText}\n\n📋 **Required Documents:**\n${matchedLocalSubsidy.requiredDocs.map(d => `- ${d}`).join('\n')}\n\n**How to Apply Online:**\n1. Open the official application portal: [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n2. Register an account using your CNIC and registered mobile phone number.\n3. Fill out the online registration form with accurate details.\n4. Upload scanned copies of required documents.\n5. Submit your application for official verification.`;
+
+      return { replyText };
+    }
+
     // Verified local fallback for known services only.
     const replyText = lang === 'ur'
-      ? `میں نے نادرا اور حکومت پاکستان کے آفیشل گزٹ سے **${selectedService.titleUrdu}** کی تمام ہدایات، ایپ لنکس، فیس شیڈول اور فارم فلنگ کا طریقہ کار تیار کر دیا ہے۔\n\n📱 **آفیشل ایپ:** ${selectedService.officialAppName || 'Pak Identity App'}\n🔗 **گوگل پلے ڈاؤن لوڈ:** ${selectedService.playStoreUrl || 'https://play.google.com/store'}\n📋 **فارم جمع کروانے کا طریقہ:** ${selectedService.formSubmissionProcedureUrdu || selectedService.formSubmissionProcedure}\n\nبراہ کرم ساتھ والے روڈ میپ کارڈ میں تفصیلی کاغذات کی جانچ کریں۔`
+      ? `میں نے نادرا اور حکومت پاکستان کے آفیشل گزٹ سے **${selectedService!.titleUrdu}** کی تمام ہدایات، ایپ لنکس، فیس شیڈول اور فارم فلنگ کا طریقہ کار تیار کر دیا ہے۔\n\n📱 **آفیشل ایپ:** ${selectedService!.officialAppName || 'Pak Identity App'}\n🔗 **گوگل پلے ڈاؤن لوڈ:** ${selectedService!.playStoreUrl || 'https://play.google.com/store'}\n📋 **فارم جمع کروانے کا طریقہ:** ${selectedService!.formSubmissionProcedureUrdu || selectedService!.formSubmissionProcedure}\n\nبراہ کرم ساتھ والے روڈ میپ کارڈ میں تفصیلی کاغذات کی جانچ کریں۔`
       : lang === 'ro'
-      ? `Maine official record se **${selectedService.titleRoman}** ki tamam hidayat, app links aur form filling procedure tayar kar diya hai.\n\n📱 **Official App:** ${selectedService.officialAppName}\n🔗 **Google Play Link:** ${selectedService.playStoreUrl}\n📋 **Next Steps:** ${selectedService.formSubmissionProcedure}\n\nAap sath waale roadmap card mein detail check kar sakte hain.`
-      : `I have prepared the official instructions, mobile app download links, fee schedule, and form submission procedure for **${selectedService.title}**!\n\n📱 **Official App:** ${selectedService.officialAppName || 'Pak Identity / Dastak App'}\n🔗 **Google Play Download:** ${selectedService.playStoreUrl || 'https://play.google.com/store'}\n📋 **Form Filling & Submission Steps:**\n${selectedService.formSubmissionProcedure || '1. Download App -> 2. Biometric Scan -> 3. Upload CNIC -> 4. Pay Fee -> 5. Home Delivery'}\n\nPlease check your live interactive roadmap card on the right panel for the full checklist and PKR fee table!`;
+      ? `Maine official record se **${selectedService!.titleRoman}** ki tamam hidayat, app links aur form filling procedure tayar kar diya hai.\n\n📱 **Official App:** ${selectedService!.officialAppName}\n🔗 **Google Play Link:** ${selectedService!.playStoreUrl}\n📋 **Next Steps:** ${selectedService!.formSubmissionProcedure}\n\nAap sath waale roadmap card mein detail check kar sakte hain.`
+      : `I have prepared the official instructions, mobile app download links, fee schedule, and form submission procedure for **${selectedService!.title}**!\n\n📱 **Official App:** ${selectedService!.officialAppName || 'Pak Identity / Dastak App'}\n🔗 **Google Play Download:** ${selectedService!.playStoreUrl || 'https://play.google.com/store'}\n📋 **Form Filling & Submission Steps:**\n${selectedService!.formSubmissionProcedure || '1. Download App -> 2. Biometric Scan -> 3. Upload CNIC -> 4. Pay Fee -> 5. Home Delivery'}\n\nPlease check your live interactive roadmap card on the right panel for the full checklist and PKR fee table!`;
 
     return { replyText, roadmap: selectedService };
   }
@@ -93,18 +134,21 @@ export async function generateChatResponse(
     const systemPrompt = `You are PakGuide AI, a reliable general-purpose civic assistant for questions about Pakistan and its government services.
 ${greetingRule}
 Answer the user's actual newest question cleanly and directly. Never reuse a previous answer, never force an unrelated service, and never assume the query is about CNIC, passport, or another default topic.
-For a government-service question, give a clear step-by-step method, prerequisites, current fee/rates when verified, official portal/app name, exact official links when known, expected timeline, and safety warnings about agents. If a detail is not verified, say so instead of inventing it. For non-government questions, answer normally and omit irrelevant government links.
+For a government-service, subsidy, or scheme question (e.g. E-Bikes, BISP 8171, Kisan Card, PM Youth Loan, PEEF, NAVTTC, Laptop Scheme), YOU MUST ALWAYS explicitly include the official web application portal link (e.g. [https://bikes.punjab.gov.pk/](https://bikes.punjab.gov.pk/)) at the very beginning of your response text before giving step-by-step instructions!
+Give a clear step-by-step method, prerequisites, current fee/rates when verified, official portal/app name, exact official links when known, expected timeline, and safety warnings about agents. If a detail is not verified, say so instead of inventing it. For non-government questions, answer normally and omit irrelevant government links.
 
-Highlight key apps:
-1. "Pak Identity App (NADRA)" for 100% digital CNIC renewal, B-Form / FRC, NICOP, and camera fingerprint biometrics.
-2. "Dastak Doorstep App by CM Maryam Nawaz (Punjab 1202)" for 100% doorstep delivery of Domicile, Birth, Marriage, Death & Character certificates.
-3. "Passport Fee Asan & Online MRP Portal (DGIP)" for 17-digit PSID fee & online passport renewals.
-4. "e-Pay Punjab (PITB)" for vehicle token tax, Fard Malkiat land title fee (Rs. 150), and driving license fees.
-5. "Pakistan Citizen Portal (PCP - PMDU)" for complaints against DC offices and Police.
+Highlight key apps and portals:
+1. "CM Punjab E-Bike Scheme Portal": https://bikes.punjab.gov.pk/
+2. "Pak Identity App (NADRA)": for 100% digital CNIC renewal, B-Form / FRC, NICOP, and camera fingerprint biometrics.
+3. "Dastak Doorstep App by CM Maryam Nawaz (Punjab 1202)": for 100% doorstep delivery of Domicile, Birth, Marriage, Death & Character certificates.
+4. "BISP 8171 Portal": https://8171.bisp.gov.pk/
+5. "Punjab Kisan Card Portal": https://agripunjab.gov.pk/
+6. "PM Youth Business & Agriculture Loans Portal": https://pmyp.gov.pk/
 
 Language requested: ${lang}. Always respond in ${lang === 'ur' ? 'Urdu (اردو script)' : lang === 'ro' ? 'Roman Urdu (Latin script with Pakistani terms)' : 'English'}.
-Use Markdown headings and numbered steps. Use the verified local service data below only when it matches the newest question; otherwise return no roadmap.
+Use Markdown headings and numbered steps. Use the verified local service/subsidy data below only when it matches the newest question.
 Verified local service context: ${selectedService ? JSON.stringify(selectedService) : 'none'}
+Verified local subsidy scheme context: ${matchedLocalSubsidy ? JSON.stringify(matchedLocalSubsidy) : 'none'}
 Recent conversation context: ${JSON.stringify(history.slice(-12))}`;
 
     const promptText = `${systemPrompt}\n\nUser Question: ${userQuery}`;
@@ -134,9 +178,27 @@ Recent conversation context: ${JSON.stringify(history.slice(-12))}`;
       }
     }
 
+    // Ensure official portal link is ALWAYS present for matched subsidy scheme queries
+    if (matchedLocalSubsidy && matchedLocalSubsidy.officialApplyUrl && !replyText.includes(matchedLocalSubsidy.officialApplyUrl)) {
+      const linkHeader = lang === 'ur'
+        ? `🔗 **آفیشل آن لائن اپلائی پورٹل:** [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n\n`
+        : lang === 'ro'
+        ? `🔗 **Official Online Apply Portal:** [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n\n`
+        : `🔗 **Official Online Application Portal:** [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})\n\n`;
+      replyText = linkHeader + replyText;
+    }
+
     return { replyText, roadmap: extractedRoadmap };
   } catch (err) {
     console.error('Chat error:', err);
+    if (matchedLocalSubsidy) {
+      const replyText = lang === 'ur'
+        ? `اے آئی اسسٹنٹ عارضی طور پر دستیاب نہیں۔ **${matchedLocalSubsidy.nameUrdu}** کے لیے آفیشل پورٹل لنک: [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})`
+        : lang === 'ro'
+        ? `AI Assistant filhaal available nahin. **${matchedLocalSubsidy.nameRoman}** official portal link: [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})`
+        : `AI Assistant is temporarily unavailable. Apply online for **${matchedLocalSubsidy.name}** via the official portal: [${matchedLocalSubsidy.officialApplyUrl}](${matchedLocalSubsidy.officialApplyUrl})`;
+      return { replyText };
+    }
     if (selectedService) {
       const replyText = lang === 'ur'
         ? `اے آئی اسسٹنٹ عارضی طور پر دستیاب نہیں۔ **${selectedService.titleUrdu}** کے لیے تصدیق شدہ روڈ میپ، فیس اور لنکس ساتھ دکھائے گئے ہیں۔`

@@ -347,28 +347,32 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
       </section>
 
       {/* INTERACTIVE 4-SCREEN PAKGUIDE APP TUTORIAL & HOW-TO SECTION */}
-      <section className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl space-y-6">
+      <section className="mt-16 sm:mt-24 pt-4 bg-gradient-to-br from-slate-950 via-pakgreen-950 to-slate-900 rounded-3xl p-6 sm:p-10 border border-pakgreen-600/70 shadow-2xl space-y-6 text-white relative overflow-hidden">
+        {/* Subtle Ambient Glow Effect */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-pakgreen-600/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-pakgold-500/10 rounded-full blur-3xl pointer-events-none" />
+
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5 relative z-10">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="p-2.5 bg-pakgreen-800 text-pakgold-400 rounded-2xl shadow-sm">
+              <span className="p-2.5 bg-pakgreen-900/90 text-pakgold-400 border border-pakgreen-700/80 rounded-2xl shadow-sm">
                 <BookOpen className="w-6 h-6" />
               </span>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-white">
                     {lang === 'ur'
                       ? 'پاک گائیڈ ایپ استعمال کرنے کا طریقہ'
                       : lang === 'ro'
                       ? 'PakGuide App Kaise Use Karein?'
                       : 'How to Use PakGuide AI App'}
                   </h2>
-                  <span className="text-[10px] font-black px-2.5 py-0.5 bg-pakgold-500 text-slate-950 rounded-full uppercase tracking-wider hidden sm:inline-block">
+                  <span className="text-[10px] font-black px-2.5 py-0.5 bg-pakgold-500 text-slate-950 rounded-full uppercase tracking-wider hidden sm:inline-block shadow-md">
                     Interactive Guide (4 Screens)
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+                <p className="text-xs sm:text-sm text-pakgreen-200/90 mt-0.5">
                   Click through the 4 interactive guide screens below to master AI Navigator, Phishing Radar, Subsidy Matcher, and Official Apps.
                 </p>
               </div>
@@ -376,21 +380,21 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           </div>
 
           {/* Active Screen Badge Indicator */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-slate-900 text-white rounded-full text-xs font-mono font-bold shadow-md shrink-0">
-            <span className="w-2 h-2 rounded-full bg-pakgold-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-pakgold-500 text-slate-950 rounded-full text-xs font-mono font-black shadow-lg shrink-0 border border-amber-300">
+            <span className="w-2 h-2 rounded-full bg-slate-950 animate-pulse" />
             <span>Screen {guideStep + 1} of 4</span>
           </div>
         </div>
 
         {/* 4 Interactive Screen Tabs Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-100 p-2 rounded-2xl border border-slate-200">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/90 p-2 rounded-2xl border border-slate-800 relative z-10">
           <button
             type="button"
             onClick={() => setGuideStep(0)}
             className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
               guideStep === 0
-                ? 'bg-pakgreen-800 text-white shadow-md'
-                : 'text-slate-700 hover:bg-slate-200'
+                ? 'bg-pakgreen-800 text-white shadow-lg border border-pakgreen-600'
+                : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
             }`}
           >
             <MessageSquare className="w-4 h-4 text-pakgold-400 shrink-0" />
@@ -402,8 +406,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
             onClick={() => setGuideStep(1)}
             className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
               guideStep === 1
-                ? 'bg-scamred-600 text-white shadow-md'
-                : 'text-slate-700 hover:bg-slate-200'
+                ? 'bg-scamred-600 text-white shadow-lg border border-red-500'
+                : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
             }`}
           >
             <ShieldAlert className="w-4 h-4 shrink-0" />
@@ -415,8 +419,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
             onClick={() => setGuideStep(2)}
             className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
               guideStep === 2
-                ? 'bg-pakgold-500 text-slate-950 shadow-md'
-                : 'text-slate-700 hover:bg-slate-200'
+                ? 'bg-pakgold-500 text-slate-950 shadow-lg border border-amber-300'
+                : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
             }`}
           >
             <Gift className="w-4 h-4 shrink-0" />
@@ -428,8 +432,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
             onClick={() => setGuideStep(3)}
             className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
               guideStep === 3
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'text-slate-700 hover:bg-slate-200'
+                ? 'bg-blue-600 text-white shadow-lg border border-blue-400'
+                : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
             }`}
           >
             <Smartphone className="w-4 h-4 shrink-0" />
@@ -438,18 +442,18 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
         </div>
 
         {/* Dynamic Screen Guide Content Cards */}
-        <div className="p-5 sm:p-7 rounded-2xl bg-slate-50 border border-slate-200 space-y-6">
+        <div className="p-5 sm:p-7 rounded-2xl bg-slate-900/80 border border-pakgreen-800/80 backdrop-blur-md space-y-6 shadow-inner relative z-10">
           {/* SCREEN 1: AI NAVIGATOR */}
           {guideStep === 0 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+              <div className="p-4 bg-emerald-950/80 border border-emerald-700/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
                 <div className="flex items-start gap-3">
-                  <Sparkles className="w-6 h-6 text-pakgreen-800 shrink-0 mt-1" />
+                  <Sparkles className="w-6 h-6 text-emerald-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-slate-900 text-base">
+                    <h4 className="font-extrabold text-white text-base">
                       Screen 1 of 4: AI Navigator (Smart Queries & Procedure Guides)
                     </h4>
-                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
                       Ask questions about CNIC renewal, Passport fees, Land Fard, or Domicile certificates in English, Urdu, or Roman Urdu. Get immediate step-by-step instructions, official PKR fee tables, and Play Store app buttons right inside the chatbox!
                     </p>
                   </div>
@@ -457,7 +461,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => onNavigate('navigator')}
-                  className="px-4 py-2 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                  className="px-4 py-2.5 bg-pakgreen-700 hover:bg-pakgreen-600 text-white font-extrabold text-xs rounded-xl shadow-lg border border-pakgreen-500 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-pakgold-400" />
                   <span>
@@ -472,42 +476,42 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
                     <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">1</span>
                     <span>Type Any Query</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Type your query in English, Urdu, or Roman Urdu (e.g. "Smart CNIC renewal fee" or "Urgent Passport price").
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
                     <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">2</span>
                     <span>Voice Speech Input</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Click the glowing Mic icon to speak naturally in Urdu or English to ask questions completely hands-free.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
                     <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">3</span>
                     <span>View Official Fee Breakdown</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Get official PKR fee tables (Normal, Urgent, Executive) along with delivery time estimates.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
                     <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">4</span>
                     <span>Direct App Download</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Click clean Google Play or App Store download buttons displayed directly inside the chat response.
                   </p>
                 </div>
@@ -518,14 +522,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* SCREEN 2: PHISHING RADAR */}
           {guideStep === 1 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-red-50 border border-red-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+              <div className="p-4 bg-red-950/80 border border-red-800/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
                 <div className="flex items-start gap-3">
-                  <ShieldAlert className="w-6 h-6 text-scamred-600 shrink-0 mt-1" />
+                  <ShieldAlert className="w-6 h-6 text-red-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-slate-900 text-base">
+                    <h4 className="font-extrabold text-white text-base">
                       Screen 2 of 4: Phishing Radar (SMS & WhatsApp Scam Scanner)
                     </h4>
-                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
                       Protect yourself from fake BISP 8171 SMS messages, fraudulent Kisan Card links, and fake lottery sites claiming to be government portals.
                     </p>
                   </div>
@@ -533,7 +537,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => onNavigate('phishing')}
-                  className="px-4 py-2 bg-scamred-600 hover:bg-scamred-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                  className="px-4 py-2.5 bg-scamred-600 hover:bg-scamred-700 text-white font-extrabold text-xs rounded-xl shadow-lg border border-red-500 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-white" />
                   <span>
@@ -548,42 +552,42 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
                     <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
                     <span>Copy Suspicious Link</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Copy any link received via SMS, WhatsApp, or Facebook claiming to be BISP 8171, Kisan Card, or NADRA.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
                     <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">2</span>
                     <span>Scan with AI Radar</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Paste into Phishing Radar for instant Priority 1 official whitelist regex + Priority 2 AI heuristic security scan.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
                     <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">3</span>
                     <span>Review Threat Verdict</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     View structured threat score cards, domain authenticity details, and official government portal links.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
                     <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">4</span>
                     <span>Report to FIA (1991)</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     If flagged as critical scam, click 'Report to FIA Cybercrime' to log the fraud portal with NR3C wing.
                   </p>
                 </div>
@@ -594,14 +598,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* SCREEN 3: SUBSIDY MATCHER */}
           {guideStep === 2 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+              <div className="p-4 bg-amber-950/80 border border-amber-800/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
                 <div className="flex items-start gap-3">
-                  <Gift className="w-6 h-6 text-pakgold-600 shrink-0 mt-1" />
+                  <Gift className="w-6 h-6 text-amber-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-slate-900 text-base">
+                    <h4 className="font-extrabold text-white text-base">
                       Screen 3 of 4: Subsidy Matcher (BISP, Kisan Card & PM Loans)
                     </h4>
-                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
                       Find Government of Pakistan financial relief schemes, agricultural subsidies, and youth business loans matching your demographic profile.
                     </p>
                   </div>
@@ -609,7 +613,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => onNavigate('matcher')}
-                  className="px-4 py-2 bg-pakgold-500 hover:bg-pakgold-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                  className="px-4 py-2.5 bg-pakgold-500 hover:bg-pakgold-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg border border-amber-300 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-slate-950" />
                   <span>
@@ -624,42 +628,42 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
                     <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">1</span>
                     <span>Fill Profile Details</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Enter your monthly household income, employment type (Farmer, Housewife, Unemployed), and province.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
                     <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">2</span>
                     <span>Instant Eligibility Calculation</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     AI matches your profile against BISP 8171 Kafaalat, Punjab Kisan Card, PM Youth Loan, and Scholarships.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
                     <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">3</span>
                     <span>View Payout Amounts</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     See exact PKR payout amounts (e.g. PKR 10,500/quarter BISP or PKR 150,000 Kisan Card credit line).
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
                     <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">4</span>
                     <span>Apply via Official Portal</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Click direct verified government registration portal links to submit your application safely online.
                   </p>
                 </div>
@@ -670,14 +674,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* SCREEN 4: VERIFIED APPS */}
           {guideStep === 3 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+              <div className="p-4 bg-blue-950/80 border border-blue-800/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
                 <div className="flex items-start gap-3">
-                  <Smartphone className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+                  <Smartphone className="w-6 h-6 text-blue-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-slate-900 text-base">
+                    <h4 className="font-extrabold text-white text-base">
                       Screen 4 of 4: Verified Apps Directory (Official Store Links)
                     </h4>
-                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
                       Browse genuine government mobile applications from Google Play and Apple App Store without downloading risky third-party APKs.
                     </p>
                   </div>
@@ -685,7 +689,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => onNavigate('apps')}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                  className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-lg border border-blue-400 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-white" />
                   <span>
@@ -700,42 +704,42 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
                     <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
                     <span>Browse Official Catalogue</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Browse verified apps for Pak Identity (NADRA), Dastak 1202 Doorstep, PassTrack, and e-Pay Punjab.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
                     <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">2</span>
                     <span>View Operating Guides</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Click 'Open Step-by-Step Operating Guide' for prerequisites, biometric steps, and common submission mistakes.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
                     <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">3</span>
                     <span>Check Verified Package ID</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Verify official developer packages (e.g. pk.gov.nadra.pakidentity) to ensure zero malware or fake apps.
                   </p>
                 </div>
 
-                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
                     <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">4</span>
                     <span>One-Click Store Install</span>
                   </div>
-                  <p className="text-slate-600 text-xs leading-relaxed">
+                  <p className="text-slate-300 text-xs leading-relaxed">
                     Click clean Google Play or App Store buttons to open the official app store listing directly on your phone.
                   </p>
                 </div>
@@ -744,10 +748,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           )}
 
           {/* BOTTOM STEP PAGINATION & NAVIGATION CONTROLS */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800">
             {/* Step Indicators */}
             <div className="flex items-center gap-3">
-              <span className="text-xs font-mono font-bold text-slate-600">
+              <span className="text-xs font-mono font-bold text-slate-400">
                 Screen {guideStep + 1} of 4
               </span>
               <div className="flex items-center gap-1.5">
@@ -758,8 +762,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                     onClick={() => setGuideStep(step)}
                     className={`h-2.5 rounded-full transition-all ${
                       guideStep === step
-                        ? 'w-7 bg-pakgreen-800'
-                        : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                        ? 'w-7 bg-pakgold-400'
+                        : 'w-2.5 bg-slate-700 hover:bg-slate-600'
                     }`}
                     title={`Go to Screen ${step + 1}`}
                   />
@@ -778,14 +782,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                   else if (guideStep === 2) onNavigate('matcher');
                   else onNavigate('apps');
                 }}
-                className={`px-4 py-2.5 font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5 ${
+                className={`px-4 py-2.5 font-extrabold rounded-xl text-xs shadow-lg transition-all flex items-center gap-1.5 ${
                   guideStep === 0
-                    ? 'bg-pakgreen-800 hover:bg-pakgreen-700 text-white'
+                    ? 'bg-pakgreen-800 hover:bg-pakgreen-700 text-white border border-pakgreen-600'
                     : guideStep === 1
-                    ? 'bg-scamred-600 hover:bg-scamred-700 text-white'
+                    ? 'bg-scamred-600 hover:bg-scamred-700 text-white border border-red-500'
                     : guideStep === 2
-                    ? 'bg-pakgold-500 hover:bg-pakgold-600 text-slate-950'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                    ? 'bg-pakgold-500 hover:bg-pakgold-600 text-slate-950 border border-amber-300'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white border border-blue-400'
                 }`}
               >
                 <Zap className="w-3.5 h-3.5 fill-current" />
@@ -802,7 +806,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => setGuideStep(guideStep - 1)}
-                  className="px-3.5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-xl text-xs transition-all flex items-center gap-1"
+                  className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold rounded-xl text-xs transition-all flex items-center gap-1 border border-slate-700"
                 >
                   <span>← Previous</span>
                 </button>
@@ -812,7 +816,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => setGuideStep(guideStep + 1)}
-                  className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
+                  className="px-4 py-2.5 bg-slate-900 hover:bg-slate-850 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5 border border-slate-700"
                 >
                   <span>Next Screen ({guideStep + 2}/4)</span>
                   <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />

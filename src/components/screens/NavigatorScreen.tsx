@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { SuniyeButton } from '@/components/common/SuniyeButton';
+import { AssistantMessage } from '@/components/common/AssistantMessage';
 import { createSpeechRecognizer } from '@/lib/audio/speech';
 import { GovService, ChatMessage, DocumentAuditResult } from '@/types';
 import { OFFICIAL_SERVICES } from '@/data/pakistanGovData';
@@ -322,9 +323,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
 
                 {/* Primary Assistant Text Explanation */}
                 <div className="flex items-start justify-between gap-3">
-                  <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-line font-medium">
-                    {msg.text}
-                  </p>
+                  <AssistantMessage text={msg.text} />
 
                   {msg.sender === 'assistant' && (
                     <SuniyeButton

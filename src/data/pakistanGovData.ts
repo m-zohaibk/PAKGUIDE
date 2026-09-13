@@ -643,6 +643,54 @@ export const OFFICIAL_SUBSIDIES: SubsidyScheme[] = [
     requiredDocs: ['Matric/Inter Result Card', 'Income Certificate by AC/Tehsildar', 'CNIC/B-Form'],
     officialApplyUrl: 'https://peef.org.pk',
     deadlineText: 'Deadline: November 30'
+  },
+  {
+    id: 'navttc-skill-training',
+    name: 'NAVTTC Skill Development & Technical Training',
+    nameUrdu: 'نیوٹیک ہنر مندی اور فنی تربیت پروگرام',
+    nameRoman: 'NAVTTC Skill Training',
+    organization: 'National Vocational & Technical Training Commission',
+    category: 'Scholarship',
+    stipendOrBenefitText: 'Free market-oriented technical courses, certification, and selected trainee support',
+    matchPercentage: 85,
+    eligibilityStatus: 'Highly Likely',
+    whyMatched: ['Open to eligible Pakistani youth based on the selected batch and course criteria', 'Student, unemployed, and early-career profiles may qualify for skills training'],
+    whyMatchedUrdu: ['منتخب بیچ اور کورس کی شرائط کے مطابق پاکستانی نوجوان درخواست دے سکتے ہیں', 'طلبہ، بے روزگار اور نئے کیریئر والے افراد کے لیے ہنر مندی کے مواقع'],
+    requiredDocs: ['CNIC or B-Form', 'Educational certificate', 'Active mobile number'],
+    officialApplyUrl: 'https://navttc.gov.pk',
+    deadlineText: 'Batch-based intake — verify the latest announcement on NAVTTC portal'
+  },
+  {
+    id: 'pm-youth-laptop-scheme',
+    name: 'Prime Minister Youth Laptop Scheme',
+    nameUrdu: 'وزیر اعظم یوتھ لیپ ٹاپ اسکیم',
+    nameRoman: 'PM Youth Laptop Scheme',
+    organization: 'Higher Education Commission / Prime Minister Youth Programme',
+    category: 'Scholarship',
+    stipendOrBenefitText: 'Merit-based laptop opportunity for eligible students enrolled in participating institutions',
+    matchPercentage: 82,
+    eligibilityStatus: 'Highly Likely',
+    whyMatched: ['Student profile matches the primary audience for the laptop scheme', 'Final eligibility depends on institution, academic record, and latest phase rules'],
+    whyMatchedUrdu: ['طلبہ کا پروفائل لیپ ٹاپ اسکیم کے بنیادی امیدواروں سے مطابقت رکھتا ہے', 'حتمی اہلیت ادارے، تعلیمی ریکارڈ اور تازہ مرحلے کی شرائط پر منحصر ہے'],
+    requiredDocs: ['CNIC/B-Form', 'University enrollment record', 'Student registration details'],
+    officialApplyUrl: 'https://laptop.pmyp.gov.pk',
+    deadlineText: 'Phase-based — check the latest HEC/PMYP announcement'
+  },
+  {
+    id: 'pm-youth-e-bike-scheme',
+    name: 'Prime Minister Youth Electric Bike Opportunity',
+    nameUrdu: 'وزیر اعظم یوتھ الیکٹرک بائیک موقع',
+    nameRoman: 'PM Youth E-Bike Opportunity',
+    organization: 'Prime Minister Youth Programme / Participating Banks',
+    category: 'Loan / Capital',
+    stipendOrBenefitText: 'Selected youth may access subsidized or financed electric bikes under the active phase terms',
+    matchPercentage: 78,
+    eligibilityStatus: 'Highly Likely',
+    whyMatched: ['Youth, student, and working profiles may match transport opportunity criteria', 'Final terms depend on active phase, age, city, bank, and repayment rules'],
+    whyMatchedUrdu: ['نوجوان، طلبہ اور ملازمت پیشہ افراد موجودہ شرائط کے تحت اہل ہو سکتے ہیں', 'حتمی شرائط مرحلے، عمر، شہر، بینک اور ادائیگی کے اصولوں پر منحصر ہیں'],
+    requiredDocs: ['CNIC', 'Proof of student/employment status', 'Bank or financing documents if required'],
+    officialApplyUrl: 'https://pmyp.gov.pk',
+    deadlineText: 'Phase-based — verify current availability and terms before applying'
   }
 ];
 
@@ -665,16 +713,24 @@ export const VERIFIED_APPS: VerifiedApp[] = [
       overview: 'Dastak is Chief Minister Punjab Maryam Nawaz flagship doorstep service delivery initiative. Verified Dastak Facilitators visit citizen homes to collect fingerprints and physical documents, saving citizens from visiting offices.',
       overviewUrdu: 'دستک وزیراعلیٰ پنجاب مریم نواز کا انقلابی فلیگ شپ پروگرام ہے جس کے تحت پنجاب حکومت کا آفیشل نمائندہ خود آپ کے گھر آ کر بائیو میٹرک اور دستاویزات لے جاتا ہے۔',
       keyFeatures: [
-        'Doorstep Delivery of Domicile, Birth Certificate, Marriage Certificate, Death Certificate, and Character Certificate',
-        'Verified Government Facilitator visits your home with official mobile biometrics',
-        'Real-time tracking of facilitator arrival time and GPS location',
-        'Zero waiting in long queues at Deputy Commissioner / AC offices'
+        'CMIT queries and Punjab government complaint/request tracking',
+        'Police services: character, general, employee and tenant verification; FIR copies; lost reports; vehicle verification/registration; police record checks',
+        'Social welfare agency registration and citizen welfare services',
+        'Local government: birth, death, marriage, divorce, character and domicile certificates, including birth certificate corrections',
+        'Board of Revenue Fard services: issue, request, application, milkiyat, malik, baqaya and haqooq records',
+        'Special and agriculture services: credit, machinery, loans, subsidies, licenses, taxes and department information',
+        'Population welfare, transport and sanitation services delivered through the digital service directory',
+        'Verified facilitator booking, biometric capture, document upload, fee payment and doorstep tracking'
       ],
       keyFeaturesUrdu: [
-        'ڈومیسائل، پیدائش، شادی، موت اور کریکٹر سرٹیفکیٹ کی گھر کی دہلیز پر فراہمی',
-        'سرکاری نمائندہ خود بائیو میٹرک مشین لے کر آپ کے گھر آتا ہے',
-        'نمائندے کی لوکیشن اور وقت کا لائیو ٹریکنگ سسٹم',
-        'دفتروں کی لمبی لائنوں اور ایجنٹوں کے چکروں سے 100% آزادی'
+        'سی ایم آئی ٹی سوالات اور پنجاب حکومت کی شکایت و درخواست ٹریکنگ',
+        'پولیس خدمات: کریکٹر، جنرل، ملازم اور کرایہ دار تصدیق، ایف آئی آر کاپی، گمشدگی رپورٹ، گاڑی تصدیق و رجسٹریشن اور پولیس ریکارڈ چیک',
+        'سوشل ویلفیئر ایجنسی رجسٹریشن اور شہری فلاحی خدمات',
+        'بلدیاتی خدمات: پیدائش، موت، شادی، طلاق، کریکٹر اور ڈومیسائل سرٹیفکیٹ، پیدائش سرٹیفکیٹ کی اصلاح سمیت',
+        'بورڈ آف ریونیو فرد خدمات: اجرا، درخواست، اپلیکیشن، ملکیت، مالک، بقایا اور حقوق ریکارڈ',
+        'خصوصی و زرعی خدمات: کریڈٹ، مشینری، قرض، سبسڈی، لائسنس، ٹیکس اور محکمے کی معلومات',
+        'پاپولیشن ویلفیئر، ٹرانسپورٹ اور صفائی کی خدمات',
+        'تصدیق شدہ نمائندہ بکنگ، بائیو میٹرک، کاغذات اپ لوڈ، فیس ادائیگی اور گھر تک ٹریکنگ'
       ],
       stepByStepInstructions: [
         {
@@ -759,17 +815,26 @@ export const VERIFIED_APPS: VerifiedApp[] = [
       overview: 'Pak Identity is NADRA official mobile application allowing resident and overseas Pakistanis to apply for Smart CNIC renewal, NICOP, FRC, and perform smartphone camera fingerprint biometrics.',
       overviewUrdu: 'پاک آئی ڈی نادرا کی آفیشل ایپ ہے جس کے ذریعے آپ گھر بیٹھے موبائل کیمرے سے شناختی کارڈ، ایف آر سی اور بایومیٹرک تصدیق کر سکتے ہیں۔',
       keyFeatures: [
-        'Smartphone Camera Fingerprint Biometrics (No external hardware scanner required)',
-        'Smart CNIC Renewal & Address/Marital Status Modification',
-        'Family Registration Certificate (FRC) generation and instant PDF download',
-        'ICAO compliant photograph capture with live background lighting assistant',
-        'Real-time Pakistan Post tracking for home courier delivery'
+        'CNIC, NICOP and POC card updates, information correction, smart-card conversion and overseas-card conversion',
+        'ID card cancellation and surrender requests',
+        'Family tree, Child Registration Certificate (CRC/Form-B), FRC and family shajra services',
+        'Passport renewal, reprint, modification and new application workflows',
+        'Smartphone biometric verification and ICAO-compliant photograph capture',
+        'National NCCIA complaints, application tracking and status updates',
+        'Provincial birth, death, marriage and divorce registry services for Punjab, Sindh, Balochistan, KPK and ICT',
+        'Life proof / Hayat certificates for pensioners, digital ID, arms licences and health card services',
+        'Online payment, application status and Pakistan Post home-courier tracking'
       ],
       keyFeaturesUrdu: [
-        'موبائل کیمرے کے ذریعے فنگر پرنٹ بائیو میٹرک اسکیننگ',
-        'شناختی کارڈ کی آن لائن تجدید اور پتہ و ازدوای حیثیت کی تبدیلی',
-        'فیملی رجسٹریشن سرٹیفکیٹ (FRC) کی فوری پی ڈی ایف ڈلیوری',
-        'تصویر کی آن لائن جانچ اور پاکستان پوسٹ ہوم ڈلیوری'
+        'CNIC، NICOP اور POC کارڈ اپ ڈیٹ، معلومات کی اصلاح، سمارٹ کارڈ اور اوورسیز کارڈ میں تبدیلی',
+        'شناختی کارڈ منسوخی اور سرنڈر درخواستیں',
+        'فیملی ٹری، چائلڈ رجسٹریشن سرٹیفکیٹ (CRC/بے فارم)، FRC اور فیملی شجرہ خدمات',
+        'پاسپورٹ تجدید، ری پرنٹ، ترمیم اور نئی درخواست',
+        'موبائل بائیو میٹرک تصدیق اور معیاری تصویر کیپچر',
+        'قومی NCCIA شکایات، درخواست ٹریکنگ اور اسٹیٹس اپ ڈیٹ',
+        'پنجاب، سندھ، بلوچستان، کے پی کے اور آئی سی ٹی کے پیدائش، موت، شادی اور طلاق رجسٹری ریکارڈ',
+        'پنشنرز کے لیے لائف پروف/حیات سرٹیفکیٹ، ڈیجیٹل ID، اسلحہ لائسنس اور ہیلتھ کارڈ خدمات',
+        'آن لائن ادائیگی، درخواست اسٹیٹس اور پاکستان پوسٹ گھر تک ڈلیوری ٹریکنگ'
       ],
       stepByStepInstructions: [
         {

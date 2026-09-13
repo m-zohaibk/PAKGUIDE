@@ -458,21 +458,29 @@ export const AppStepGuideModal: React.FC<AppStepGuideModalProps> = ({ app, onClo
               {lang === 'ur' ? 'بند کریں' : 'Close Guide'}
             </button>
 
-            <a
-              href={app.playStoreUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="flex-1 sm:flex-initial px-5 py-2.5 bg-pakgreen-800 hover:bg-pakgreen-900 text-white font-bold rounded-xl text-xs shadow-md flex items-center justify-center gap-2 transition-all"
-            >
-              <Download className="w-4 h-4 text-pakgold-400" />
-              <span>
-                {isGooglePlayUrl(app.playStoreUrl)
-                  ? 'Google Play'
-                  : isAppleStoreUrl(app.playStoreUrl)
-                  ? 'Apple Store'
-                  : 'Official Website'}
-              </span>
-            </a>
+            <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+              <a
+                href={app.playStoreUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex-1 sm:flex-initial px-4 py-2.5 bg-pakgold-500 hover:bg-pakgold-400 text-slate-950 font-extrabold rounded-xl text-xs shadow-md flex items-center justify-center gap-2 transition-all"
+              >
+                <Download className="w-4 h-4 text-slate-950" />
+                <span>{isGooglePlayUrl(app.playStoreUrl) ? 'Google Play (Android)' : 'Android App'}</span>
+              </a>
+
+              {app.appStoreUrl && (
+                <a
+                  href={app.appStoreUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-1 sm:flex-initial px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs shadow-md flex items-center justify-center gap-2 transition-all border border-slate-800"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-300" />
+                  <span>{isAppleStoreUrl(app.appStoreUrl) ? 'App Store (iOS)' : 'Official Website'}</span>
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>

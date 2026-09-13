@@ -37,14 +37,27 @@
 }
 
 /* RTL Urdu Specific Styling */
-.dir-rtl {
+.dir-rtl,
+[dir="rtl"] {
   direction: rtl;
   text-align: right;
-  line-height: 1.85 !important;
+  line-height: 2.25 !important;
 }
 
 .font-urdu {
   font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  line-height: 2.25 !important;
+  letter-spacing: 0 !important;
+  word-spacing: 0.05em;
+}
+
+.font-urdu p,
+.font-urdu li,
+[dir="rtl"] p,
+[dir="rtl"] li {
+  line-height: 2.25 !important;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 /* Custom Hide Scrollbar for tab bars */
@@ -67,7 +80,12 @@
 }
 
 @media (max-width: 640px) {
-  .font-urdu {
-    line-height: 1.7;
+  .font-urdu,
+  .dir-rtl,
+  [dir="rtl"],
+  .font-urdu p,
+  [dir="rtl"] p {
+    line-height: 2.15 !important;
   }
 }
+

@@ -326,20 +326,20 @@ export const VerifiedAppsScreen: React.FC = () => {
                     href={app.playStoreUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                    className="py-2.5 bg-pakgold-500 hover:bg-pakgold-400 text-slate-950 font-extrabold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-sm"
                   >
-                    <Download className="w-3.5 h-3.5 text-pakgold-400" />
-                    <span>{isGooglePlayUrl(app.playStoreUrl) ? 'Google Play' : 'Official Website'}</span>
+                    <Download className="w-3.5 h-3.5" />
+                    <span>{isGooglePlayUrl(app.playStoreUrl) ? 'Google Play (Android)' : 'Android Portal'}</span>
                   </a>
 
                   <a
                     href={app.appStoreUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all border border-slate-200"
+                    className="py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition-all border border-slate-800"
                   >
-                    <span>{isAppleStoreUrl(app.appStoreUrl) ? 'Apple Store' : 'Official Website'}</span>
-                    <ExternalLink className="w-3 h-3 text-slate-500" />
+                    <ExternalLink className="w-3 h-3 text-slate-300" />
+                    <span>{isAppleStoreUrl(app.appStoreUrl) ? 'App Store (iOS)' : 'Official Website'}</span>
                   </a>
                 </div>
               </div>

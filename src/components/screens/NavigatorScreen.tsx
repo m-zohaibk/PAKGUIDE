@@ -406,7 +406,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
                             className="py-2.5 bg-pakgold-500 hover:bg-pakgold-400 text-slate-950 font-extrabold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow"
                           >
                             <Download className="w-4 h-4" />
-                            <span>Download on Google Play</span>
+                            <span>Google Play (Android)</span>
                           </a>
 
                           <a
@@ -415,8 +415,8 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
                             rel="noreferrer"
                             className="py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-800"
                           >
-                            <span>{isAppleStoreUrl(msg.roadmapData.appStoreUrl) ? 'Apple Store' : 'Official Website'}</span>
-                            <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-300" />
+                            <span>{isAppleStoreUrl(msg.roadmapData.appStoreUrl) ? 'App Store (iOS)' : 'Official Website'}</span>
                           </a>
                         </div>
                       </div>

@@ -37,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <h1 className="font-extrabold text-base sm:text-xl tracking-tight text-white group-hover:text-pakgold-300 transition-colors truncate">
                 PakGuide AI
               </h1>
-              <span className="text-[10px] font-bold px-2 py-0.5 bg-pakgold-500 text-slate-950 rounded-full uppercase tracking-wider hidden sm:inline-block shadow-sm">
+              <span className="ml-2 sm:ml-3 text-[10px] font-extrabold px-2.5 py-0.5 bg-pakgold-500 text-slate-950 rounded-full uppercase tracking-wider hidden sm:inline-block shadow-sm">
                 .gov.pk
               </span>
             </div>
@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setLang('en')}
               className={`px-2.5 py-1 rounded-lg transition-all ${
                 lang === 'en'
-                  ? 'bg-pakgold-500 text-slate-950 font-bold shadow-sm'
+                  ? 'bg-amber-400 text-slate-950 font-extrabold shadow-sm'
                   : 'text-pakgreen-200 hover:text-white'
               }`}
             >
@@ -63,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setLang('ur')}
               className={`px-2.5 py-1 rounded-lg font-urdu transition-all ${
                 lang === 'ur'
-                  ? 'bg-pakgold-500 text-slate-950 font-bold shadow-sm'
+                  ? 'bg-amber-400 text-slate-950 font-extrabold shadow-sm'
                   : 'text-pakgreen-200 hover:text-white'
               }`}
             >
@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => setLang('ro')}
               className={`px-2.5 py-1 rounded-lg transition-all ${
                 lang === 'ro'
-                  ? 'bg-pakgold-500 text-slate-950 font-bold shadow-sm'
+                  ? 'bg-amber-400 text-slate-950 font-extrabold shadow-sm'
                   : 'text-pakgreen-200 hover:text-white'
               }`}
             >
@@ -98,9 +98,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="max-w-7xl mx-auto flex items-center gap-1 sm:gap-2 overflow-x-auto py-1.5 sm:py-2 text-[11px] sm:text-xs font-semibold no-scrollbar">
           <button
             onClick={() => onNavigate('dashboard')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
+            className={`px-3.5 py-1.5 rounded-lg whitespace-nowrap transition-all ${
               activeScreen === 'dashboard'
-                ? 'bg-pakgold-500 text-slate-950 font-bold shadow'
+                ? 'bg-amber-400 text-slate-950 font-extrabold shadow-md border border-amber-300'
                 : 'text-pakgreen-200 hover:bg-pakgreen-800 hover:text-white'
             }`}
           >
@@ -108,9 +108,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             onClick={() => onNavigate('navigator')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
+            className={`px-3.5 py-1.5 rounded-lg whitespace-nowrap transition-all ${
               activeScreen === 'navigator'
-                ? 'bg-pakgold-500 text-slate-950 font-bold shadow'
+                ? 'bg-amber-400 text-slate-950 font-extrabold shadow-md border border-amber-300'
                 : 'text-pakgreen-200 hover:bg-pakgreen-800 hover:text-white'
             }`}
           >
@@ -118,20 +118,26 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             onClick={() => onNavigate('phishing')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-all flex items-center gap-1 ${
+            className={`px-3.5 py-1.5 rounded-lg whitespace-nowrap transition-all flex items-center gap-1.5 ${
               activeScreen === 'phishing'
-                ? 'bg-scamred-600 text-white font-bold shadow'
+                ? 'bg-scamred-600 text-white font-extrabold shadow-md border border-red-500'
                 : 'text-pakgreen-200 hover:bg-pakgreen-800 hover:text-white'
             }`}
           >
             <span>{t('navPhishing')}</span>
-            <span className="w-2 h-2 rounded-full bg-red-400 animate-ping"></span>
+            <div className="relative group/dot inline-flex items-center ml-0.5">
+              <span className="w-2 h-2 rounded-full bg-red-400 animate-ping"></span>
+              <span className="w-2 h-2 rounded-full bg-red-500 absolute top-0 left-0"></span>
+              <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover/dot:flex px-2 py-0.5 bg-slate-950 text-white text-[10px] font-extrabold rounded-md whitespace-nowrap shadow-xl border border-slate-700 pointer-events-none z-50">
+                Active Threat Radar
+              </div>
+            </div>
           </button>
           <button
             onClick={() => onNavigate('matcher')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
+            className={`px-3.5 py-1.5 rounded-lg whitespace-nowrap transition-all ${
               activeScreen === 'matcher'
-                ? 'bg-pakgold-500 text-slate-950 font-bold shadow'
+                ? 'bg-amber-400 text-slate-950 font-extrabold shadow-md border border-amber-300'
                 : 'text-pakgreen-200 hover:bg-pakgreen-800 hover:text-white'
             }`}
           >
@@ -139,9 +145,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
           <button
             onClick={() => onNavigate('apps')}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
+            className={`px-3.5 py-1.5 rounded-lg whitespace-nowrap transition-all ${
               activeScreen === 'apps'
-                ? 'bg-pakgold-500 text-slate-950 font-bold shadow'
+                ? 'bg-amber-400 text-slate-950 font-extrabold shadow-md border border-amber-300'
                 : 'text-pakgreen-200 hover:bg-pakgreen-800 hover:text-white'
             }`}
           >

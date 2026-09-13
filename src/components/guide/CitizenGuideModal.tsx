@@ -434,22 +434,22 @@ export const CitizenGuideModal: React.FC<CitizenGuideModalProps> = ({
               <span className="text-[10px] text-slate-400 font-mono">24/7 Available</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
-              <div className="p-2 bg-slate-900 rounded-xl border border-slate-800">
+              <a href="tel:1777" className="p-2 bg-slate-900 hover:bg-slate-800 rounded-xl border border-slate-800 transition-colors group">
                 <span className="text-slate-400 block text-[10px]">NADRA Helpline</span>
-                <span className="font-bold font-mono text-pakgold-300">1777</span>
-              </div>
-              <div className="p-2 bg-slate-900 rounded-xl border border-slate-800">
+                <span className="font-bold font-mono text-pakgold-300 group-hover:underline">1777</span>
+              </a>
+              <a href="tel:1991" className="p-2 bg-slate-900 hover:bg-slate-800 rounded-xl border border-slate-800 transition-colors group">
                 <span className="text-slate-400 block text-[10px]">FIA Cybercrime</span>
-                <span className="font-bold font-mono text-red-400">1991</span>
-              </div>
-              <div className="p-2 bg-slate-900 rounded-xl border border-slate-800">
+                <span className="font-bold font-mono text-red-400 group-hover:underline">1991</span>
+              </a>
+              <a href="tel:080034477" className="p-2 bg-slate-900 hover:bg-slate-800 rounded-xl border border-slate-800 transition-colors group">
                 <span className="text-slate-400 block text-[10px]">Passport DGIP</span>
-                <span className="font-bold font-mono text-pakgold-300">0800-34477</span>
-              </div>
-              <div className="p-2 bg-slate-900 rounded-xl border border-slate-800">
+                <span className="font-bold font-mono text-pakgold-300 group-hover:underline">0800-34477</span>
+              </a>
+              <a href="tel:080026477" className="p-2 bg-slate-900 hover:bg-slate-800 rounded-xl border border-slate-800 transition-colors group">
                 <span className="text-slate-400 block text-[10px]">BISP 8171</span>
-                <span className="font-bold font-mono text-emerald-400">0800-26477</span>
-              </div>
+                <span className="font-bold font-mono text-emerald-400 group-hover:underline">0800-26477</span>
+              </a>
             </div>
           </div>
         </div>

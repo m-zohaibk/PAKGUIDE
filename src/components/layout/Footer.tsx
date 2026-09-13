@@ -35,19 +35,19 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-xs text-slate-300">
               <li className="flex justify-between border-b border-slate-800 pb-1.5">
                 <span className="text-slate-400">NADRA Citizen Care:</span>
-                <span className="font-mono font-bold text-emerald-400">1777</span>
+                <a href="tel:1777" className="font-mono font-bold text-emerald-400 hover:underline">1777</a>
               </li>
               <li className="flex justify-between border-b border-slate-800 pb-1.5">
                 <span className="text-slate-400">FIA Cybercrime Fraud Wing:</span>
-                <span className="font-mono font-bold text-red-400">1991</span>
+                <a href="tel:1991" className="font-mono font-bold text-red-400 hover:underline">1991</a>
               </li>
               <li className="flex justify-between border-b border-slate-800 pb-1.5">
                 <span className="text-slate-400">Immigration & Passports:</span>
-                <span className="font-mono font-bold text-pakgold-400">0800-34477</span>
+                <a href="tel:080034477" className="font-mono font-bold text-pakgold-400 hover:underline">0800-34477</a>
               </li>
               <li className="flex justify-between border-b border-slate-800 pb-1.5">
                 <span className="text-slate-400">BISP 8171 Kafaalat:</span>
-                <span className="font-mono font-bold text-emerald-400">0800-26477</span>
+                <a href="tel:080026477" className="font-mono font-bold text-emerald-400 hover:underline">0800-26477</a>
               </li>
             </ul>
           </div>

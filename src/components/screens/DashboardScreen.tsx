@@ -58,21 +58,21 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
   return (
     <div className="space-y-8 sm:space-y-12 pb-6 sm:pb-8 animate-fadeIn">
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-pakgreen-900 via-pakgreen-800 to-pakgreen-950 text-white p-4 sm:p-10 lg:p-12 shadow-2xl border border-pakgreen-700/80">
+      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-pakgreen-900 via-pakgreen-800 to-pakgreen-950 text-white p-5 sm:p-10 lg:p-12 shadow-2xl border border-pakgreen-700/80">
         {/* Background Decorative Shield Pattern */}
         <div className="absolute -right-10 -bottom-10 opacity-10 text-pakgold-400 pointer-events-none">
           <ShieldCheck className="w-96 h-96" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
-          {/* Digital First Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pakgreen-700/80 border border-pakgreen-600 text-pakgold-300 text-xs font-bold shadow-inner">
-            <Sparkles className="w-4 h-4 text-pakgold-400 animate-pulse" />
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-5">
+          {/* Subdued Digital First Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-pakgreen-800/90 border border-pakgreen-600/90 text-pakgold-300 text-[11px] sm:text-xs font-semibold shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 text-pakgold-400 animate-pulse" />
             <span>100% Digital-First Navigator — Zero Office Visits Required!</span>
           </div>
 
-          {/* Hero Title */}
-          <h1 className="text-[1.7rem] sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
+          {/* Primary Hero Title - Dominant Hierarchy */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white max-w-4xl mx-auto">
             {lang === 'ur'
               ? 'پاکستان کی تمام حکومتی خدمات حاصل کریں 100% آن لائن گھر بیٹھے!'
               : lang === 'ro'
@@ -80,26 +80,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               : 'Access Pakistani Government Services 100% Digitally From Home!'}
           </h1>
 
-          {/* Hero Subtitle */}
-          <p className="text-sm sm:text-base text-pakgreen-100 max-w-2xl mx-auto leading-relaxed">
-            {lang === 'ur'
-              ? 'نادرا پاک آئی ڈی ایپ، وزیراعلیٰ مریم نواز دستک ڈور اسٹیپ سروس، پاسپورٹ فیس آسان اور ای پے پنجاب سے 100% آن لائن کام کروائیں—کسی ایجنٹ یا دفتر جانے کی ضرورت نہیں۔'
-              : lang === 'ro'
-              ? 'Pak Identity App, Dastak by CM Maryam Nawaz, Passport Fee Asan aur e-Pay Punjab se 100% online kaam karwayein—Zero office visits!'
-              : 'Discover 100% digital app methods: Pak Identity camera biometrics, Dastak Doorstep by CM Maryam Nawaz (1202), Passport Fee Asan, and e-Pay Punjab. Zero agent commission!'}
-          </p>
-
-          {/* Audio TTS Button for Hero */}
-          <div className="flex justify-center pt-1">
-            <SuniyeButton
-              textToSpeak={`${t('heroTitle')}. ${t('heroSubtitle')}`}
-              variant="hero"
-            />
-          </div>
-
-          {/* HERO SEARCH & VOICE HUB BAR */}
-          <form onSubmit={handleSearchSubmit} className="pt-4 max-w-3xl mx-auto">
-            <div className="relative flex items-center bg-white rounded-2xl p-2 shadow-2xl border-2 border-pakgold-500/80 focus-within:ring-4 focus-within:ring-pakgold-400/40 transition-all">
+          {/* PRIMARY CTA: ELEVATED SEARCH & VOICE HUB BAR (IMMEDIATELY ACCESSIBLE ABOVE THE FOLD) */}
+          <form onSubmit={handleSearchSubmit} className="pt-2 max-w-3xl mx-auto">
+            <div className="relative flex items-center bg-white rounded-2xl p-2 shadow-2xl border-2 border-pakgold-500 focus-within:ring-4 focus-within:ring-pakgold-400/40 transition-all">
               <Search className="w-6 h-6 text-pakgreen-800 shrink-0 ml-3 mr-2" />
               
               <input
@@ -130,7 +113,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
               <button
                 type="submit"
-                className="shrink-0 px-3 sm:px-5 py-3.5 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow"
+                className="shrink-0 px-4 sm:px-6 py-3.5 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-extrabold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow"
               >
                 <span className="hidden sm:inline">Search</span>
                 <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
@@ -150,7 +133,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
             )}
 
             {/* Quick Suggestion Chips */}
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs">
               <span className="text-pakgreen-200 font-semibold">{t('heroQuickTip')}</span>
               <button
                 type="button"
@@ -183,11 +166,28 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </button>
             </div>
           </form>
+
+          {/* Sub-heading with Constrained Line Length (max-w-2xl mx-auto) */}
+          <p className="text-xs sm:text-sm text-pakgreen-100 max-w-2xl mx-auto leading-relaxed pt-2">
+            {lang === 'ur'
+              ? 'نادرا پاک آئی ڈی ایپ، وزیراعلیٰ مریم نواز دستک ڈور اسٹیپ سروس، پاسپورٹ فیس آسان اور ای پے پنجاب سے 100% آن لائن کام کروائیں—کسی ایجنٹ یا دفتر جانے کی ضرورت نہیں۔'
+              : lang === 'ro'
+              ? 'Pak Identity App, Dastak by CM Maryam Nawaz, Passport Fee Asan aur e-Pay Punjab se 100% online kaam karwayein—Zero office visits!'
+              : 'Discover 100% digital app methods: Pak Identity camera biometrics, Dastak Doorstep by CM Maryam Nawaz (1202), Passport Fee Asan, and e-Pay Punjab. Zero agent commission!'}
+          </p>
+
+          {/* Audio TTS Button */}
+          <div className="flex justify-center pt-1">
+            <SuniyeButton
+              textToSpeak={`${t('heroTitle')}. ${t('heroSubtitle')}`}
+              variant="hero"
+            />
+          </div>
         </div>
       </section>
 
       {/* 4 PRIMARY FEATURE CARDS */}
-      <section className="space-y-4">
+      <section className="space-y-4 pt-4 sm:pt-6">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
@@ -206,7 +206,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* Card 1: Anti-Scam Phishing Radar */}
           <div
             onClick={() => onNavigate('phishing')}
-            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl border border-slate-200 hover:border-scamred-500 cursor-pointer transition-all duration-300 flex flex-col justify-between"
+            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 border border-slate-200 hover:border-scamred-500 cursor-pointer transition-all duration-300 flex flex-col justify-between"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -241,7 +241,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* Card 2: Subsidy & Grant Matcher */}
           <div
             onClick={() => onNavigate('matcher')}
-            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl border border-slate-200 hover:border-pakgold-500 cursor-pointer transition-all duration-300 flex flex-col justify-between"
+            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 border border-slate-200 hover:border-pakgold-500 cursor-pointer transition-all duration-300 flex flex-col justify-between"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -276,7 +276,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* Card 3: Interactive Service Roadmaps */}
           <div
             onClick={() => onNavigate('navigator')}
-            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl border border-slate-200 hover:border-pakgreen-600 cursor-pointer transition-all duration-300 flex flex-col justify-between"
+            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 border border-slate-200 hover:border-pakgreen-600 cursor-pointer transition-all duration-300 flex flex-col justify-between"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -311,7 +311,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* Card 4: Verified Official App Directory */}
           <div
             onClick={() => onNavigate('apps')}
-            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl border border-slate-200 hover:border-blue-500 cursor-pointer transition-all duration-300 flex flex-col justify-between"
+            className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 border border-slate-200 hover:border-blue-500 cursor-pointer transition-all duration-300 flex flex-col justify-between"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -345,13 +345,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
         </div>
       </section>
 
-      {/* 4-STEP APP USAGE TUTORIAL SECTION */}
-      <section className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      {/* 4-STEP VISUAL STEPPER TIMELINE TUTORIAL SECTION */}
+      <section className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg space-y-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-5">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <span className="p-2 bg-pakgreen-50 text-pakgreen-800 rounded-xl">
-                <BookOpen className="w-5 h-5" />
+                <BookOpen className="w-6 h-6" />
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                 {lang === 'ur'
@@ -362,70 +362,95 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              4 simple steps to get CNIC/Passport guides, audit documents, scan scam links, and download official apps.
+              Follow this 4-step visual timeline to navigate CNIC/Passport procedures, inspect documents, scan scam links, and download official apps.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+        {/* VISUAL TIMELINE STEPPER WITH DESKTOP HORIZONTAL CONNECTOR LINE & MOBILE VERTICAL CONNECTORS */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-xs before:hidden lg:before:block lg:before:absolute lg:before:top-10 lg:before:left-24 lg:before:right-24 lg:before:h-0.5 lg:before:bg-slate-200 lg:before:z-0">
           {/* Step 1 */}
           <div
             onClick={() => onNavigate('navigator')}
-            className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 hover:bg-emerald-100/80 cursor-pointer transition-all space-y-2 group"
+            className="relative z-10 p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 hover:bg-emerald-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
           >
-            <div className="flex items-center justify-between">
-              <span className="w-7 h-7 bg-pakgreen-800 text-white rounded-xl font-black text-xs flex items-center justify-center">1</span>
-              <MessageSquare className="w-5 h-5 text-pakgreen-800 group-hover:scale-110 transition-transform" />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="w-9 h-9 bg-pakgreen-800 text-white rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">1</span>
+                <MessageSquare className="w-6 h-6 text-pakgreen-800 group-hover:scale-110 transition-transform" />
+              </div>
+              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-pakgreen-800 transition-colors">1. Ask AI Navigator</h4>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Type or speak your CNIC, Passport, or Domicile question in Urdu or English to get step-by-step guides & PKR fee schedules.
+              </p>
             </div>
-            <h4 className="font-extrabold text-sm text-slate-900">1. Ask AI Navigator</h4>
-            <p className="text-slate-600 text-[11px] leading-relaxed">
-              Type or speak your CNIC, Passport, or Domicile question in Urdu or English to get step-by-step guides & PKR fee schedules.
-            </p>
+            <div className="pt-2 text-[11px] font-bold text-pakgreen-800 flex items-center gap-1">
+              <span>Try Navigator</span>
+              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+            </div>
           </div>
 
           {/* Step 2 */}
           <div
             onClick={() => onNavigate('navigator')}
-            className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200/80 hover:bg-blue-100/80 cursor-pointer transition-all space-y-2 group"
+            className="relative z-10 p-5 rounded-2xl bg-blue-50/70 border border-blue-200/80 hover:bg-blue-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
           >
-            <div className="flex items-center justify-between">
-              <span className="w-7 h-7 bg-blue-600 text-white rounded-xl font-black text-xs flex items-center justify-center">2</span>
-              <Camera className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="w-9 h-9 bg-blue-600 text-white rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">2</span>
+                <Camera className="w-6 h-6 text-blue-600 group-hover:scale-110 transition-transform" />
+              </div>
+              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-blue-600 transition-colors">2. Inspect Document Photo</h4>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Upload a photo of your CNIC or B-Form to audit stamps, expiry dates, and completeness in-memory before submitting.
+              </p>
             </div>
-            <h4 className="font-extrabold text-sm text-slate-900">2. Inspect Document Photo</h4>
-            <p className="text-slate-600 text-[11px] leading-relaxed">
-              Upload a photo of your CNIC or B-Form to audit stamps, expiry dates, and completeness in-memory before submitting.
-            </p>
+            <div className="pt-2 text-[11px] font-bold text-blue-600 flex items-center gap-1">
+              <span>Inspect Photo</span>
+              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+            </div>
           </div>
 
           {/* Step 3 */}
           <div
             onClick={() => onNavigate('phishing')}
-            className="p-4 rounded-2xl bg-red-50/70 border border-red-200/80 hover:bg-red-100/80 cursor-pointer transition-all space-y-2 group"
+            className="relative z-10 p-5 rounded-2xl bg-red-50/70 border border-red-200/80 hover:bg-red-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
           >
-            <div className="flex items-center justify-between">
-              <span className="w-7 h-7 bg-scamred-600 text-white rounded-xl font-black text-xs flex items-center justify-center">3</span>
-              <ShieldAlert className="w-5 h-5 text-scamred-600 group-hover:scale-110 transition-transform" />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="w-9 h-9 bg-scamred-600 text-white rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">3</span>
+                <ShieldAlert className="w-6 h-6 text-scamred-600 group-hover:scale-110 transition-transform" />
+              </div>
+              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-scamred-600 transition-colors">3. Scan Scam Links</h4>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Paste suspicious SMS or WhatsApp links to verify domain legitimacy with combined Priority 1 regex + AI security heuristics.
+              </p>
             </div>
-            <h4 className="font-extrabold text-sm text-slate-900">3. Scan Scam Links</h4>
-            <p className="text-slate-600 text-[11px] leading-relaxed">
-              Paste suspicious SMS or WhatsApp links to verify domain legitimacy with combined Priority 1 regex + AI security heuristics.
-            </p>
+            <div className="pt-2 text-[11px] font-bold text-scamred-600 flex items-center gap-1">
+              <span>Scan Link</span>
+              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+            </div>
           </div>
 
           {/* Step 4 */}
           <div
             onClick={() => onNavigate('apps')}
-            className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 hover:bg-amber-100/80 cursor-pointer transition-all space-y-2 group"
+            className="relative z-10 p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 hover:bg-amber-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
           >
-            <div className="flex items-center justify-between">
-              <span className="w-7 h-7 bg-pakgold-500 text-slate-950 rounded-xl font-black text-xs flex items-center justify-center">4</span>
-              <Smartphone className="w-5 h-5 text-pakgold-600 group-hover:scale-110 transition-transform" />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="w-9 h-9 bg-pakgold-500 text-slate-950 rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">4</span>
+                <Smartphone className="w-6 h-6 text-pakgold-600 group-hover:scale-110 transition-transform" />
+              </div>
+              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-pakgold-600 transition-colors">4. Download Official Apps</h4>
+              <p className="text-slate-600 text-xs leading-relaxed">
+                Get genuine Google Play links for Pak Identity, Dastak 1202, and e-Pay Punjab without downloading dangerous fake APKs.
+              </p>
             </div>
-            <h4 className="font-extrabold text-sm text-slate-900">4. Download Official Apps</h4>
-            <p className="text-slate-600 text-[11px] leading-relaxed">
-              Get genuine Google Play links for Pak Identity, Dastak 1202, and e-Pay Punjab without downloading dangerous fake APKs.
-            </p>
+            <div className="pt-2 text-[11px] font-bold text-pakgold-600 flex items-center gap-1">
+              <span>View Apps</span>
+              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+            </div>
           </div>
         </div>
       </section>

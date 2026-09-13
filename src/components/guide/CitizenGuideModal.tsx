@@ -116,7 +116,7 @@ export const CitizenGuideModal: React.FC<CitizenGuideModalProps> = ({
             }`}
           >
             <MessageSquare className="w-4 h-4 text-pakgold-400" />
-            <span>1. AI Navigator & OCR</span>
+            <span>1. AI Navigator</span>
           </button>
 
           <button
@@ -158,14 +158,14 @@ export const CitizenGuideModal: React.FC<CitizenGuideModalProps> = ({
 
         {/* Tab Body Content */}
         <div className="p-4 sm:p-6 overflow-y-auto space-y-5 text-slate-800 flex-1">
-          {/* TAB 1: AI NAVIGATOR & OCR */}
+          {/* TAB 1: AI NAVIGATOR */}
           {activeTab === 'navigator' && (
             <div className="space-y-4 animate-fadeIn">
               <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-3">
                 <Sparkles className="w-6 h-6 text-pakgreen-800 shrink-0 mt-1" />
                 <div>
                   <h4 className="font-extrabold text-slate-900 text-base">
-                    How to Use AI Navigator (Smart Queries & Document Inspection)
+                    How to Use AI Navigator (Smart Queries & Instructions)
                   </h4>
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed">
                     Ask questions about CNIC renewal, Passport fees, Land Fard, or Domicile certificates in English, Urdu, or Roman Urdu. Get immediate step-by-step instructions, official PKR fee tables, and Play Store app buttons right inside the chatbox!
@@ -180,17 +180,17 @@ export const CitizenGuideModal: React.FC<CitizenGuideModalProps> = ({
                     <span>Ask Any Query</span>
                   </div>
                   <p className="text-slate-600 text-[11px] leading-relaxed">
-                    Type your question or click the glowing microphone icon to speak naturally in Urdu or English.
+                    Type your question in English, Urdu, or Roman Urdu to get instant official procedure guides.
                   </p>
                 </div>
 
                 <div className="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-sm">
                   <div className="flex items-center gap-2 font-bold text-pakgreen-800">
                     <span className="w-5 h-5 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-[10px]">2</span>
-                    <span>Upload Photo for Audit</span>
+                    <span>Voice & Multilingual Input</span>
                   </div>
                   <p className="text-slate-600 text-[11px] leading-relaxed">
-                    Click the Camera icon to upload a photo of your CNIC, B-Form or Fard for instant in-memory OCR seal & date audit.
+                    Click the glowing microphone icon to speak naturally in Urdu or English to ask questions hands-free.
                   </p>
                 </div>
 

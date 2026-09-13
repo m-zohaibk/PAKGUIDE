@@ -575,22 +575,6 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
             }}
             className="flex items-center gap-2"
           >
-            {/* File / Camera Upload Button */}
-            <input
-              type="file"
-              ref={fileInputRef}
-              accept="image/*"
-              onChange={handleImageFileChange}
-              className="hidden"
-            />
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              title={t('inspectDocBtn')}
-              className="p-3 rounded-2xl bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 transition-colors shrink-0"
-            >
-              <Camera className="w-5 h-5" />
-            </button>
 
             {/* Input Text */}
             <input

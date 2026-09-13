@@ -16,6 +16,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
   const [searchQuery, setSearchQuery] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [speechError, setSpeechError] = useState<string | null>(null);
+  const [guideStep, setGuideStep] = useState<number>(0);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -345,111 +346,390 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
         </div>
       </section>
 
-      {/* 4-STEP VISUAL STEPPER TIMELINE TUTORIAL SECTION */}
-      <section className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-5">
+      {/* INTERACTIVE 4-SCREEN PAKGUIDE APP TUTORIAL & HOW-TO SECTION */}
+      <section className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl space-y-6">
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="p-2 bg-pakgreen-50 text-pakgreen-800 rounded-xl">
+              <span className="p-2.5 bg-pakgreen-800 text-pakgold-400 rounded-2xl shadow-sm">
                 <BookOpen className="w-6 h-6" />
               </span>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-                {lang === 'ur'
-                  ? 'پاک گائیڈ ایپ کیسے استعمال کریں؟'
-                  : lang === 'ro'
-                  ? 'PakGuide App Kaise Use Karein?'
-                  : 'How to Use PakGuide AI App'}
-              </h2>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+                    {lang === 'ur'
+                      ? 'پاک گائیڈ ایپ استعمال کرنے کا طریقہ'
+                      : lang === 'ro'
+                      ? 'PakGuide App Kaise Use Karein?'
+                      : 'How to Use PakGuide AI App'}
+                  </h2>
+                  <span className="text-[10px] font-black px-2.5 py-0.5 bg-pakgold-500 text-slate-950 rounded-full uppercase tracking-wider hidden sm:inline-block">
+                    Interactive Guide (4 Screens)
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+                  Click through the 4 interactive guide screens below to master AI Navigator, Phishing Radar, Subsidy Matcher, and Official Apps.
+                </p>
+              </div>
             </div>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Follow this 4-step visual timeline to navigate CNIC/Passport procedures, find eligible subsidies, scan scam links, and download official apps.
-            </p>
+          </div>
+
+          {/* Active Screen Badge Indicator */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-slate-900 text-white rounded-full text-xs font-mono font-bold shadow-md shrink-0">
+            <span className="w-2 h-2 rounded-full bg-pakgold-400 animate-pulse" />
+            <span>Screen {guideStep + 1} of 4</span>
           </div>
         </div>
 
-        {/* VISUAL TIMELINE STEPPER WITH DESKTOP HORIZONTAL CONNECTOR LINE & MOBILE VERTICAL CONNECTORS */}
-        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-xs before:hidden lg:before:block lg:before:absolute lg:before:top-10 lg:before:left-24 lg:before:right-24 lg:before:h-0.5 lg:before:bg-slate-200 lg:before:z-0">
-          {/* Step 1 */}
-          <div
-            onClick={() => onNavigate('navigator')}
-            className="relative z-10 p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 hover:bg-emerald-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
+        {/* 4 Interactive Screen Tabs Bar */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-100 p-2 rounded-2xl border border-slate-200">
+          <button
+            type="button"
+            onClick={() => setGuideStep(0)}
+            className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
+              guideStep === 0
+                ? 'bg-pakgreen-800 text-white shadow-md'
+                : 'text-slate-700 hover:bg-slate-200'
+            }`}
           >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="w-9 h-9 bg-pakgreen-800 text-white rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">1</span>
-                <MessageSquare className="w-6 h-6 text-pakgreen-800 group-hover:scale-110 transition-transform" />
-              </div>
-              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-pakgreen-800 transition-colors">1. Ask AI Navigator</h4>
-              <p className="text-slate-600 text-xs leading-relaxed">
-                Type or speak your CNIC, Passport, or Domicile question in Urdu or English to get step-by-step guides & PKR fee schedules.
-              </p>
-            </div>
-            <div className="pt-2 text-[11px] font-bold text-pakgreen-800 flex items-center gap-1">
-              <span>Try Navigator</span>
-              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
-            </div>
-          </div>
+            <MessageSquare className="w-4 h-4 text-pakgold-400 shrink-0" />
+            <span className="truncate">1. AI Navigator</span>
+          </button>
 
-          {/* Step 2 */}
-          <div
-            onClick={() => onNavigate('matcher')}
-            className="relative z-10 p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 hover:bg-amber-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
+          <button
+            type="button"
+            onClick={() => setGuideStep(1)}
+            className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
+              guideStep === 1
+                ? 'bg-scamred-600 text-white shadow-md'
+                : 'text-slate-700 hover:bg-slate-200'
+            }`}
           >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="w-9 h-9 bg-pakgold-500 text-slate-950 rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">2</span>
-                <Gift className="w-6 h-6 text-pakgold-600 group-hover:scale-110 transition-transform" />
-              </div>
-              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-pakgold-600 transition-colors">2. Subsidies & Grants Finder</h4>
-              <p className="text-slate-600 text-xs leading-relaxed">
-                Check instant eligibility for BISP 8171, Punjab Kisan Card, Youth Loan, and scholarships tailored to your income profile.
-              </p>
-            </div>
-            <div className="pt-2 text-[11px] font-bold text-pakgold-600 flex items-center gap-1">
-              <span>Find Subsidies</span>
-              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
-            </div>
-          </div>
+            <ShieldAlert className="w-4 h-4 shrink-0" />
+            <span className="truncate">2. Phishing Radar</span>
+          </button>
 
-          {/* Step 3 */}
-          <div
-            onClick={() => onNavigate('phishing')}
-            className="relative z-10 p-5 rounded-2xl bg-red-50/70 border border-red-200/80 hover:bg-red-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
+          <button
+            type="button"
+            onClick={() => setGuideStep(2)}
+            className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
+              guideStep === 2
+                ? 'bg-pakgold-500 text-slate-950 shadow-md'
+                : 'text-slate-700 hover:bg-slate-200'
+            }`}
           >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="w-9 h-9 bg-scamred-600 text-white rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">3</span>
-                <ShieldAlert className="w-6 h-6 text-scamred-600 group-hover:scale-110 transition-transform" />
-              </div>
-              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-scamred-600 transition-colors">3. Scan Scam Links</h4>
-              <p className="text-slate-600 text-xs leading-relaxed">
-                Paste suspicious SMS or WhatsApp links to verify domain legitimacy with combined Priority 1 regex + AI security heuristics.
-              </p>
-            </div>
-            <div className="pt-2 text-[11px] font-bold text-scamred-600 flex items-center gap-1">
-              <span>Scan Link</span>
-              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
-            </div>
-          </div>
+            <Gift className="w-4 h-4 shrink-0" />
+            <span className="truncate">3. Subsidy Matcher</span>
+          </button>
 
-          {/* Step 4 */}
-          <div
-            onClick={() => onNavigate('apps')}
-            className="relative z-10 p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 hover:bg-amber-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
+          <button
+            type="button"
+            onClick={() => setGuideStep(3)}
+            className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 ${
+              guideStep === 3
+                ? 'bg-blue-600 text-white shadow-md'
+                : 'text-slate-700 hover:bg-slate-200'
+            }`}
           >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="w-9 h-9 bg-pakgold-500 text-slate-950 rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">4</span>
-                <Smartphone className="w-6 h-6 text-pakgold-600 group-hover:scale-110 transition-transform" />
+            <Smartphone className="w-4 h-4 shrink-0" />
+            <span className="truncate">4. Verified Apps</span>
+          </button>
+        </div>
+
+        {/* Dynamic Screen Guide Content Cards */}
+        <div className="p-5 sm:p-7 rounded-2xl bg-slate-50 border border-slate-200 space-y-6">
+          {/* SCREEN 1: AI NAVIGATOR */}
+          {guideStep === 0 && (
+            <div className="space-y-5 animate-fadeIn">
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-3">
+                <Sparkles className="w-6 h-6 text-pakgreen-800 shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-extrabold text-slate-900 text-base">
+                    Screen 1: AI Navigator (Smart Queries & Procedure Guides)
+                  </h4>
+                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Ask questions about CNIC renewal, Passport fees, Land Fard, or Domicile certificates in English, Urdu, or Roman Urdu. Get immediate step-by-step instructions, official PKR fee tables, and Play Store app buttons right inside the chatbox!
+                  </p>
+                </div>
               </div>
-              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-pakgold-600 transition-colors">4. Download Official Apps</h4>
-              <p className="text-slate-600 text-xs leading-relaxed">
-                Get genuine Google Play links for Pak Identity, Dastak 1202, and e-Pay Punjab without downloading dangerous fake APKs.
-              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">1</span>
+                    <span>Type Any Query</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Type your query in English, Urdu, or Roman Urdu (e.g. "Smart CNIC renewal fee" or "Urgent Passport price").
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">2</span>
+                    <span>Voice Speech Input</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Click the glowing Mic icon to speak naturally in Urdu or English to ask questions completely hands-free.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">3</span>
+                    <span>View Official Fee Breakdown</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Get official PKR fee tables (Normal, Urgent, Executive) along with delivery time estimates.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgreen-800 text-sm">
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">4</span>
+                    <span>Direct App Download</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Click clean Google Play or App Store download buttons displayed directly inside the chat response.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="pt-2 text-[11px] font-bold text-pakgold-600 flex items-center gap-1">
-              <span>View Apps</span>
-              <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+          )}
+
+          {/* SCREEN 2: PHISHING RADAR */}
+          {guideStep === 1 && (
+            <div className="space-y-5 animate-fadeIn">
+              <div className="p-4 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-3">
+                <ShieldAlert className="w-6 h-6 text-scamred-600 shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-extrabold text-slate-900 text-base">
+                    Screen 2: Phishing Radar (SMS & WhatsApp Scam Scanner)
+                  </h4>
+                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Protect yourself from fake BISP 8171 SMS messages, fraudulent Kisan Card links, and fake lottery sites claiming to be government portals.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
+                    <span>Copy Suspicious Link</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Copy any link received via SMS, WhatsApp, or Facebook claiming to be BISP 8171, Kisan Card, or NADRA.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">2</span>
+                    <span>Scan with AI Radar</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Paste into Phishing Radar for instant Priority 1 official whitelist regex + Priority 2 AI heuristic security scan.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">3</span>
+                    <span>Review Threat Verdict</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    View structured threat score cards, domain authenticity details, and official government portal links.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-scamred-600 text-sm">
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">4</span>
+                    <span>Report to FIA (1991)</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    If flagged as critical scam, click 'Report to FIA Cybercrime' to log the fraud portal with NR3C wing.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* SCREEN 3: SUBSIDY MATCHER */}
+          {guideStep === 2 && (
+            <div className="space-y-5 animate-fadeIn">
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
+                <Gift className="w-6 h-6 text-pakgold-600 shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-extrabold text-slate-900 text-base">
+                    Screen 3: Subsidy Matcher (BISP, Kisan Card & PM Loans)
+                  </h4>
+                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Find Government of Pakistan financial relief schemes, agricultural subsidies, and youth business loans matching your demographic profile.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">1</span>
+                    <span>Fill Profile Details</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Enter your monthly household income, employment type (Farmer, Housewife, Unemployed), and province.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">2</span>
+                    <span>Instant Eligibility Calculation</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    AI matches your profile against BISP 8171 Kafaalat, Punjab Kisan Card, PM Youth Loan, and Scholarships.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">3</span>
+                    <span>View Payout Amounts</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    See exact PKR payout amounts (e.g. PKR 10,500/quarter BISP or PKR 150,000 Kisan Card credit line).
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-pakgold-600 text-sm">
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">4</span>
+                    <span>Apply via Official Portal</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Click direct verified government registration portal links to submit your application safely online.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* SCREEN 4: VERIFIED APPS */}
+          {guideStep === 3 && (
+            <div className="space-y-5 animate-fadeIn">
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl flex items-start gap-3">
+                <Smartphone className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-extrabold text-slate-900 text-base">
+                    Screen 4: Verified Apps Directory (Official Store Links)
+                  </h4>
+                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                    Browse genuine government mobile applications from Google Play and Apple App Store without downloading risky third-party APKs.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
+                    <span>Browse Official Catalogue</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Browse verified apps for Pak Identity (NADRA), Dastak 1202 Doorstep, PassTrack, and e-Pay Punjab.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">2</span>
+                    <span>View Operating Guides</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Click 'Open Step-by-Step Operating Guide' for prerequisites, biometric steps, and common submission mistakes.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">3</span>
+                    <span>Check Verified Package ID</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Verify official developer packages (e.g. pk.gov.nadra.pakidentity) to ensure zero malware or fake apps.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-1.5 shadow-sm">
+                  <div className="flex items-center gap-2 font-bold text-blue-600 text-sm">
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">4</span>
+                    <span>One-Click Store Install</span>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">
+                    Click clean Google Play or App Store buttons to open the official app store listing directly on your phone.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* BOTTOM STEP PAGINATION & NAVIGATION CONTROLS */}
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200">
+            {/* Step Indicators */}
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-mono font-bold text-slate-600">
+                Screen {guideStep + 1} of 4
+              </span>
+              <div className="flex items-center gap-1.5">
+                {[0, 1, 2, 3].map((step) => (
+                  <button
+                    key={step}
+                    type="button"
+                    onClick={() => setGuideStep(step)}
+                    className={`h-2.5 rounded-full transition-all ${
+                      guideStep === step
+                        ? 'w-7 bg-pakgreen-800'
+                        : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                    }`}
+                    title={`Go to Screen ${step + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Pagination & Module Launch Buttons */}
+            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+              {guideStep > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setGuideStep(guideStep - 1)}
+                  className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-xl text-xs transition-all flex items-center gap-1"
+                >
+                  <span>← Previous</span>
+                </button>
+              )}
+
+              {guideStep < 3 ? (
+                <button
+                  type="button"
+                  onClick={() => setGuideStep(guideStep + 1)}
+                  className="px-5 py-2.5 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
+                >
+                  <span>Next Screen ({guideStep + 2}/4)</span>
+                  <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onNavigate('apps')}
+                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
+                >
+                  <span>Browse Official Apps Directory</span>
+                  <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
+                </button>
+              )}
             </div>
           </div>
         </div>

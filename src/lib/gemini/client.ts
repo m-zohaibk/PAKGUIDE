@@ -4,7 +4,7 @@ import { OFFICIAL_SERVICES, OFFICIAL_SUBSIDIES } from '@/data/pakistanGovData';
 import { performDetailedSecurityScan } from '@/lib/security/domainVerifier';
 
 // Default model specified for Google GenAI SDK
-const MODEL_NAME = 'gemini-2.5-flash';
+const MODEL_NAME = 'gemini-3.5-flash-lite';
 
 export function getGeminiClient(customApiKey?: string): GoogleGenAI | null {
   const apiKey = customApiKey || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
@@ -59,12 +59,21 @@ export async function generateChatResponse(
     return false;
   });
 
-  const selectedService = matchedLocalService || OFFICIAL_SERVICES[0];
+  const selectedService = matchedLocalService;
 
   const ai = getGeminiClient(customApiKey);
 
   if (!ai) {
-    // Intelligent Offline Fallback
+    if (!selectedService) {
+      const replyText = lang === 'ur'
+        ? 'اس سوال کا درست جواب دینے کے لیے Gemini کنکشن درکار ہے۔ براہ کرم اپنا Gemini API key محفوظ کریں یا دوبارہ کوشش کریں۔'
+        : lang === 'ro'
+          ? 'Is sawal ka verified jawab dene ke liye Gemini connection darkar hai. Apna Gemini API key save karein ya dobara koshish karein.'
+          : 'A live Gemini connection is required to answer this question accurately. Please save your Gemini API key or try again.';
+      return { replyText };
+    }
+
+    // Verified local fallback for known services only.
     const replyText = lang === 'ur'
       ? `میں نے نادرا اور حکومت پاکستان کے آفیشل گزٹ سے **${selectedService.titleUrdu}** کی تمام ہدایات، ایپ لنکس، فیس شیڈول اور فارم فلنگ کا طریقہ کار تیار کر دیا ہے۔\n\n📱 **آفیشل ایپ:** ${selectedService.officialAppName || 'Pak Identity App'}\n🔗 **گوگل پلے ڈاؤن لوڈ:** ${selectedService.playStoreUrl || 'https://play.google.com/store'}\n📋 **فارم جمع کروانے کا طریقہ:** ${selectedService.formSubmissionProcedureUrdu || selectedService.formSubmissionProcedure}\n\nبراہ کرم ساتھ والے روڈ میپ کارڈ میں تفصیلی کاغذات کی جانچ کریں۔`
       : lang === 'ro'
@@ -75,9 +84,9 @@ export async function generateChatResponse(
   }
 
   try {
-    const systemPrompt = `You are PakGuide AI, Pakistan's Premier 100% Digital-First Government Services Navigator, powered by model ${MODEL_NAME}.
-PRIMARY DIRECTIVE: ALWAYS PRIORITIZE DIGITAL & APP-BASED METHODS FIRST! Educate citizens that almost EVERY government service in Pakistan can now be done 100% digitally from home without visiting physical offices or paying illegal agents!
-Include exact app download links (Google Play Store & App Store) and form submission steps.
+    const systemPrompt = `You are PakGuide AI, a reliable general-purpose assistant for questions about Pakistan and its government services, powered by ${MODEL_NAME}.
+Answer the user's actual newest question. Never reuse a previous answer, never force an unrelated service, and never assume the query is about CNIC, passport, or another default topic.
+For a government-service question, give a clear step-by-step method, prerequisites, current fee/rates when verified, official portal/app name, exact official links when known, expected timeline, and safety warnings about agents. If a detail is not verified, say so instead of inventing it. For non-government questions, answer normally and omit irrelevant government links.
 
 Highlight key apps:
 1. "Pak Identity App (NADRA)" for 100% digital CNIC renewal, B-Form / FRC, NICOP, and camera fingerprint biometrics.
@@ -87,12 +96,17 @@ Highlight key apps:
 5. "Pakistan Citizen Portal (PCP - PMDU)" for complaints against DC offices and Police.
 
 Language requested: ${lang}. Always respond in ${lang === 'ur' ? 'Urdu (اردو script)' : lang === 'ro' ? 'Roman Urdu (Latin script with Pakistani terms)' : 'English'}.
-Always emphasize zero agent commission, warning citizens never to pay illegal agents outside official counters.`;
+Use Markdown headings and numbered steps. Use the verified local service data below only when it matches the newest question; otherwise return no roadmap.
+Verified local service context: ${selectedService ? JSON.stringify(selectedService) : 'none'}
+Recent conversation context: ${JSON.stringify(history.slice(-12))}`;
 
     const promptText = `${systemPrompt}\n\nUser Question: ${userQuery}`;
     const response = await ai.models.generateContent({
       model: MODEL_NAME,
-      contents: promptText,
+      contents: [
+        ...history.slice(-12),
+        { role: 'user', parts: [{ text: promptText }] }
+      ],
     });
 
     const fullText = response.text || '';
@@ -116,11 +130,21 @@ Always emphasize zero agent commission, warning citizens never to pay illegal ag
     return { replyText, roadmap: extractedRoadmap };
   } catch (err) {
     console.error('Gemini chat error:', err);
-    const replyText = lang === 'ur'
-      ? `میں نے نادرا اور حکومت پاکستان کے آفیشل گزٹ سے **${selectedService.titleUrdu}** کی چیک لسٹ، ایپ لنکس اور طریقہ کار تیار کر دیا ہے۔ ساتھ موجود روڈ میپ کارڈ دیکھیں۔`
-      : `I have prepared the official instructions, mobile app download links, fee schedule, and form submission procedure for **${selectedService.title}**!\n\n📱 **Official App:** ${selectedService.officialAppName || 'Pak Identity App'}\n🔗 **Play Store Link:** ${selectedService.playStoreUrl}\n📋 **Form Filling Procedure:** ${selectedService.formSubmissionProcedure}`;
-
-    return { replyText, roadmap: selectedService };
+    if (selectedService) {
+      const replyText = lang === 'ur'
+        ? `Gemini عارضی طور پر دستیاب نہیں۔ **${selectedService.titleUrdu}** کے لیے تصدیق شدہ روڈ میپ، فیس اور لنکس ساتھ دکھائے گئے ہیں۔`
+        : lang === 'ro'
+          ? `Gemini filhaal available nahin. **${selectedService.titleRoman}** ka verified roadmap, rates aur links sath dikhaye gaye hain.`
+          : `Gemini is temporarily unavailable. The verified roadmap, rates, and links for **${selectedService.title}** are shown alongside.`;
+      return { replyText, roadmap: selectedService };
+    }
+    return {
+      replyText: lang === 'ur'
+        ? 'Gemini عارضی طور پر دستیاب نہیں۔ براہ کرم کچھ دیر بعد دوبارہ کوشش کریں۔'
+        : lang === 'ro'
+          ? 'Gemini filhaal available nahin. Kuch dair baad dobara koshish karein.'
+          : 'Gemini is temporarily unavailable. Please try again in a moment.'
+    };
   }
 }
 

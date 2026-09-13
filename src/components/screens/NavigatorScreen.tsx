@@ -64,8 +64,6 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
 
   // Initialize welcome message & handle initial query cleanly
   useEffect(() => {
-    const bformService = OFFICIAL_SERVICES.find(s => s.id === 'b-form-child-registration') || OFFICIAL_SERVICES[0];
-
     const welcomeMsg: ChatMessage = {
       id: 'welcome-1',
       sender: 'assistant',
@@ -75,8 +73,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
           : lang === 'ro'
           ? `Assalam-o-Alaikum! Main PakGuide AI hoon. Aap B-Form, CNIC, Passport, Fard Malkiat ke baray mein sawal poochain — tamam app download links aur step-by-step instructions isi chatbox mein milenge.`
           : `Assalam-o-Alaikum! I am PakGuide AI, powered by Google Gemini. Ask me anything about getting a B-Form (CRC), CNIC renewal, Passport, Land Fard, or Domicile! All instructions, official app download buttons, fee tables, and form submission steps will appear directly inside this chatbox.`,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      roadmapData: bformService
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     setMessages([welcomeMsg]);
@@ -160,25 +157,16 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
           console.warn('Chat fetch network fallback triggered:', err);
         }
 
-        const queryLower = queryText.toLowerCase().trim();
-        const matchedService = OFFICIAL_SERVICES.find((s) => {
-          if (queryLower.includes('bform') || queryLower.includes('b-form') || queryLower.includes('crc') || queryLower.includes('بے فارم') || queryLower.includes('child registration')) {
-            return s.id === 'b-form-child-registration';
-          }
-          if (s.id === 'cnic-renewal' && (queryLower.includes('cnic') || queryLower.includes('شناختی') || queryLower.includes('identity'))) return true;
-          if (s.id === 'machine-readable-passport' && (queryLower.includes('passport') || queryLower.includes('پاسپورٹ'))) return true;
-          if (s.id === 'fard-malkiat-land-record' && (queryLower.includes('fard') || queryLower.includes('land') || queryLower.includes('زمین') || queryLower.includes('فرد'))) return true;
-          if (s.id === 'domicile-certificate-dastak' && (queryLower.includes('domicile') || queryLower.includes('ڈومیسائل') || queryLower.includes('dastak') || queryLower.includes('دستک'))) return true;
-          if (queryLower.includes(s.title.toLowerCase()) || queryLower.includes(s.id)) return true;
-          return false;
-        }) || (queryLower.includes('bform') || queryLower.includes('b-form') ? OFFICIAL_SERVICES[0] : OFFICIAL_SERVICES[1]);
-
-        const targetRoadmap = res.roadmap || matchedService;
+        // The server decides whether a verified roadmap matches. Never attach
+        // a default service to an unrelated question in the client.
+        const targetRoadmap = res.roadmap;
 
         const defaultReplyText =
           lang === 'ur'
-            ? `میں نے نادرا اور حکومت پاکستان کے آفیشل گزٹ سے **${targetRoadmap.titleUrdu}** کی تمام ہدایات، ایپ لنکس، فیس شیڈول اور فارم جمع کروانے کا طریقہ کار نیچے چیٹ باکس میں تیار کر دیا ہے۔`
-            : `Here are the official instructions, mobile app download links, fee schedule, and form submission steps for **${targetRoadmap.title}**!`;
+            ? 'آپ کے سوال کا جواب تیار کر دیا گیا ہے۔'
+            : lang === 'ro'
+              ? 'Aap ke sawal ka jawab tayar kar diya gaya hai.'
+              : 'Here is the answer to your question.';
 
         const aiMsg: ChatMessage = {
           id: `ai-${Date.now()}`,
@@ -274,7 +262,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
           <div className="flex items-center gap-2">
             <h2 className="text-xl sm:text-2xl font-black text-slate-900">{t('chatTitle')}</h2>
             <span className="text-[10px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full">
-              Gemini 2.5 Flash
+              Gemini 3.5 Flash Lite
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-1">

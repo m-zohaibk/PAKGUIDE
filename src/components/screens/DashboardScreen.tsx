@@ -73,7 +73,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           </div>
 
           {/* Primary Hero Title - Dominant Hierarchy */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white max-w-4xl mx-auto">
+          <h1
+            className={`text-3xl sm:text-5xl lg:text-6xl font-black text-white max-w-4xl mx-auto ${
+              lang === 'ur'
+                ? 'font-urdu leading-relaxed sm:leading-[1.85] tracking-normal py-2 drop-shadow-md'
+                : 'tracking-tight leading-tight'
+            }`}
+          >
             {lang === 'ur'
               ? 'پاکستان کی تمام حکومتی خدمات حاصل کریں 100% آن لائن گھر بیٹھے!'
               : lang === 'ro'
@@ -169,7 +175,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           </form>
 
           {/* Sub-heading with Constrained Line Length (max-w-2xl mx-auto) */}
-          <p className="text-xs sm:text-sm text-pakgreen-100 max-w-2xl mx-auto leading-relaxed pt-2">
+          <p className={`text-xs sm:text-sm text-pakgreen-100 max-w-2xl mx-auto pt-2 ${
+            lang === 'ur' ? 'font-urdu leading-relaxed sm:leading-[1.8] tracking-normal py-1' : 'leading-relaxed'
+          }`}>
             {lang === 'ur'
               ? 'نادرا پاک آئی ڈی ایپ، وزیراعلیٰ مریم نواز دستک ڈور اسٹیپ سروس، پاسپورٹ فیس آسان اور ای پے پنجاب سے 100% آن لائن کام کروائیں—کسی ایجنٹ یا دفتر جانے کی ضرورت نہیں۔'
               : lang === 'ro'
@@ -361,7 +369,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </span>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-white">
+                  <h2 className={`text-xl sm:text-2xl font-extrabold text-white ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
                     {lang === 'ur'
                       ? 'پاک گائیڈ ایپ استعمال کرنے کا طریقہ'
                       : lang === 'ro'
@@ -369,11 +377,15 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                       : 'How to Use PakGuide AI App'}
                   </h2>
                   <span className="text-[10px] font-black px-2.5 py-0.5 bg-pakgold-500 text-slate-950 rounded-full uppercase tracking-wider hidden sm:inline-block shadow-md">
-                    Interactive Guide (4 Screens)
+                    {lang === 'ur' ? 'انٹرایکٹو گائیڈ (4 اسکرینز)' : lang === 'ro' ? 'Interactive Guide (4 Screens)' : 'Interactive Guide (4 Screens)'}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-pakgreen-200/90 mt-0.5">
-                  Click through the 4 interactive guide screens below to master AI Navigator, Phishing Radar, Subsidy Matcher, and Official Apps.
+                <p className={`text-xs sm:text-sm text-pakgreen-200/90 mt-0.5 ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                  {lang === 'ur'
+                    ? 'نیچے دیے گئے 4 گائیڈ اسکرینز پر کلک کریں اور اے آئی نیویگیٹر، فِشنگ ریڈار، سبسڈی میچر اور آفیشل ایپس کو استعمال کرنا سیکھیں۔'
+                    : lang === 'ro'
+                    ? 'Neeche diye gaye 4 guide screens par click karein aur AI Navigator, Phishing Radar, Subsidy Matcher, aur Official Apps ko seekhein.'
+                    : 'Click through the 4 interactive guide screens below to master AI Navigator, Phishing Radar, Subsidy Matcher, and Official Apps.'}
                 </p>
               </div>
             </div>
@@ -382,7 +394,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* Active Screen Badge Indicator */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-pakgold-500 text-slate-950 rounded-full text-xs font-mono font-black shadow-lg shrink-0 border border-amber-300">
             <span className="w-2 h-2 rounded-full bg-slate-950 animate-pulse" />
-            <span>Screen {guideStep + 1} of 4</span>
+            <span>
+              {lang === 'ur'
+                ? `اسکرین ${guideStep + 1} از 4`
+                : `Screen ${guideStep + 1} of 4`}
+            </span>
           </div>
         </div>
 
@@ -395,10 +411,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               guideStep === 0
                 ? 'bg-pakgreen-800 text-white shadow-lg border border-pakgreen-600'
                 : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-            }`}
+            } ${lang === 'ur' ? 'font-urdu' : ''}`}
           >
             <MessageSquare className="w-4 h-4 text-pakgold-400 shrink-0" />
-            <span className="truncate">1. AI Navigator</span>
+            <span className="truncate">{lang === 'ur' ? '1. اے آئی نیویگیٹر' : '1. AI Navigator'}</span>
           </button>
 
           <button
@@ -408,10 +424,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               guideStep === 1
                 ? 'bg-scamred-600 text-white shadow-lg border border-red-500'
                 : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-            }`}
+            } ${lang === 'ur' ? 'font-urdu' : ''}`}
           >
             <ShieldAlert className="w-4 h-4 shrink-0" />
-            <span className="truncate">2. Phishing Radar</span>
+            <span className="truncate">{lang === 'ur' ? '2. فِشنگ ریڈار' : '2. Phishing Radar'}</span>
           </button>
 
           <button
@@ -421,10 +437,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               guideStep === 2
                 ? 'bg-pakgold-500 text-slate-950 shadow-lg border border-amber-300'
                 : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-            }`}
+            } ${lang === 'ur' ? 'font-urdu' : ''}`}
           >
             <Gift className="w-4 h-4 shrink-0" />
-            <span className="truncate">3. Subsidy Matcher</span>
+            <span className="truncate">{lang === 'ur' ? '3. سبسڈی میچر' : '3. Subsidy Matcher'}</span>
           </button>
 
           <button
@@ -434,10 +450,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               guideStep === 3
                 ? 'bg-blue-600 text-white shadow-lg border border-blue-400'
                 : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-            }`}
+            } ${lang === 'ur' ? 'font-urdu' : ''}`}
           >
             <Smartphone className="w-4 h-4 shrink-0" />
-            <span className="truncate">4. Verified Apps</span>
+            <span className="truncate">{lang === 'ur' ? '4. تصدیق شدہ ایپس' : '4. Verified Apps'}</span>
           </button>
         </div>
 
@@ -450,11 +466,19 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <div className="flex items-start gap-3">
                   <Sparkles className="w-6 h-6 text-emerald-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-white text-base">
-                      Screen 1 of 4: AI Navigator (Smart Queries & Procedure Guides)
+                    <h4 className={`font-extrabold text-white text-base ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'اسکرین 1 از 4: اے آئی نیویگیٹر (سمارٹ سوالات اور طریقہ کار کا گائیڈ)'
+                        : lang === 'ro'
+                        ? 'Screen 1 of 4: AI Navigator (Smart Queries & Procedure Guides)'
+                        : 'Screen 1 of 4: AI Navigator (Smart Queries & Procedure Guides)'}
                     </h4>
-                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                      Ask questions about CNIC renewal, Passport fees, Land Fard, or Domicile certificates in English, Urdu, or Roman Urdu. Get immediate step-by-step instructions, official PKR fee tables, and Play Store app buttons right inside the chatbox!
+                    <p className={`text-xs text-slate-300 mt-1 leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'شناختی کارڈ کی جدید کاری، پاسپورٹ فیس، فرد ملکیت یا ڈومیسائل کے بارے میں اردو، انگریزی یا رومن اردو میں سوال پوچھیں۔ چیٹ کے اندر فوری سرکاری فیس اور ڈیلیوری کا وقت دیکھیں۔'
+                        : lang === 'ro'
+                        ? 'CNIC renewal, Passport fees, Land Fard, ya Domicile certificates ke baray mein Urdu, English, ya Roman Urdu mein sawal poochein.'
+                        : 'Ask questions about CNIC renewal, Passport fees, Land Fard, or Domicile certificates in English, Urdu, or Roman Urdu. Get immediate step-by-step instructions, official PKR fee tables, and Play Store app buttons right inside the chatbox!'}
                     </p>
                   </div>
                 </div>
@@ -464,7 +488,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                   className="px-4 py-2.5 bg-pakgreen-700 hover:bg-pakgreen-600 text-white font-extrabold text-xs rounded-xl shadow-lg border border-pakgreen-500 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-pakgold-400" />
-                  <span>
+                  <span className={lang === 'ur' ? 'font-urdu' : ''}>
                     {lang === 'ur'
                       ? 'ابھی AI نیویگیٹر استعمال کریں'
                       : lang === 'ro'
@@ -477,42 +501,58 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">1</span>
-                    <span>Type Any Query</span>
+                  <div className={`flex items-center gap-2 font-bold text-pakgold-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs font-mono">1</span>
+                    <span>{lang === 'ur' ? 'کوئی بھی سوال ٹائپ کریں' : lang === 'ro' ? 'Type Any Query' : 'Type Any Query'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Type your query in English, Urdu, or Roman Urdu (e.g. "Smart CNIC renewal fee" or "Urgent Passport price").
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'اردو یا انگریزی میں اپنا سوال لکھیں (مثلاً "اسمارٹ شناختی کارڈ فیس" یا "ارجنٹ پاسپورٹ قیمت")۔'
+                      : lang === 'ro'
+                      ? 'Urdu ya English mein apna sawal likhein (e.g. "Smart CNIC renewal fee" ya "Urgent Passport price").'
+                      : 'Type your query in English, Urdu, or Roman Urdu (e.g. "Smart CNIC renewal fee" or "Urgent Passport price").'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">2</span>
-                    <span>Voice Speech Input</span>
+                  <div className={`flex items-center gap-2 font-bold text-pakgold-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs font-mono">2</span>
+                    <span>{lang === 'ur' ? 'وائس اسپیچ ان پٹ' : lang === 'ro' ? 'Voice Speech Input' : 'Voice Speech Input'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Click the glowing Mic icon to speak naturally in Urdu or English to ask questions completely hands-free.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'بغیر ٹائپ کیے باآسانی بول کر سوال پوچھنے کے لیے مائیک کے بٹن پر کلک کریں۔'
+                      : lang === 'ro'
+                      ? 'Baghair type kiye bol kar sawal poochne ke liye Mic button par click karein.'
+                      : 'Click the glowing Mic icon to speak naturally in Urdu or English to ask questions completely hands-free.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">3</span>
-                    <span>View Official Fee Breakdown</span>
+                  <div className={`flex items-center gap-2 font-bold text-pakgold-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs font-mono">3</span>
+                    <span>{lang === 'ur' ? 'سرکاری فیس کی تفصیل دیکھیں' : lang === 'ro' ? 'View Official Fee Breakdown' : 'View Official Fee Breakdown'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Get official PKR fee tables (Normal, Urgent, Executive) along with delivery time estimates.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'سرکاری فیس ٹیبل (نارمل، ارجنٹ، ایگزیکٹو) اور ڈیلیوری کا وقت معلوم کریں۔'
+                      : lang === 'ro'
+                      ? 'Official PKR fee tables (Normal, Urgent, Executive) aur delivery time dekhein.'
+                      : 'Get official PKR fee tables (Normal, Urgent, Executive) along with delivery time estimates.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-pakgold-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs">4</span>
-                    <span>Direct App Download</span>
+                  <div className={`flex items-center gap-2 font-bold text-pakgold-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgreen-800 text-white rounded-full flex items-center justify-center text-xs font-mono">4</span>
+                    <span>{lang === 'ur' ? 'ڈائریکٹ ایپ ڈاؤن لوڈ' : lang === 'ro' ? 'Direct App Download' : 'Direct App Download'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Click clean Google Play or App Store download buttons displayed directly inside the chat response.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'چیٹ کے اندر دکھائے گئے گوگل پلے یا ایپ اسٹور ڈائریکٹ ڈاؤن لوڈ بٹن پر کلک کریں۔'
+                      : lang === 'ro'
+                      ? 'Chat response ke andar dikhaye gaye official Google Play ya App Store buttons par click karein.'
+                      : 'Click clean Google Play or App Store download buttons displayed directly inside the chat response.'}
                   </p>
                 </div>
               </div>
@@ -526,11 +566,19 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <div className="flex items-start gap-3">
                   <ShieldAlert className="w-6 h-6 text-red-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-white text-base">
-                      Screen 2 of 4: Phishing Radar (SMS & WhatsApp Scam Scanner)
+                    <h4 className={`font-extrabold text-white text-base ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'اسکرین 2 از 4: فِشنگ ریڈار (ایس ایم ایس اور واٹس ایپ فراڈ اسکینر)'
+                        : lang === 'ro'
+                        ? 'Screen 2 of 4: Phishing Radar (SMS & WhatsApp Scam Scanner)'
+                        : 'Screen 2 of 4: Phishing Radar (SMS & WhatsApp Scam Scanner)'}
                     </h4>
-                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                      Protect yourself from fake BISP 8171 SMS messages, fraudulent Kisan Card links, and fake lottery sites claiming to be government portals.
+                    <p className={`text-xs text-slate-300 mt-1 leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'جعلی 8171 ایس ایم ایس، فراڈ کسان کارڈ لنکس اور بی آئی ایس پی کے نام پر ہونے والے دھوکے سے خود کو محفوظ رکھیں۔'
+                        : lang === 'ro'
+                        ? 'Fake BISP 8171 SMS messages, fraudulent Kisan Card links, aur fake lottery sites se khud ko mehfooz rakhein.'
+                        : 'Protect yourself from fake BISP 8171 SMS messages, fraudulent Kisan Card links, and fake lottery sites claiming to be government portals.'}
                     </p>
                   </div>
                 </div>
@@ -540,7 +588,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                   className="px-4 py-2.5 bg-scamred-600 hover:bg-scamred-700 text-white font-extrabold text-xs rounded-xl shadow-lg border border-red-500 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-white" />
-                  <span>
+                  <span className={lang === 'ur' ? 'font-urdu' : ''}>
                     {lang === 'ur'
                       ? 'ابھی فِشنگ ریڈار استعمال کریں'
                       : lang === 'ro'
@@ -553,42 +601,58 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
-                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
-                    <span>Copy Suspicious Link</span>
+                  <div className={`flex items-center gap-2 font-bold text-red-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs font-mono">1</span>
+                    <span>{lang === 'ur' ? 'مشکوک لنک کاپی کریں' : lang === 'ro' ? 'Copy Suspicious Link' : 'Copy Suspicious Link'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Copy any link received via SMS, WhatsApp, or Facebook claiming to be BISP 8171, Kisan Card, or NADRA.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'ایس ایم ایس، واٹس ایپ یا فیس بک پر موصول ہونے والا کوئی بھی مشکوک لنک کاپی کریں۔'
+                      : lang === 'ro'
+                      ? 'SMS, WhatsApp, ya Facebook par mila hua koi bhi suspicious link copy karein.'
+                      : 'Copy any link received via SMS, WhatsApp, or Facebook claiming to be BISP 8171, Kisan Card, or NADRA.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
-                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">2</span>
-                    <span>Scan with AI Radar</span>
+                  <div className={`flex items-center gap-2 font-bold text-red-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs font-mono">2</span>
+                    <span>{lang === 'ur' ? 'اے آئی ریڈار سے اسکین کریں' : lang === 'ro' ? 'Scan with AI Radar' : 'Scan with AI Radar'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Paste into Phishing Radar for instant Priority 1 official whitelist regex + Priority 2 AI heuristic security scan.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'فِشنگ ریڈار میں پیسٹ کریں اور فوری سرکاری وائٹ لسٹ + اے آئی سیکورٹی اسکین کروائیں۔'
+                      : lang === 'ro'
+                      ? 'Phishing Radar mein paste karke Priority 1 whitelist + Priority 2 AI scan karwayein.'
+                      : 'Paste into Phishing Radar for instant Priority 1 official whitelist regex + Priority 2 AI heuristic security scan.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
-                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">3</span>
-                    <span>Review Threat Verdict</span>
+                  <div className={`flex items-center gap-2 font-bold text-red-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs font-mono">3</span>
+                    <span>{lang === 'ur' ? 'خطرہ کی تفصیل دیکھیں' : lang === 'ro' ? 'Review Threat Verdict' : 'Review Threat Verdict'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    View structured threat score cards, domain authenticity details, and official government portal links.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'سائٹ کے اصل یا جعلی ہونے کا سکور کارڈ اور اصلی سرکاری پورٹل لنکس دیکھیں۔'
+                      : lang === 'ro'
+                      ? 'Structured threat score cards, domain authenticity details, aur official portal links dekhein.'
+                      : 'View structured threat score cards, domain authenticity details, and official government portal links.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-red-400 text-sm">
-                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs">4</span>
-                    <span>Report to FIA (1991)</span>
+                  <div className={`flex items-center gap-2 font-bold text-red-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-scamred-600 text-white rounded-full flex items-center justify-center text-xs font-mono">4</span>
+                    <span>{lang === 'ur' ? 'ایف آئی اے (1991) کو رپورٹ کریں' : lang === 'ro' ? 'Report to FIA (1991)' : 'Report to FIA (1991)'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    If flagged as critical scam, click 'Report to FIA Cybercrime' to log the fraud portal with NR3C wing.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'خطرناک فراڈ پائے جانے پر ایف آئی اے سائبر کرائم ونگ کو رپورٹ کرنے کا بٹن دبائیں۔'
+                      : lang === 'ro'
+                      ? 'Critical scam hone par "Report to FIA Cybercrime" button daba kar NR3C wing ko log karein.'
+                      : "If flagged as critical scam, click 'Report to FIA Cybercrime' to log the fraud portal with NR3C wing."}
                   </p>
                 </div>
               </div>
@@ -602,11 +666,19 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <div className="flex items-start gap-3">
                   <Gift className="w-6 h-6 text-amber-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-white text-base">
-                      Screen 3 of 4: Subsidy Matcher (BISP, Kisan Card & PM Loans)
+                    <h4 className={`font-extrabold text-white text-base ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'اسکرین 3 از 4: سبسڈی میچر (بی آئی ایس پی، کسان کارڈ اور پی ایم قرضے)'
+                        : lang === 'ro'
+                        ? 'Screen 3 of 4: Subsidy Matcher (BISP, Kisan Card & PM Loans)'
+                        : 'Screen 3 of 4: Subsidy Matcher (BISP, Kisan Card & PM Loans)'}
                     </h4>
-                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                      Find Government of Pakistan financial relief schemes, agricultural subsidies, and youth business loans matching your demographic profile.
+                    <p className={`text-xs text-slate-300 mt-1 leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'حکومتِ پاکستان کی مالی امدادی اسکیمیں، زرعی مراعات اور یوتھ بزنس لونز اپنی اہلیت کے مطابق تلاش کریں۔'
+                        : lang === 'ro'
+                        ? 'Government of Pakistan financial relief schemes, agricultural subsidies, aur youth loans apni eligibility ke mutabiq dhoondhein.'
+                        : 'Find Government of Pakistan financial relief schemes, agricultural subsidies, and youth business loans matching your demographic profile.'}
                     </p>
                   </div>
                 </div>
@@ -616,7 +688,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                   className="px-4 py-2.5 bg-pakgold-500 hover:bg-pakgold-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg border border-amber-300 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-slate-950" />
-                  <span>
+                  <span className={lang === 'ur' ? 'font-urdu' : ''}>
                     {lang === 'ur'
                       ? 'ابھی سبسڈی میچر استعمال کریں'
                       : lang === 'ro'
@@ -629,42 +701,58 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">1</span>
-                    <span>Fill Profile Details</span>
+                  <div className={`flex items-center gap-2 font-bold text-amber-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-mono font-black">1</span>
+                    <span>{lang === 'ur' ? 'پروفائل کی تفصیلات درج کریں' : lang === 'ro' ? 'Fill Profile Details' : 'Fill Profile Details'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Enter your monthly household income, employment type (Farmer, Housewife, Unemployed), and province.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'اپنی ماہانہ آمدنی، شعبہ (کسان، گھریلو خاتون، بے روزگار) اور صوبہ منتخب کریں۔'
+                      : lang === 'ro'
+                      ? 'Apni monthly household income, employment type (Farmer, Housewife, Unemployed), aur province enter karein.'
+                      : 'Enter your monthly household income, employment type (Farmer, Housewife, Unemployed), and province.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">2</span>
-                    <span>Instant Eligibility Calculation</span>
+                  <div className={`flex items-center gap-2 font-bold text-amber-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-mono font-black">2</span>
+                    <span>{lang === 'ur' ? 'اہلیت کا فوری حساب' : lang === 'ro' ? 'Instant Eligibility Calculation' : 'Instant Eligibility Calculation'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    AI matches your profile against BISP 8171 Kafaalat, Punjab Kisan Card, PM Youth Loan, and Scholarships.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'اے آئی فوراً بی آئی ایس پی 8171، پنجاب کسان کارڈ اور پی ایم لونز میں آپ کی اہلیت چیک کرتا ہے۔'
+                      : lang === 'ro'
+                      ? 'AI aap ke profile ko BISP 8171 Kafaalat, Punjab Kisan Card, PM Youth Loan, aur Scholarships se match karta hai.'
+                      : 'AI matches your profile against BISP 8171 Kafaalat, Punjab Kisan Card, PM Youth Loan, and Scholarships.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">3</span>
-                    <span>View Payout Amounts</span>
+                  <div className={`flex items-center gap-2 font-bold text-amber-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-mono font-black">3</span>
+                    <span>{lang === 'ur' ? 'امداد کی رقم دیکھیں' : lang === 'ro' ? 'View Payout Amounts' : 'View Payout Amounts'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    See exact PKR payout amounts (e.g. PKR 10,500/quarter BISP or PKR 150,000 Kisan Card credit line).
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'سرکاری امداد کی درست رقم (مثلاً 10,500 سہ ماہی یا 150,000 کسان کریڈٹ) دیکھیں۔'
+                      : lang === 'ro'
+                      ? 'Exact PKR payout amounts (e.g. PKR 10,500/quarter BISP ya PKR 150,000 Kisan Card credit line) dekhein.'
+                      : 'See exact PKR payout amounts (e.g. PKR 10,500/quarter BISP or PKR 150,000 Kisan Card credit line).'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
-                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-black">4</span>
-                    <span>Apply via Official Portal</span>
+                  <div className={`flex items-center gap-2 font-bold text-amber-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-pakgold-500 text-slate-950 rounded-full flex items-center justify-center text-xs font-mono font-black">4</span>
+                    <span>{lang === 'ur' ? 'سرکاری پورٹل پر اپلائی کریں' : lang === 'ro' ? 'Apply via Official Portal' : 'Apply via Official Portal'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Click direct verified government registration portal links to submit your application safely online.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'آن لائن درخواست جمع کروانے کے لیے تصدیق شدہ سرکاری پورٹل لنکس پر کلک کریں۔'
+                      : lang === 'ro'
+                      ? 'Online application submit karne ke liye verified government portal links par click karein.'
+                      : 'Click direct verified government registration portal links to submit your application safely online.'}
                   </p>
                 </div>
               </div>
@@ -678,11 +766,19 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <div className="flex items-start gap-3">
                   <Smartphone className="w-6 h-6 text-blue-400 shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-extrabold text-white text-base">
-                      Screen 4 of 4: Verified Apps Directory (Official Store Links)
+                    <h4 className={`font-extrabold text-white text-base ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'اسکرین 4 از 4: تصدیق شدہ ایپس ڈائریکٹری (سرکاری اسٹور لنکس)'
+                        : lang === 'ro'
+                        ? 'Screen 4 of 4: Verified Apps Directory (Official Store Links)'
+                        : 'Screen 4 of 4: Verified Apps Directory (Official Store Links)'}
                     </h4>
-                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                      Browse genuine government mobile applications from Google Play and Apple App Store without downloading risky third-party APKs.
+                    <p className={`text-xs text-slate-300 mt-1 leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                      {lang === 'ur'
+                        ? 'گوگل پلے اور ایپل ایپ اسٹور سے اصلی اور تصدیق شدہ سرکاری موبائل ایپس ڈاؤن لوڈ کریں۔'
+                        : lang === 'ro'
+                        ? 'Google Play aur Apple App Store se genuine government mobile applications baghair kisi risk ke download karein.'
+                        : 'Browse genuine government mobile applications from Google Play and Apple App Store without downloading risky third-party APKs.'}
                     </p>
                   </div>
                 </div>
@@ -692,7 +788,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                   className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-lg border border-blue-400 transition-all flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Zap className="w-3.5 h-3.5 fill-current text-white" />
-                  <span>
+                  <span className={lang === 'ur' ? 'font-urdu' : ''}>
                     {lang === 'ur'
                       ? 'ابھی تصدیق شدہ ایپس استعمال کریں'
                       : lang === 'ro'
@@ -705,42 +801,58 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
-                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
-                    <span>Browse Official Catalogue</span>
+                  <div className={`flex items-center gap-2 font-bold text-blue-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-mono">1</span>
+                    <span>{lang === 'ur' ? 'سرکاری ایپس کی فہرست دیکھیں' : lang === 'ro' ? 'Browse Official Catalogue' : 'Browse Official Catalogue'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Browse verified apps for Pak Identity (NADRA), Dastak 1202 Doorstep, PassTrack, and e-Pay Punjab.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'پاک آئی ڈی (نادرا)، دستک 1202، پاس ٹریک اور ای پے پنجاب کی تصدیق شدہ ایپس دیکھیں۔'
+                      : lang === 'ro'
+                      ? 'Pak Identity (NADRA), Dastak 1202 Doorstep, PassTrack, aur e-Pay Punjab verified apps dekhein.'
+                      : 'Browse verified apps for Pak Identity (NADRA), Dastak 1202 Doorstep, PassTrack, and e-Pay Punjab.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
-                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">2</span>
-                    <span>View Operating Guides</span>
+                  <div className={`flex items-center gap-2 font-bold text-blue-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-mono">2</span>
+                    <span>{lang === 'ur' ? 'رہنما گائیڈ کھولیں' : lang === 'ro' ? 'View Operating Guides' : 'View Operating Guides'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Click 'Open Step-by-Step Operating Guide' for prerequisites, biometric steps, and common submission mistakes.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'طریقہ کار، بائیومیٹرک اسکیننگ اور ضروری معلومات کے لیے گائیڈ دیکھیں۔'
+                      : lang === 'ro'
+                      ? 'Prerequisites, biometric steps, aur application rules ke liye step-by-step operating guide kholein.'
+                      : "Click 'Open Step-by-Step Operating Guide' for prerequisites, biometric steps, and common submission mistakes."}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
-                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">3</span>
-                    <span>Check Verified Package ID</span>
+                  <div className={`flex items-center gap-2 font-bold text-blue-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-mono">3</span>
+                    <span>{lang === 'ur' ? 'سرکاری پیکج آئی ڈی کی تصدیق' : lang === 'ro' ? 'Check Verified Package ID' : 'Check Verified Package ID'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Verify official developer packages (e.g. pk.gov.nadra.pakidentity) to ensure zero malware or fake apps.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'جعلی ایپس سے بچنے کے لیے نادرا اور حکومت کی ڈیولپر آئی ڈی چیک کریں۔'
+                      : lang === 'ro'
+                      ? 'Official developer packages (pk.gov.nadra.pakidentity) verify karein taake koi fake app download na ho.'
+                      : 'Verify official developer packages (e.g. pk.gov.nadra.pakidentity) to ensure zero malware or fake apps.'}
                   </p>
                 </div>
 
                 <div className="p-4 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-1.5 shadow-sm">
-                  <div className="flex items-center gap-2 font-bold text-blue-400 text-sm">
-                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">4</span>
-                    <span>One-Click Store Install</span>
+                  <div className={`flex items-center gap-2 font-bold text-blue-400 text-sm ${lang === 'ur' ? 'font-urdu' : ''}`}>
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-mono">4</span>
+                    <span>{lang === 'ur' ? 'ایک کلک پر ڈاؤن لوڈ' : lang === 'ro' ? 'One-Click Store Install' : 'One-Click Store Install'}</span>
                   </div>
-                  <p className="text-slate-300 text-xs leading-relaxed">
-                    Click clean Google Play or App Store buttons to open the official app store listing directly on your phone.
+                  <p className={`text-slate-300 text-xs leading-relaxed ${lang === 'ur' ? 'font-urdu leading-relaxed' : ''}`}>
+                    {lang === 'ur'
+                      ? 'اپنے فون میں ڈائریکٹ آفیشل ایپ اسٹور کھولنے کے لیے بٹن پر کلک کریں۔'
+                      : lang === 'ro'
+                      ? 'Apne phone mein direct official Play Store / App Store kholne ke liye button click karein.'
+                      : 'Click clean Google Play or App Store buttons to open the official app store listing directly on your phone.'}
                   </p>
                 </div>
               </div>
@@ -751,8 +863,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800">
             {/* Step Indicators */}
             <div className="flex items-center gap-3">
-              <span className="text-xs font-mono font-bold text-slate-400">
-                Screen {guideStep + 1} of 4
+              <span className={`text-xs font-bold text-slate-400 ${lang === 'ur' ? 'font-urdu' : 'font-mono'}`}>
+                {lang === 'ur'
+                  ? `اسکرین ${guideStep + 1} از 4`
+                  : `Screen ${guideStep + 1} of 4`}
               </span>
               <div className="flex items-center gap-1.5">
                 {[0, 1, 2, 3].map((step) => (
@@ -793,7 +907,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 }`}
               >
                 <Zap className="w-3.5 h-3.5 fill-current" />
-                <span>
+                <span className={lang === 'ur' ? 'font-urdu' : ''}>
                   {guideStep === 0 && (lang === 'ur' ? 'ابھی AI نیویگیٹر استعمال کریں' : lang === 'ro' ? 'Use AI Navigator Now' : 'Use AI Navigator Now')}
                   {guideStep === 1 && (lang === 'ur' ? 'ابھی فِشنگ ریڈار استعمال کریں' : lang === 'ro' ? 'Use Phishing Radar Now' : 'Use Phishing Radar Now')}
                   {guideStep === 2 && (lang === 'ur' ? 'ابھی سبسڈی میچر استعمال کریں' : lang === 'ro' ? 'Use Subsidy Matcher Now' : 'Use Subsidy Matcher Now')}
@@ -806,9 +920,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => setGuideStep(guideStep - 1)}
-                  className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold rounded-xl text-xs transition-all flex items-center gap-1 border border-slate-700"
+                  className={`px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold rounded-xl text-xs transition-all flex items-center gap-1 border border-slate-700 ${lang === 'ur' ? 'font-urdu' : ''}`}
                 >
-                  <span>← Previous</span>
+                  <span>{lang === 'ur' ? '← پچھلا اسکرین' : '← Previous'}</span>
                 </button>
               )}
 
@@ -816,9 +930,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
                 <button
                   type="button"
                   onClick={() => setGuideStep(guideStep + 1)}
-                  className="px-4 py-2.5 bg-slate-900 hover:bg-slate-850 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5 border border-slate-700"
+                  className={`px-4 py-2.5 bg-slate-900 hover:bg-slate-850 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5 border border-slate-700 ${lang === 'ur' ? 'font-urdu' : ''}`}
                 >
-                  <span>Next Screen ({guideStep + 2}/4)</span>
+                  <span>
+                    {lang === 'ur'
+                      ? `اگلا اسکرین (${guideStep + 2}/4)`
+                      : `Next Screen (${guideStep + 2}/4)`}
+                  </span>
                   <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
                 </button>
               )}
@@ -827,52 +945,6 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
         </div>
       </section>
 
-      {/* TRUST GUARANTEE BANNER */}
-      <section className="bg-gradient-to-r from-pakgreen-900 via-pakgreen-800 to-pakgreen-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-pakgreen-700">
-        <div className="flex items-start gap-4">
-          <div className="p-3 bg-pakgreen-700/80 rounded-2xl text-pakgold-400 shrink-0">
-            <ShieldCheck className="w-8 h-8" />
-          </div>
-          <div>
-            <h3 className="font-extrabold text-lg sm:text-xl text-pakgold-300">
-              {t('trustGuaranteeTitle')}
-            </h3>
-            <p className="text-xs sm:text-sm text-pakgreen-100 mt-1 max-w-2xl leading-relaxed">
-              {t('trustGuaranteeBody')}
-            </p>
-          </div>
-        </div>
-
-        <div className="shrink-0">
-          <SuniyeButton
-            textToSpeak={`${t('trustGuaranteeTitle')}. ${t('trustGuaranteeBody')}`}
-            variant="hero"
-          />
-        </div>
-      </section>
-
-      {/* LIVE STATS BAR */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
-          <div className="text-2xl sm:text-3xl font-black text-pakgreen-800">140+</div>
-          <div className="text-xs text-slate-500 font-semibold mt-1">{t('statPortals')}</div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
-          <div className="text-2xl sm:text-3xl font-black text-scamred-600">25,000+</div>
-          <div className="text-xs text-slate-500 font-semibold mt-1">{t('statScams')}</div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
-          <div className="text-2xl sm:text-3xl font-black text-pakgold-600">Rs 120B+</div>
-          <div className="text-xs text-slate-500 font-semibold mt-1">{t('statSubsidies')}</div>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 text-center shadow-sm">
-          <div className="text-2xl sm:text-3xl font-black text-emerald-700">1.2M+</div>
-          <div className="text-xs text-slate-500 font-semibold mt-1">{t('statCitizens')}</div>
-        </div>
-      </section>
     </div>
   );
 };

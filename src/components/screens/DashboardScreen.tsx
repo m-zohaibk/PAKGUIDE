@@ -362,7 +362,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Follow this 4-step visual timeline to navigate CNIC/Passport procedures, inspect documents, scan scam links, and download official apps.
+              Follow this 4-step visual timeline to navigate CNIC/Passport procedures, find eligible subsidies, scan scam links, and download official apps.
             </p>
           </div>
         </div>
@@ -392,21 +392,21 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
 
           {/* Step 2 */}
           <div
-            onClick={() => onNavigate('navigator')}
-            className="relative z-10 p-5 rounded-2xl bg-blue-50/70 border border-blue-200/80 hover:bg-blue-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
+            onClick={() => onNavigate('matcher')}
+            className="relative z-10 p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 hover:bg-amber-100/90 cursor-pointer transition-all space-y-3 group shadow-sm hover:shadow-md flex flex-col justify-between"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="w-9 h-9 bg-blue-600 text-white rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">2</span>
-                <Camera className="w-6 h-6 text-blue-600 group-hover:scale-110 transition-transform" />
+                <span className="w-9 h-9 bg-pakgold-500 text-slate-950 rounded-2xl font-black text-sm flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">2</span>
+                <Gift className="w-6 h-6 text-pakgold-600 group-hover:scale-110 transition-transform" />
               </div>
-              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-blue-600 transition-colors">2. Inspect Document Photo</h4>
+              <h4 className="font-extrabold text-base text-slate-900 group-hover:text-pakgold-600 transition-colors">2. Subsidies & Grants Finder</h4>
               <p className="text-slate-600 text-xs leading-relaxed">
-                Upload a photo of your CNIC or B-Form to audit stamps, expiry dates, and completeness in-memory before submitting.
+                Check instant eligibility for BISP 8171, Punjab Kisan Card, Youth Loan, and scholarships tailored to your income profile.
               </p>
             </div>
-            <div className="pt-2 text-[11px] font-bold text-blue-600 flex items-center gap-1">
-              <span>Inspect Photo</span>
+            <div className="pt-2 text-[11px] font-bold text-pakgold-600 flex items-center gap-1">
+              <span>Find Subsidies</span>
               <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
             </div>
           </div>

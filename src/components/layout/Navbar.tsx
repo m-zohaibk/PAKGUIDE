@@ -80,16 +80,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="sm:hidden">RO</span><span className="hidden sm:inline">Roman Urdu</span>
             </button>
           </div>
-
-          {/* Guide Button */}
-          <button
-            onClick={onOpenGuide}
-            title={t('userGuide')}
-            className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-pakgreen-700/60 hover:bg-pakgreen-700 text-pakgold-300 border border-pakgreen-600 text-xs font-semibold flex items-center gap-1.5 transition-colors"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span className="hidden md:inline">{t('userGuide')}</span>
-          </button>
         </div>
       </div>
 

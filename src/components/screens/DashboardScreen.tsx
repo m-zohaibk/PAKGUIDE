@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, Mic, MicOff, ShieldCheck, FileCheck, Gift, Smartphone, ArrowRight, ShieldAlert, Sparkles, CheckCircle2, BookOpen, MessageSquare, Camera } from 'lucide-react';
+import { Search, Mic, MicOff, ShieldCheck, FileCheck, Gift, Smartphone, ArrowRight, ShieldAlert, Sparkles, CheckCircle2, BookOpen, MessageSquare, Camera, Zap } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { SuniyeButton } from '@/components/common/SuniyeButton';
 import { createSpeechRecognizer } from '@/lib/audio/speech';
@@ -442,16 +442,33 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* SCREEN 1: AI NAVIGATOR */}
           {guideStep === 0 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-start gap-3">
-                <Sparkles className="w-6 h-6 text-pakgreen-800 shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-extrabold text-slate-900 text-base">
-                    Screen 1: AI Navigator (Smart Queries & Procedure Guides)
-                  </h4>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Ask questions about CNIC renewal, Passport fees, Land Fard, or Domicile certificates in English, Urdu, or Roman Urdu. Get immediate step-by-step instructions, official PKR fee tables, and Play Store app buttons right inside the chatbox!
-                  </p>
+              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <Sparkles className="w-6 h-6 text-pakgreen-800 shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-extrabold text-slate-900 text-base">
+                      Screen 1 of 4: AI Navigator (Smart Queries & Procedure Guides)
+                    </h4>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      Ask questions about CNIC renewal, Passport fees, Land Fard, or Domicile certificates in English, Urdu, or Roman Urdu. Get immediate step-by-step instructions, official PKR fee tables, and Play Store app buttons right inside the chatbox!
+                    </p>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('navigator')}
+                  className="px-4 py-2 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                >
+                  <Zap className="w-3.5 h-3.5 fill-current text-pakgold-400" />
+                  <span>
+                    {lang === 'ur'
+                      ? 'ابھی AI نیویگیٹر استعمال کریں'
+                      : lang === 'ro'
+                      ? 'Abhi AI Navigator Use Karein'
+                      : 'Use AI Navigator Now'}
+                  </span>
+                  <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+                </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -501,16 +518,33 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* SCREEN 2: PHISHING RADAR */}
           {guideStep === 1 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-3">
-                <ShieldAlert className="w-6 h-6 text-scamred-600 shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-extrabold text-slate-900 text-base">
-                    Screen 2: Phishing Radar (SMS & WhatsApp Scam Scanner)
-                  </h4>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Protect yourself from fake BISP 8171 SMS messages, fraudulent Kisan Card links, and fake lottery sites claiming to be government portals.
-                  </p>
+              <div className="p-4 bg-red-50 border border-red-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <ShieldAlert className="w-6 h-6 text-scamred-600 shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-extrabold text-slate-900 text-base">
+                      Screen 2 of 4: Phishing Radar (SMS & WhatsApp Scam Scanner)
+                    </h4>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      Protect yourself from fake BISP 8171 SMS messages, fraudulent Kisan Card links, and fake lottery sites claiming to be government portals.
+                    </p>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('phishing')}
+                  className="px-4 py-2 bg-scamred-600 hover:bg-scamred-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                >
+                  <Zap className="w-3.5 h-3.5 fill-current text-white" />
+                  <span>
+                    {lang === 'ur'
+                      ? 'ابھی فِشنگ ریڈار استعمال کریں'
+                      : lang === 'ro'
+                      ? 'Abhi Phishing Radar Use Karein'
+                      : 'Use Phishing Radar Now'}
+                  </span>
+                  <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+                </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -560,16 +594,33 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* SCREEN 3: SUBSIDY MATCHER */}
           {guideStep === 2 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
-                <Gift className="w-6 h-6 text-pakgold-600 shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-extrabold text-slate-900 text-base">
-                    Screen 3: Subsidy Matcher (BISP, Kisan Card & PM Loans)
-                  </h4>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Find Government of Pakistan financial relief schemes, agricultural subsidies, and youth business loans matching your demographic profile.
-                  </p>
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <Gift className="w-6 h-6 text-pakgold-600 shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-extrabold text-slate-900 text-base">
+                      Screen 3 of 4: Subsidy Matcher (BISP, Kisan Card & PM Loans)
+                    </h4>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      Find Government of Pakistan financial relief schemes, agricultural subsidies, and youth business loans matching your demographic profile.
+                    </p>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('matcher')}
+                  className="px-4 py-2 bg-pakgold-500 hover:bg-pakgold-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                >
+                  <Zap className="w-3.5 h-3.5 fill-current text-slate-950" />
+                  <span>
+                    {lang === 'ur'
+                      ? 'ابھی سبسڈی میچر استعمال کریں'
+                      : lang === 'ro'
+                      ? 'Abhi Subsidy Matcher Use Karein'
+                      : 'Use Subsidy Matcher Now'}
+                  </span>
+                  <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+                </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -619,16 +670,33 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
           {/* SCREEN 4: VERIFIED APPS */}
           {guideStep === 3 && (
             <div className="space-y-5 animate-fadeIn">
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl flex items-start gap-3">
-                <Smartphone className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-extrabold text-slate-900 text-base">
-                    Screen 4: Verified Apps Directory (Official Store Links)
-                  </h4>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                    Browse genuine government mobile applications from Google Play and Apple App Store without downloading risky third-party APKs.
-                  </p>
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <Smartphone className="w-6 h-6 text-blue-600 shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-extrabold text-slate-900 text-base">
+                      Screen 4 of 4: Verified Apps Directory (Official Store Links)
+                    </h4>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                      Browse genuine government mobile applications from Google Play and Apple App Store without downloading risky third-party APKs.
+                    </p>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('apps')}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 shrink-0"
+                >
+                  <Zap className="w-3.5 h-3.5 fill-current text-white" />
+                  <span>
+                    {lang === 'ur'
+                      ? 'ابھی تصدیق شدہ ایپس استعمال کریں'
+                      : lang === 'ro'
+                      ? 'Abhi Verified Apps Use Karein'
+                      : 'Use Verified Apps Directory Now'}
+                  </span>
+                  <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+                </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -699,34 +767,54 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ onNavigate }) 
               </div>
             </div>
 
-            {/* Pagination & Module Launch Buttons */}
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            {/* Pagination & Dynamic Tool Launch Buttons */}
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
+              {/* Dynamic Use This Tool Now Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (guideStep === 0) onNavigate('navigator');
+                  else if (guideStep === 1) onNavigate('phishing');
+                  else if (guideStep === 2) onNavigate('matcher');
+                  else onNavigate('apps');
+                }}
+                className={`px-4 py-2.5 font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5 ${
+                  guideStep === 0
+                    ? 'bg-pakgreen-800 hover:bg-pakgreen-700 text-white'
+                    : guideStep === 1
+                    ? 'bg-scamred-600 hover:bg-scamred-700 text-white'
+                    : guideStep === 2
+                    ? 'bg-pakgold-500 hover:bg-pakgold-600 text-slate-950'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                }`}
+              >
+                <Zap className="w-3.5 h-3.5 fill-current" />
+                <span>
+                  {guideStep === 0 && (lang === 'ur' ? 'ابھی AI نیویگیٹر استعمال کریں' : lang === 'ro' ? 'Use AI Navigator Now' : 'Use AI Navigator Now')}
+                  {guideStep === 1 && (lang === 'ur' ? 'ابھی فِشنگ ریڈار استعمال کریں' : lang === 'ro' ? 'Use Phishing Radar Now' : 'Use Phishing Radar Now')}
+                  {guideStep === 2 && (lang === 'ur' ? 'ابھی سبسڈی میچر استعمال کریں' : lang === 'ro' ? 'Use Subsidy Matcher Now' : 'Use Subsidy Matcher Now')}
+                  {guideStep === 3 && (lang === 'ur' ? 'ابھی تصدیق شدہ ایپس استعمال کریں' : lang === 'ro' ? 'Use Verified Apps Now' : 'Use Verified Apps Directory Now')}
+                </span>
+                <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+              </button>
+
               {guideStep > 0 && (
                 <button
                   type="button"
                   onClick={() => setGuideStep(guideStep - 1)}
-                  className="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-xl text-xs transition-all flex items-center gap-1"
+                  className="px-3.5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold rounded-xl text-xs transition-all flex items-center gap-1"
                 >
                   <span>← Previous</span>
                 </button>
               )}
 
-              {guideStep < 3 ? (
+              {guideStep < 3 && (
                 <button
                   type="button"
                   onClick={() => setGuideStep(guideStep + 1)}
-                  className="px-5 py-2.5 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
+                  className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
                 >
                   <span>Next Screen ({guideStep + 2}/4)</span>
-                  <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => onNavigate('apps')}
-                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs shadow-md transition-all flex items-center gap-1.5"
-                >
-                  <span>Browse Official Apps Directory</span>
                   <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
                 </button>
               )}

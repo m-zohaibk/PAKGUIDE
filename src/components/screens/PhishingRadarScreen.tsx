@@ -155,7 +155,7 @@ export const PhishingRadarScreen: React.FC<PhishingRadarScreenProps> = ({ apiKey
           <RefreshCw className="w-8 h-8 text-scamred-600 animate-spin mx-auto" />
           <h4 className="font-bold text-slate-900 text-base">{t('scanningProgress')}</h4>
           <p className="text-xs text-slate-500">
-            Checking official .gov.pk TLD whitelist & Gemini 3.5 Flash Lite typosquatting heuristics...
+            Checking official .gov.pk domain whitelist & AI security heuristics...
           </p>
         </div>
       )}

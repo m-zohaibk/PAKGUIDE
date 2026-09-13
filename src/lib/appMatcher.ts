@@ -42,10 +42,14 @@ export function findAppsInText(text: string): MatchedAppInfo[] {
   if (!text) return [];
   const textLower = text.toLowerCase();
   const matchedApps: MatchedAppInfo[] = [];
-  const addedIds = new Set<string>();
+  const addedKeys = new Set<string>();
 
   for (const app of ALL_APPS_LIST) {
-    if (addedIds.has(app.id)) continue;
+    const key = app.packageName && app.packageName !== 'Official Government App'
+      ? app.packageName
+      : app.playStoreUrl || app.id;
+
+    if (addedKeys.has(key)) continue;
 
     const nameLower = app.name.toLowerCase();
     const nameUrdu = app.nameUrdu;
@@ -88,7 +92,7 @@ export function findAppsInText(text: string): MatchedAppInfo[] {
 
     if (isMatch) {
       matchedApps.push(app);
-      addedIds.add(app.id);
+      addedKeys.add(key);
     }
   }
 

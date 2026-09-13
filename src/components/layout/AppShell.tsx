@@ -10,7 +10,6 @@ import { BenefitMatcherScreen } from '@/components/screens/BenefitMatcherScreen'
 import { ModuleErrorBoundary } from '@/components/common/ModuleErrorBoundary';
 import { VerifiedAppsScreen } from '@/components/screens/VerifiedAppsScreen';
 import { ApiKeyModal } from '@/components/common/ApiKeyModal';
-import { AuthModal } from '@/components/auth/AuthModal';
 import { CitizenGuideModal } from '@/components/guide/CitizenGuideModal';
 import { NavScreen, CitizenUser } from '@/types';
 
@@ -23,7 +22,6 @@ export const AppShell: React.FC<AppShellProps> = ({ initialScreen = 'dashboard' 
   const [navQuery, setNavQuery] = useState<string | undefined>(undefined);
   const [apiKey, setApiKey] = useState<string>('');
   const [isApiKeyOpen, setIsApiKeyOpen] = useState(false);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const [user, setUser] = useState<CitizenUser>({
@@ -105,8 +103,6 @@ export const AppShell: React.FC<AppShellProps> = ({ initialScreen = 'dashboard' 
       <Navbar
         activeScreen={activeScreen}
         onNavigate={handleNavigate}
-        user={user}
-        onOpenAuth={() => setIsAuthOpen(true)}
         onOpenApiKey={() => setIsApiKeyOpen(true)}
         onOpenGuide={() => setIsGuideOpen(true)}
       />
@@ -149,13 +145,6 @@ export const AppShell: React.FC<AppShellProps> = ({ initialScreen = 'dashboard' 
         onClose={() => setIsApiKeyOpen(false)}
         apiKey={apiKey}
         onSaveApiKey={handleSaveApiKey}
-      />
-
-      <AuthModal
-        isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
-        user={user}
-        onLoginSuccess={handleUpdateUser}
       />
 
       <CitizenGuideModal

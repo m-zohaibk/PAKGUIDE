@@ -66,10 +66,10 @@ export async function generateChatResponse(
   if (!ai) {
     if (!selectedService) {
       const replyText = lang === 'ur'
-        ? 'اس سوال کا درست جواب دینے کے لیے Gemini کنکشن درکار ہے۔ براہ کرم اپنا Gemini API key محفوظ کریں یا دوبارہ کوشش کریں۔'
+        ? 'اس سوال کا درست جواب دینے کے لیے اے آئی کنکشن درکار ہے۔ براہ کرم اپنا اے آئی API key محفوظ کریں یا دوبارہ کوشش کریں۔'
         : lang === 'ro'
-          ? 'Is sawal ka verified jawab dene ke liye Gemini connection darkar hai. Apna Gemini API key save karein ya dobara koshish karein.'
-          : 'A live Gemini connection is required to answer this question accurately. Please save your Gemini API key or try again.';
+          ? 'Is sawal ka verified jawab dene ke liye AI connection darkar hai. Apna AI API key save karein ya dobara koshish karein.'
+          : 'A live AI connection is required to answer this question accurately. Please save your AI API key or try again.';
       return { replyText };
     }
 
@@ -84,8 +84,15 @@ export async function generateChatResponse(
   }
 
   try {
-    const systemPrompt = `You are PakGuide AI, a reliable general-purpose assistant for questions about Pakistan and its government services, powered by ${MODEL_NAME}.
-Answer the user's actual newest question. Never reuse a previous answer, never force an unrelated service, and never assume the query is about CNIC, passport, or another default topic.
+    const greetingRule = lang === 'ur'
+      ? "Always start initial greetings with 'السلام علیکم!'. Never use 'Walaikum Assalam' or 'وعلیکم السلام' when initiating or answering new user questions."
+      : lang === 'ro'
+      ? "Always start initial greetings with 'Assalam-o-Alaikum!'. Never use 'Walaikum Assalam' when initiating or answering new user questions."
+      : "Always start initial greetings with 'Hello!'. Never use 'Walaikum Assalam' when initiating or answering new user questions.";
+
+    const systemPrompt = `You are PakGuide AI, a reliable general-purpose civic assistant for questions about Pakistan and its government services.
+${greetingRule}
+Answer the user's actual newest question cleanly and directly. Never reuse a previous answer, never force an unrelated service, and never assume the query is about CNIC, passport, or another default topic.
 For a government-service question, give a clear step-by-step method, prerequisites, current fee/rates when verified, official portal/app name, exact official links when known, expected timeline, and safety warnings about agents. If a detail is not verified, say so instead of inventing it. For non-government questions, answer normally and omit irrelevant government links.
 
 Highlight key apps:
@@ -129,21 +136,21 @@ Recent conversation context: ${JSON.stringify(history.slice(-12))}`;
 
     return { replyText, roadmap: extractedRoadmap };
   } catch (err) {
-    console.error('Gemini chat error:', err);
+    console.error('Chat error:', err);
     if (selectedService) {
       const replyText = lang === 'ur'
-        ? `Gemini عارضی طور پر دستیاب نہیں۔ **${selectedService.titleUrdu}** کے لیے تصدیق شدہ روڈ میپ، فیس اور لنکس ساتھ دکھائے گئے ہیں۔`
+        ? `اے آئی اسسٹنٹ عارضی طور پر دستیاب نہیں۔ **${selectedService.titleUrdu}** کے لیے تصدیق شدہ روڈ میپ، فیس اور لنکس ساتھ دکھائے گئے ہیں۔`
         : lang === 'ro'
-          ? `Gemini filhaal available nahin. **${selectedService.titleRoman}** ka verified roadmap, rates aur links sath dikhaye gaye hain.`
-          : `Gemini is temporarily unavailable. The verified roadmap, rates, and links for **${selectedService.title}** are shown alongside.`;
+          ? `AI Assistant filhaal available nahin. **${selectedService.titleRoman}** ka verified roadmap, rates aur links sath dikhaye gaye hain.`
+          : `AI Assistant is temporarily unavailable. The verified roadmap, rates, and links for **${selectedService.title}** are shown alongside.`;
       return { replyText, roadmap: selectedService };
     }
     return {
       replyText: lang === 'ur'
-        ? 'Gemini عارضی طور پر دستیاب نہیں۔ براہ کرم کچھ دیر بعد دوبارہ کوشش کریں۔'
+        ? 'اے آئی اسسٹنٹ عارضی طور پر دستیاب نہیں۔ براہ کرم کچھ دیر بعد دوبارہ کوشش کریں۔'
         : lang === 'ro'
-          ? 'Gemini filhaal available nahin. Kuch dair baad dobara koshish karein.'
-          : 'Gemini is temporarily unavailable. Please try again in a moment.'
+          ? 'AI Assistant filhaal available nahin. Kuch dair baad dobara koshish karein.'
+          : 'AI Assistant is temporarily unavailable. Please try again in a moment.'
     };
   }
 }
@@ -271,47 +278,31 @@ Return STRICT JSON inside \`\`\`json ... \`\`\` matching this schema:
 }
 
 /**
- * Phishing URL Analysis with Gemini 3.5 Flash Lite Domain Heuristics
+ * Phishing URL Analysis: Priority 1 (Default Whitelist & Heuristic Scan) combined with Priority 2 (AI Heuristic Scan)
  */
 export async function analyzePhishingUrlWithAI(
   url: string,
   customApiKey?: string
 ): Promise<PhishingScanResult> {
-  const deterministicResult = performDetailedSecurityScan(url);
-
-  // If deterministic check confirmed official .gov.pk domain, return safe immediately
-  if (deterministicResult.isSafe) {
-    return deterministicResult;
-  }
+  // Priority 1: Default Security Scan (Official .gov.pk Regex, Known Scam Keywords & TLD checks)
+  const defaultResult = performDetailedSecurityScan(url);
 
   const ai = getGeminiClient(customApiKey);
   if (!ai) {
-    return deterministicResult;
+    return defaultResult;
   }
 
   try {
-    const prompt = `Analyze this suspicious URL received by a Pakistani citizen via WhatsApp or SMS: "${url}"
-Check for domain typosquatting against Pakistan official portals (like BISP 8171, NADRA Pak-Identity, Punjab Kisan Card, FBR).
+    const prompt = `Perform Stage 2 AI phishing heuristic analysis for URL: "${url}"
+Default Stage 1 Regex Scan Result: isGovDomainRegexMatch=${defaultResult.technicalChecks.isGovDomainRegexMatch}, isTyposquattingDetected=${defaultResult.technicalChecks.isTyposquattingDetected}, TLD=${defaultResult.cleanDomain}.
 Return STRICT JSON inside \`\`\`json ... \`\`\` matching this schema:
 {
-  "url": "${url}",
-  "cleanDomain": "domain.com",
-  "isSafe": false,
-  "threatLevel": "critical",
-  "domainScore": 10,
-  "reason": "Detailed English explanation of the phishing scam",
-  "reasonUrdu": "اردو میں وضاحت",
-  "reasonRoman": "Roman Urdu explanation",
-  "impersonatedEntity": "Entity Name",
-  "officialUrl": "https://bisp.gov.pk",
-  "verifiedHostingDetails": "Offshore Server",
-  "fiaReportUrl": "https://nr3c.gov.pk",
-  "technicalChecks": {
-    "isGovDomainRegexMatch": false,
-    "hasSSL": false,
-    "isTyposquattingDetected": true,
-    "suspiciousTLD": true
-  }
+  "reasonAI": "Detailed AI security findings for this domain",
+  "reasonUrduAI": "اے آئی سیکیورٹی کی رپورٹ",
+  "reasonRomanAI": "AI security report in Roman Urdu",
+  "impersonatedEntity": "Entity Name or None",
+  "aiThreatLevel": "safe" | "low" | "medium" | "high" | "critical",
+  "aiScore": 95
 }`;
 
     const response = await ai.models.generateContent({
@@ -322,13 +313,38 @@ Return STRICT JSON inside \`\`\`json ... \`\`\` matching this schema:
     const text = response.text || '';
     const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/);
     if (jsonMatch && jsonMatch[1]) {
-      return JSON.parse(jsonMatch[1]) as PhishingScanResult;
+      const aiData = JSON.parse(jsonMatch[1]);
+      
+      // Combine Priority 1 (Default Check) & Priority 2 (AI Response)
+      const combinedReason = defaultResult.isSafe
+        ? `${defaultResult.reason}\n\n🤖 **Stage 2 AI Analysis:** ${aiData.reasonAI || 'AI checks verify this link belongs to official Pakistan Government infrastructure.'}`
+        : `${defaultResult.reason}\n\n🤖 **Stage 2 AI Analysis:** ${aiData.reasonAI || 'AI heuristics confirm suspicious domain pattern and typosquatting risk.'}`;
+
+      const combinedUrdu = defaultResult.isSafe
+        ? `${defaultResult.reasonUrdu}\n\n🤖 **اے آئی رپورٹ:** ${aiData.reasonUrduAI || 'اے آئی نے بھی اس پورٹل کو محفوظ قرار دیا ہے۔'}`
+        : `${defaultResult.reasonUrdu}\n\n🤖 **اے آئی رپورٹ:** ${aiData.reasonUrduAI || 'اے آئی نے اس لنک کو غیر محفوظ پایا ہے۔'}`;
+
+      const combinedRoman = defaultResult.isSafe
+        ? `${defaultResult.reasonRoman}\n\n🤖 **AI Report:** ${aiData.reasonRomanAI || 'AI verification confirmed safe government portal.'}`
+        : `${defaultResult.reasonRoman}\n\n🤖 **AI Report:** ${aiData.reasonRomanAI || 'AI check confirmed fake website threat.'}`;
+
+      return {
+        ...defaultResult,
+        // Priority 1 sets the baseline safety status - if default check flagged scam/unauthorized, AI cannot override to safe
+        isSafe: defaultResult.isSafe,
+        threatLevel: defaultResult.threatLevel === 'critical' ? 'critical' : (aiData.aiThreatLevel || defaultResult.threatLevel),
+        domainScore: defaultResult.isSafe ? Math.max(defaultResult.domainScore, aiData.aiScore || 95) : Math.min(defaultResult.domainScore, aiData.aiScore || 20),
+        reason: combinedReason,
+        reasonUrdu: combinedUrdu,
+        reasonRoman: combinedRoman,
+        impersonatedEntity: defaultResult.impersonatedEntity || aiData.impersonatedEntity,
+      };
     }
   } catch (err) {
     console.error('Phishing AI scan error:', err);
   }
 
-  return deterministicResult;
+  return defaultResult;
 }
 
 /**

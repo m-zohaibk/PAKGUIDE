@@ -151,10 +151,6 @@ const AppDownloadBadge: React.FC<{ app: MatchedAppInfo }> = ({ app }) => {
             <h5 className="font-extrabold text-sm sm:text-base text-white leading-tight">
               {app.name}
             </h5>
-            <span className="text-[10px] text-emerald-300 font-medium flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-emerald-400" />
-              {app.verificationBadge}
-            </span>
           </div>
         </div>
 
@@ -202,8 +198,23 @@ const AppDownloadBadge: React.FC<{ app: MatchedAppInfo }> = ({ app }) => {
   );
 };
 
-export const AssistantMessage: React.FC<{ text: string }> = ({ text }) => {
-  const matchedApps = findAppsInText(text);
+interface AssistantMessageProps {
+  text: string;
+  excludePackageName?: string;
+  excludePlayStoreUrl?: string;
+}
+
+export const AssistantMessage: React.FC<AssistantMessageProps> = ({
+  text,
+  excludePackageName,
+  excludePlayStoreUrl
+}) => {
+  const allMatched = findAppsInText(text);
+  const matchedApps = allMatched.filter((app) => {
+    if (excludePackageName && app.packageName === excludePackageName) return false;
+    if (excludePlayStoreUrl && app.playStoreUrl === excludePlayStoreUrl) return false;
+    return true;
+  });
   const lines = text.replace(/\r\n/g, '\n').split('\n');
   const blocks: React.ReactNode[] = [];
   let listItems: { text: string; isUrdu: boolean }[] = [];

@@ -1,15 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Shield, Key, BookOpen, UserCheck, Smartphone, Bookmark, ChevronDown } from 'lucide-react';
+import { Shield, BookOpen } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
-import { Language, NavScreen, CitizenUser } from '@/types';
+import { NavScreen } from '@/types';
 
 interface NavbarProps {
   activeScreen: NavScreen;
   onNavigate: (screen: NavScreen) => void;
-  user: CitizenUser;
-  onOpenAuth: () => void;
   onOpenApiKey: () => void;
   onOpenGuide: () => void;
 }
@@ -17,8 +15,6 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   activeScreen,
   onNavigate,
-  user,
-  onOpenAuth,
   onOpenApiKey,
   onOpenGuide,
 }) => {
@@ -49,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Action Controls & Auth */}
+        {/* Action Controls */}
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0 ml-auto">
           {/* 3-Way Language Selector */}
           <div className="relative inline-flex bg-pakgreen-900/80 p-1 rounded-xl border border-pakgreen-700/80 text-xs font-semibold">
@@ -93,34 +89,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <BookOpen className="w-4 h-4" />
             <span className="hidden md:inline">{t('userGuide')}</span>
-          </button>
-
-          {/* Auth Button */}
-          <button
-            onClick={onOpenAuth}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm transition-all ${
-              user.isLoggedIn
-                ? 'bg-emerald-700 hover:bg-emerald-600 text-white border border-emerald-500'
-                : 'bg-pakgold-500 hover:bg-pakgold-400 text-slate-950 shadow-pakgold-500/20'
-            }`}
-          >
-            {user.isLoggedIn ? (
-              <>
-                <UserCheck className="w-4 h-4 text-pakgold-300" />
-                <span className="max-w-[90px] truncate">{user.name}</span>
-                {user.savedApplications.length > 0 && (
-                  <span className="px-1.5 py-0.5 bg-pakgold-400 text-slate-950 text-[10px] font-black rounded-full">
-                    {user.savedApplications.length}
-                  </span>
-                )}
-              </>
-            ) : (
-              <>
-                <Smartphone className="w-4 h-4" />
-                <span className="hidden sm:inline">{t('loginWithPhone')}</span>
-                <span className="sm:hidden">Login</span>
-              </>
-            )}
           </button>
         </div>
       </div>

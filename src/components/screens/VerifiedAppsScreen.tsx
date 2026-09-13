@@ -248,12 +248,6 @@ export const VerifiedAppsScreen: React.FC = () => {
                 <p className="text-xs text-slate-600 leading-relaxed min-h-[36px]">
                   {lang === 'ur' ? app.descriptionUrdu : app.description}
                 </p>
-
-                {/* Verified Badge */}
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-xl text-[11px] font-bold text-emerald-800">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span className="truncate">{app.verificationBadge}</span>
-                </div>
               </div>
 
               {/* ACTION BUTTON ROW */}

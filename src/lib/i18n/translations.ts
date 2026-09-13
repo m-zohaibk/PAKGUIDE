@@ -62,12 +62,12 @@ export const translations: Record<Language, Record<string, string>> = {
     statCitizens: "Citizens Guided",
 
     // Screen 2: Multimodal Navigator
-    chatTitle: "Gemini 3.5 Flash Civic Assistant",
+    chatTitle: "PakGuide Civic AI Assistant",
     chatSub: "Real-time bilingual guidance & in-memory document auditor",
     chatPlaceholder: "Type your query or upload a document photo...",
     inspectDocBtn: "Inspect Document (In-Memory OCR)",
     inspectDocSub: "Upload CNIC, B-Form or Land Fard to audit stamps & completeness",
-    analyzingDoc: "Gemini Vision is auditing document compliance...",
+    analyzingDoc: "AI Audit System is verifying document compliance...",
     suniyeBtn: "Suniye / Listen",
     stopAudio: "Stop Audio",
 
@@ -91,7 +91,7 @@ export const translations: Record<Language, Record<string, string>> = {
     phishingSub: "Protect yourself from BISP scams, fake lottery links, and fraudulent government portals.",
     pasteUrlPlaceholder: "Paste suspicious link received via WhatsApp, SMS, or Social Media...",
     scanNowBtn: "Scan Link Legitimacy",
-    scanningProgress: "Running Stage 1 Regex Domain Match & Stage 2 Gemini Heuristic Check...",
+    scanningProgress: "Running Stage 1 Domain Whitelist Scan & Stage 2 AI Security Heuristics...",
     testLinksTitle: "Try Sample Links to Test:",
     verdictSafeTitle: "VERIFIED SAFE GOVERNMENT PORTAL",
     verdictDangerTitle: "CRITICAL SECURITY ALERT! SCAM LINK DETECTED",
@@ -211,12 +211,12 @@ export const translations: Record<Language, Record<string, string>> = {
     statCitizens: "رہنمائی پانے والے شہری",
 
     // Screen 2: Multimodal Navigator
-    chatTitle: "جیٹ مینی 3.5 فلیش شہری اسسٹنٹ",
+    chatTitle: "پاک گائیڈ شہری اے آئی اسسٹنٹ",
     chatSub: "ریئل ٹائم دو زبانوں میں رہنمائی اور ان میموری دستاویز کی جانچ",
     chatPlaceholder: "اپنا سوال لکھیں یا دستاویز کی تصویر اپ لوڈ کریں...",
     inspectDocBtn: "دستاویز کی جانچ کریں (ان میموری ocr)",
     inspectDocSub: "شناختی کارڈ یا بے فارم پر مہر اور تاریخ چیک کریں",
-    analyzingDoc: "جیٹ مینی وژن دستاویز کا معائنہ کر رہا ہے...",
+    analyzingDoc: "اے آئی آڈٹ سسٹم دستاویز کا معائنہ کر رہا ہے...",
     suniyeBtn: "سنیں / Listen",
     stopAudio: "آواز بند کریں",
 
@@ -360,12 +360,12 @@ export const translations: Record<Language, Record<string, string>> = {
     statCitizens: "Citizens Assisted",
 
     // Screen 2: Multimodal Navigator
-    chatTitle: "Gemini 3.5 Flash Civic Assistant",
+    chatTitle: "PakGuide Civic AI Assistant",
     chatSub: "Real-time bilingual support aur document auditor",
     chatPlaceholder: "Apna sawal likhein ya document photo upload karein...",
     inspectDocBtn: "Inspect Document (In-Memory OCR)",
     inspectDocSub: "CNIC ya B-Form ki stamps aur dates check karein",
-    analyzingDoc: "Gemini Vision document ki checking kar raha hai...",
+    analyzingDoc: "AI Audit System document ki checking kar raha hai...",
     suniyeBtn: "Suniye / Listen",
     stopAudio: "Stop Audio",
 
@@ -389,7 +389,7 @@ export const translations: Record<Language, Record<string, string>> = {
     phishingSub: "Fake BISP, Lottery ya Govt links se khud ko mehfooz rakhein.",
     pasteUrlPlaceholder: "SMS ya WhatsApp par aya hua suspicious link yahan paste karein...",
     scanNowBtn: "Link Legitimacy Scan Karein",
-    scanningProgress: "Stage 1 Domain Regex & Stage 2 Gemini AI Heuristic Check chal raha hai...",
+    scanningProgress: "Stage 1 Domain Whitelist & Stage 2 AI Security Check chal raha hai...",
     testLinksTitle: "Test ke liye ye links try karein:",
     verdictSafeTitle: "VERIFIED SAFE GOVERNMENT PORTAL",
     verdictDangerTitle: "CRITICAL SECURITY ALERT! SCAM LINK DETECTED",

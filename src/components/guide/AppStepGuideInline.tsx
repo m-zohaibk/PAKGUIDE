@@ -76,7 +76,7 @@ export const AppStepGuideInline: React.FC<AppStepGuideInlineProps> = ({ app, onC
               {lang === 'ur' ? app.nameUrdu : app.name} — {lang === 'ur' ? 'طریقہ کار' : 'Official Operating Manual'}
             </h4>
             <p className="text-xs text-pakgreen-200 mt-0.5 truncate">
-              {app.verificationBadge}
+              {app.provider}
             </p>
           </div>
         </div>

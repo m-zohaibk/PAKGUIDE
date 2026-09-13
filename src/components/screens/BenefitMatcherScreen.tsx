@@ -304,7 +304,7 @@ export const BenefitMatcherScreen: React.FC<BenefitMatcherScreenProps> = ({
           className="w-full py-4 bg-pakgreen-800 hover:bg-pakgreen-700 text-white font-extrabold rounded-2xl shadow-xl shadow-pakgreen-800/20 text-sm flex items-center justify-center gap-2 transition-all"
         >
           {calculating ? (
-            <span>Calculating Gemini 3.5 Eligibility...</span>
+            <span>Calculating Eligibility...</span>
           ) : (
             <>
               <Calculator className="w-5 h-5 text-pakgold-400" />

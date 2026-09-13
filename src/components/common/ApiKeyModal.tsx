@@ -46,8 +46,7 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({
               <Cpu className="w-6 h-6 text-pakgold-400" />
             </div>
             <div>
-              <h3 className="font-bold text-lg leading-tight">Google Gemini Engine</h3>
-              <p className="text-xs text-pakgreen-200">Powered by model: gemini-3.5-flash-lite</p>
+              <h3 className="font-bold text-lg leading-tight">PakGuide AI Engine</h3>
             </div>
           </div>
           <button
@@ -65,14 +64,14 @@ export const ApiKeyModal: React.FC<ApiKeyModalProps> = ({
             <div>
               <p className="font-semibold text-emerald-950 mb-0.5">Out-of-the-Box Intelligence Ready</p>
               <p className="text-emerald-800">
-                PakGuide AI features an offline Government of Pakistan database. Entering your custom Gemini API key unlocks live real-time LLM multi-turn responses and vision OCR auditing.
+                PakGuide AI features an offline Government of Pakistan database. Entering your custom AI API key unlocks live real-time LLM multi-turn responses and vision OCR auditing.
               </p>
             </div>
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1.5 flex items-center justify-between">
-              <span>Google Gemini API Key:</span>
+              <span>PakGuide AI API Key:</span>
               <span className="text-[10px] text-slate-400 font-normal">Stored locally in browser</span>
             </label>
             <div className="relative">

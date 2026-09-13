@@ -70,10 +70,10 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
       sender: 'assistant',
       text:
         lang === 'ur'
-          ? `خوش آمدید! میں پاک گائیڈ اے آئی ہوں۔ آپ بچوں کا بے فارم (CRC)، سمارٹ شناختی کارڈ، پاسپورٹ، فرد ملکیت یا دستک سروسز کے بارے میں کچھ بھی پوچھیں — تمام جوابات، ڈاؤن لوڈ لنکس، فیس اور طریقہ کار اسی چیٹ باکس میں ظاہر ہوں گے۔`
+          ? `السلام علیکم! میں پاک گائیڈ اے آئی اسسٹنٹ ہوں۔ آپ بچوں کا بے فارم (CRC)، سمارٹ شناختی کارڈ، پاسپورٹ، فرد ملکیت یا دستک سروسز کے بارے میں کچھ بھی پوچھیں — تمام جوابات، ڈاؤن لوڈ لنکس، فیس اور طریقہ کار اسی چیٹ باکس میں ظاہر ہوں گے۔`
           : lang === 'ro'
-          ? `Assalam-o-Alaikum! Main PakGuide AI hoon. Aap B-Form, CNIC, Passport, Fard Malkiat ke baray mein sawal poochain — tamam app download links aur step-by-step instructions isi chatbox mein milenge.`
-          : `Assalam-o-Alaikum! I am PakGuide AI, powered by Google Gemini. Ask me anything about getting a B-Form (CRC), CNIC renewal, Passport, Land Fard, or Domicile! All instructions, official app download buttons, fee tables, and form submission steps will appear directly inside this chatbox.`,
+          ? `Assalam-o-Alaikum! Main PakGuide AI Assistant hoon. Aap B-Form, CNIC, Passport, Fard Malkiat ke baray mein sawal poochain — tamam app download links aur step-by-step instructions isi chatbox mein milenge.`
+          : `Hello! I am PakGuide AI Assistant. Ask me anything about getting a B-Form (CRC), CNIC renewal, Passport, Land Fard, or Domicile! All instructions, official app download buttons, fee tables, and form submission steps will appear directly inside this chatbox.`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
@@ -263,7 +263,7 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
           <div className="flex items-center gap-2">
             <h2 className="text-xl sm:text-2xl font-black text-slate-900">{t('chatTitle')}</h2>
             <span className="text-[10px] font-bold px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full">
-              Gemini 3.5 Flash Lite
+              Smart AI Engine
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-1">
@@ -323,7 +323,11 @@ export const NavigatorScreen: React.FC<NavigatorScreenProps> = ({ initialQuery, 
 
                 {/* Primary Assistant Text Explanation */}
                 <div className="flex items-start justify-between gap-3">
-                  <AssistantMessage text={msg.text} />
+                  <AssistantMessage
+                    text={msg.text}
+                    excludePackageName={msg.roadmapData?.officialAppPackageName}
+                    excludePlayStoreUrl={msg.roadmapData?.playStoreUrl}
+                  />
 
                   {msg.sender === 'assistant' && (
                     <SuniyeButton

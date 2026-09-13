@@ -100,7 +100,7 @@ export const Footer: React.FC = () => {
 
         <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
           <p>© 2026 PakGuide AI. Government of Pakistan Public Information Navigator.</p>
-          <p className="font-mono text-[11px]">Powered by Google Gemini 3.5 Flash Lite Engine</p>
+          <p className="font-mono text-[11px]">Powered by PakGuide AI Engine</p>
         </div>
       </div>
     </footer>

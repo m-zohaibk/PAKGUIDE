@@ -96,7 +96,7 @@ export const AppStepGuideModal: React.FC<AppStepGuideModalProps> = ({ app, onClo
                   {lang === 'ur' ? app.nameUrdu : app.name}
                 </h3>
                 <span className="text-[10px] font-bold px-2.5 py-0.5 bg-pakgold-500 text-slate-950 rounded-full shrink-0 shadow-sm">
-                  {app.verificationBadge}
+                  {app.provider}
                 </span>
               </div>
               <p className="text-xs text-pakgreen-200 mt-0.5 truncate font-medium">
